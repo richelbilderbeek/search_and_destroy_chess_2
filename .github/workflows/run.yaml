@@ -24,11 +24,16 @@ jobs:
         with:
           command: build
 
-      - name: run
-        run: ./target/debug/search_and_destroy_chess_2
+#      - name: run
+#        run: ./target/debug/search_and_destroy_chess_2
 
 #      - name: test
 #        uses: actions-rs/cargo@v1
 #        with:
 #          command: test
+
+      - name: run
+        uses: actions-rs/cargo@v1
+        with:
+          command: run
 
