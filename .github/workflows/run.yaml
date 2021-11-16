@@ -20,15 +20,13 @@ jobs:
           toolchain: stable
 
       - name: build
-        run: rustc main.rs
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
 
       - name: run
-        run: ./main
+        run: ./target/debug/search_and_destroy_chess_2
 
-#      - name: build
-#        uses: actions-rs/cargo@v1
-#        with:
-#          command: build
 #      - name: test
 #        uses: actions-rs/cargo@v1
 #        with:
