@@ -1,3 +1,3 @@
-//fn is_even(value: i32) -> i32 {
-//    value % 2 == 0
-//}
+pub fn is_even(value: i32) -> bool {
+    value % 2 == 0
+}
