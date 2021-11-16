@@ -15,6 +15,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: icepuma/rust-action@master
+      - uses: actions-rs/toolchain@v1
         with:
-          args: cd integration-test && cargo fmt -- --check && cargo clippy -- -Dwarnings && cargo test
+          toolchain: stable
+
+      - name: build
+        run: rustc main.rs
+
+      - name: run
+        ./main
+
+#      - name: build
+#        uses: actions-rs/cargo@v1
+#        with:
+#          command: build
+#      - name: test
+#        uses: actions-rs/cargo@v1
+#        with:
+#          command: test
+
