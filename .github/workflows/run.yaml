@@ -23,7 +23,7 @@ jobs:
         run: rustc main.rs
 
       - name: run
-        ./main
+        run: ./main
 
 #      - name: build
 #        uses: actions-rs/cargo@v1
