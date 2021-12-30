@@ -26,7 +26,7 @@ mod tests {
     #[test]
     fn create_board() {
         let board = Board::new();
-        assert_eq!(true, is_pawn(board, Square::new("A2")));
+        assert_eq!(true, is_pawn(board, Square::new("a2")));
         assert_eq!(1 + 1, 2);
     }
 }
