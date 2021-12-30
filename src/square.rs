@@ -1,5 +1,3 @@
-pub mod square {
-
 /// A square on a chess board
 pub struct Square {
   coordinat: String
@@ -51,6 +49,3 @@ mod tests {
         Square::new("a9");
     }
 }
-
-
-} //~ pub mod square
