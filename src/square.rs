@@ -20,6 +20,9 @@ impl Square {
           coordinat: String::from(coordinat_str)
         }
     }
+    pub fn get(&self) -> String {
+      String::from(self.coordinat.clone())
+    }
 }
 
 #[cfg(test)]
@@ -31,6 +34,13 @@ mod tests {
         let str = "a2";
         let square = Square::new(str);
         assert_eq!(str, square.coordinat);
+    }
+
+    #[test]
+    fn get() {
+        let str = "h3";
+        let square = Square::new(str);
+        assert_eq!(str, square.get());
     }
 
     #[test]
