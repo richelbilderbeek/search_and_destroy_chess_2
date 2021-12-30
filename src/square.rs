@@ -4,6 +4,7 @@ pub struct Square {
 }
 
 impl Square {
+    /// Create a new square from a string, e.g. 'a1'
     pub fn new(coordinat_str: &str) -> Square {
         if coordinat_str.len() != 2 {
             panic!("A coordinat has two characters");
@@ -20,13 +21,16 @@ impl Square {
           coordinat: String::from(coordinat_str)
         }
     }
+    /// Get the coordinat of the Square, e.g. 'a1'
     pub fn get(&self) -> String {
       String::from(self.coordinat.clone())
     }
+    /// Get the file of the Square, e.g. 'a'
     pub fn get_file(&self) -> String {
         let copy: String = String::from(self.coordinat.clone());
         copy.chars().nth(0).unwrap().to_string()
     }
+    /// Get the rank of the Square, e.g. '1'
     pub fn get_rank(&self) -> u32 {
         let copy: String = String::from(self.coordinat.clone());
         let slice = &copy[1..2];
