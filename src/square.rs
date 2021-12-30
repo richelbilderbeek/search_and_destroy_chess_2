@@ -23,6 +23,17 @@ impl Square {
     pub fn get(&self) -> String {
       String::from(self.coordinat.clone())
     }
+    pub fn get_file(&self) -> String {
+        let copy: String = String::from(self.coordinat.clone());
+        copy.chars().nth(0).unwrap().to_string()
+    }
+    pub fn get_rank(&self) -> u32 {
+        let copy: String = String::from(self.coordinat.clone());
+        let slice = &copy[1..2];
+        let first_str = String::from(slice);
+        let rank: u32 = first_str.parse().unwrap();
+        rank
+    }
 }
 
 #[cfg(test)]
@@ -41,6 +52,20 @@ mod tests {
         let str = "h3";
         let square = Square::new(str);
         assert_eq!(str, square.get());
+    }
+
+    #[test]
+    fn get_file() {
+        let str = "b8";
+        let square = Square::new(str);
+        assert_eq!("b", square.get_file());
+    }
+
+    #[test]
+    fn get_rank() {
+        let str = "c4";
+        let square = Square::new(str);
+        assert_eq!(4, square.get_rank());
     }
 
     #[test]
