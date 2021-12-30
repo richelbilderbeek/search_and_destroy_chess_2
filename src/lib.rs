@@ -1,6 +1,8 @@
 // Must be called 'lib.rs' to test
 mod square;
+mod color;
 use crate::square::Square;
+use crate::color::Color;
 
 /// The position of pieces on a board.
 /// Does not include any temporary information, such as

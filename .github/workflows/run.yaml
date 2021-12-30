@@ -34,8 +34,9 @@ jobs:
         with:
           command: test
 
-      - name: run
-        uses: actions-rs/cargo@v1
-        with:
-          command: run
+      # Do not run, as there are graphics
+      #- name: run
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: run
 
