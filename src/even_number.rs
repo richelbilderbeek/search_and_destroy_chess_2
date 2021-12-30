@@ -1,3 +1,4 @@
+/*
 pub struct EvenNumber {
     pub value: i64
 }
@@ -7,3 +8,4 @@ impl EvenNumber {
         self.value
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 pub struct EvenNumber {
     pub value: i64
 }
@@ -19,3 +20,4 @@ mod tests {
         assert_eq!(even_number.get(), x);
     }
 }
+*/
