@@ -40,10 +40,10 @@ fn main() {
         .load_font(assets.join("FiraSans-Regular.ttf"))
         .unwrap();
 
-    let rust_logo = assets.join("qw.png");
-    let rust_logo: G2dTexture = Texture::from_path(
+    let white_queen = assets.join("qw.png");
+    let white_queen: G2dTexture = Texture::from_path(
         &mut window.create_texture_context(),
-        &rust_logo,
+        &white_queen,
         Flip::None,
         &TextureSettings::new()
     ).unwrap();
@@ -77,7 +77,7 @@ fn main() {
                 .draw("Again", &mut glyphs, &c.draw_state, c.transform.trans(10.0, 200.0), g)
                 .unwrap();
 
-            image(&rust_logo, c.transform, g);
+            image(&white_queen, c.transform.trans(10.0, 100.0), g);
 
             // Update glyphs before rendering.
             glyphs.factory.encoder.flush(device);
