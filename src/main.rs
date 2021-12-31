@@ -1,16 +1,3 @@
-mod is_even;
-mod even_number;
-
-/*
-fn main() {
-    println!("Hello, world!");
-    println!("2: {}", is_even::is_even(2));
-    println!("1: {}", is_even::is_even(1));
-    let even_number = even_number::EvenNumber{value: 42};
-    println!("Even Number: {}", even_number.get());
-}
-*/
-
 extern crate glutin_window;
 extern crate graphics;
 extern crate opengl_graphics;
@@ -64,7 +51,7 @@ fn main() {
     let opengl = OpenGL::V3_2;
 
     // Create an Glutin window.
-    let mut window: Window = WindowSettings::new("spinning-square", [200, 200])
+    let mut window: Window = WindowSettings::new("Search And Destroy Chess 2", [400, 400])
         .graphics_api(opengl)
         .exit_on_esc(true)
         .build()
