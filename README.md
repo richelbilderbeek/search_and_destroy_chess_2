@@ -11,8 +11,9 @@ written in Rust.
 
 ## Screenshots
 
-These are from [Search And Destroy Chess](https://github.com/richelbilderbeek/SearchAndDestroyChess),
-as Search And Destroy Chess 2 has no GUI yet.
+![](pics/20211231.png)
+
+These screenshots below are from [Search And Destroy Chess](https://github.com/richelbilderbeek/SearchAndDestroyChess).
 
 ![](pics/SearchAndDestroyChess_3_0.png)
 ![](pics/SearchAndDestroyChess_3_1.png)
