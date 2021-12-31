@@ -1,6 +1,9 @@
+use crate::color::Color;
 use crate::piece::create_starting_pieces;
 use crate::piece::Piece;
 use crate::square::Square;
+use crate::square::get_nth_file;
+use crate::square::get_nth_rank;
 
 /// The position of pieces on a board.
 /// Does not include any temporary information, such as
@@ -17,6 +20,24 @@ impl Board {
     }
 }
 
+pub fn get_square_color_from_square(square: &Square) -> Color {
+    let file_index = get_nth_file(&square);
+    let rank_index = get_nth_rank(&square);
+    get_square_color_from_indices(file_index, rank_index)
+}
+
+pub fn get_square_color_from_indices(file_index: u32, rank_index: u32) -> Color {
+    let file_bit = file_index % 2;
+    let rank_bit = rank_index % 2;
+    let bit_int = (rank_bit + file_bit) % 2;
+    assert_eq!(bit_int == 0 || bit_int == 1, true);
+    let bit = bit_int == 0;
+    match bit {
+        false => Color::White,
+        true => Color::Black,
+    }
+}
+
 pub fn is_pawn(_board: Board, _square: Square) -> bool {
     true
 }
@@ -29,5 +50,15 @@ mod tests {
     fn create_board() {
         let board = Board::new();
         assert_eq!(true, is_pawn(board, Square::new("a2")));
+    }
+    #[test]
+    fn get_square_color_from_square() {
+        assert_eq!(super::get_square_color_from_square(&Square::new("a1")), Color::Black);
+        assert_eq!(super::get_square_color_from_square(&Square::new("b1")), Color::White);
+    }
+    #[test]
+    fn get_square_color_from_indices() {
+        assert_eq!(super::get_square_color_from_indices(0, 0), Color::Black);
+        assert_eq!(super::get_square_color_from_indices(0, 1), Color::White);
     }
 }

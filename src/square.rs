@@ -41,6 +41,19 @@ impl Square {
     }
 }
 
+/// Get the nth file of the Square, e.g. '0' for the first file.
+/// Or, the letter compared to 'a'
+pub fn get_nth_file(square: &Square) -> u32 {
+    let char_vec: Vec<char> = square.get_file().chars().collect();
+    (char_vec[0] as i32 - 'a' as i32) as u32
+}
+
+/// Get the nth rank of the Square, e.g. '0' for the first rank
+/// Or, the number compared to 1
+pub fn get_nth_rank(square: &Square) -> u32 {
+    square.get_rank() - 1 as u32
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -71,6 +84,22 @@ mod tests {
         let str = "c4";
         let square = Square::new(str);
         assert_eq!(4, square.get_rank());
+    }
+
+    #[test]
+    fn get_nth_file() {
+        // the letter compared to 'a'
+        assert_eq!(super::get_nth_file(&Square::new("a1")), 0);
+        assert_eq!(super::get_nth_file(&Square::new("a2")), 0);
+        assert_eq!(super::get_nth_file(&Square::new("b1")), 1);
+    }
+
+    #[test]
+    fn get_nth_rank() {
+        // the number minus 1
+        assert_eq!(super::get_nth_rank(&Square::new("a1")), 0);
+        assert_eq!(super::get_nth_rank(&Square::new("b1")), 0);
+        assert_eq!(super::get_nth_rank(&Square::new("a2")), 1);
     }
 
     #[test]
