@@ -1,4 +1,5 @@
 use crate::piece::Piece;
+use crate::piece::create_starting_pieces;
 use crate::square::Square;
 
 /// The position of pieces on a board.
@@ -10,7 +11,7 @@ pub struct Board {
 
 impl Board {
     pub fn new() -> Board {
-        Board{ pieces: Vec::new() }
+        Board{ pieces: create_starting_pieces() }
     }
 }
 
