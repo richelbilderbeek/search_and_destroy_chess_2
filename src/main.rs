@@ -4,29 +4,35 @@ mod piece;
 mod piece_type;
 mod board;
 
-extern crate glutin_window;
-extern crate graphics;
-extern crate opengl_graphics;
-extern crate piston;
+//extern crate glutin_window;
+//extern crate graphics;
+//extern crate opengl_graphics;
+//extern crate piston;
+extern crate piston_window;
+extern crate find_folder;
 
+/*
 use glutin_window::GlutinWindow as Window;
 use opengl_graphics::{GlGraphics, OpenGL};
 use piston::event_loop::{EventSettings, Events};
 use piston::input::{RenderArgs, RenderEvent, UpdateArgs, UpdateEvent};
 use piston::window::WindowSettings;
+*/
+use piston_window::*;
 use crate::board::Board;
 
+/*
 pub struct App {
     gl: GlGraphics, // OpenGL drawing backend.
     rotation: f64,  // Rotation for the square.
     board: Board, // Chessboard
+    glyphs: Glyphs,
 }
 
 impl App {
     fn render(&mut self, args: &RenderArgs) {
         use graphics::*;
 
-        const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 
         let square = rectangle::square(0.0, 0.0, 50.0);
@@ -35,7 +41,7 @@ impl App {
 
         self.gl.draw(args.viewport(), |c, gl| {
             // Clear the screen.
-            clear(GREEN, gl);
+            clear([0.0, 0.0, 0.0, 0.0], gl);
 
             let transform = c
                 .transform
@@ -45,41 +51,38 @@ impl App {
 
             // Draw a box rotating around the middle of the screen.
             rectangle(RED, square, transform, gl);
-        });
-    }
+*/
 
-    fn update(&mut self, args: &UpdateArgs) {
-        // Rotate 2 radians per second.
-        self.rotation += 2.0 * args.dt;
-    }
-}
 
 fn main() {
-    // Change this to OpenGL::V2_1 if not working.
-    let opengl = OpenGL::V3_2;
+    let mut window: PistonWindow =
+        WindowSettings::new("Search And Destroy Chess 2", [400, 400])
+            .build().unwrap();
 
-    // Create an Glutin window.
-    let mut window: Window = WindowSettings::new("Search And Destroy Chess 2", [400, 400])
-        .graphics_api(opengl)
-        .exit_on_esc(true)
-        .build()
-        .unwrap();
+    let assets = find_folder::Search::ParentsThenKids(3, 3)
+        .for_folder("assets").unwrap();
+    println!("{:?}", assets);
+    let mut glyphs = window.load_font(assets.join("FiraSans-Regular.ttf")).unwrap();
 
-    // Create a new game and run it.
-    let mut app = App {
-        gl: GlGraphics::new(opengl),
-        rotation: 0.0,
-        board: Board::new(),
-    };
+    while let Some(e) = window.next() {
+        window.draw_2d(&e, |c, g, device| {
+            clear([0.0, 0.0, 0.0, 1.0], g);
 
-    let mut events = Events::new(EventSettings::new());
-    while let Some(e) = events.next(&mut window) {
-        if let Some(args) = e.render_args() {
-            app.render(&args);
-        }
+            rectangle([1.0, 0.0, 0.0, 1.0], // red
+                      [0.0, 0.0, 100.0, 100.0], // rectangle
+                      c.transform, g);
 
-        if let Some(args) = e.update_args() {
-            app.update(&args);
-        }
+            let transform = c.transform.trans(10.0, 100.0);
+            text::Text::new_color([0.0, 1.0, 0.0, 1.0], 32).draw(
+              "Hello world!",
+              &mut glyphs,
+              &c.draw_state,
+              transform, g
+            ).unwrap();
+
+            // Update glyphs before rendering.
+            glyphs.factory.encoder.flush(device);
+
+        });
     }
 }
