@@ -1,9 +1,11 @@
 [package]
 name = "search_and_destroy_chess_2"
 version = "0.3.0"
-edition = "2021"
+edition = "2018"
 
 [dependencies]
 find_folder = "0.3.0"
 piston_window = "0.120.0"
 regex = "1"
+
+
