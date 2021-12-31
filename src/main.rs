@@ -1,3 +1,9 @@
+mod square;
+mod color;
+mod piece;
+mod piece_type;
+mod board;
+
 extern crate glutin_window;
 extern crate graphics;
 extern crate opengl_graphics;
@@ -8,10 +14,12 @@ use opengl_graphics::{GlGraphics, OpenGL};
 use piston::event_loop::{EventSettings, Events};
 use piston::input::{RenderArgs, RenderEvent, UpdateArgs, UpdateEvent};
 use piston::window::WindowSettings;
+use crate::board::Board;
 
 pub struct App {
     gl: GlGraphics, // OpenGL drawing backend.
     rotation: f64,  // Rotation for the square.
+    board: Board, // Chessboard
 }
 
 impl App {
@@ -61,6 +69,7 @@ fn main() {
     let mut app = App {
         gl: GlGraphics::new(opengl),
         rotation: 0.0,
+        board: Board::new(),
     };
 
     let mut events = Events::new(EventSettings::new());
