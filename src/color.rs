@@ -1,8 +1,8 @@
 /// A square on a chess board
 #[derive(Debug, PartialEq, Eq)]
 pub enum Color {
-  Black,
-  White
+    Black,
+    White,
 }
 
 pub fn to_str(color: Color) -> String {

@@ -10,15 +10,15 @@ pub struct Piece {
 }
 
 pub fn create_black_pawn(position: &str) -> Piece {
-    Piece{
+    Piece {
         color: Color::Black,
         position: Square::new(position),
-        r#type: PieceType::Pawn
+        r#type: PieceType::Pawn,
     }
 }
 
 pub fn create_black_rook(position: &str) -> Piece {
-    Piece{
+    Piece {
         color: Color::Black,
         position: Square::new(position),
         r#type: PieceType::Rook,
@@ -39,15 +39,15 @@ pub fn create_black_starting_pawns() -> Vec<Piece> {
 }
 
 pub fn create_white_pawn(position: &str) -> Piece {
-    Piece{
+    Piece {
         color: Color::White,
         position: Square::new(position),
-        r#type: PieceType::Pawn
+        r#type: PieceType::Pawn,
     }
 }
 
 pub fn create_white_rook(position: &str) -> Piece {
-    Piece{
+    Piece {
         color: Color::White,
         position: Square::new(position),
         r#type: PieceType::Rook,
@@ -77,17 +77,16 @@ pub fn create_starting_pieces() -> Vec<Piece> {
     pieces
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn create_a2_pawn() {
-        let piece = Piece{
+        let piece = Piece {
             color: Color::White,
             position: Square::new("a2"),
-            r#type: PieceType::Pawn
+            r#type: PieceType::Pawn,
         };
         assert_eq!(piece.color, Color::White);
         assert_eq!(piece.position, Square::new("a2"));
@@ -120,12 +119,9 @@ mod tests {
         assert_eq!(piece.r#type, PieceType::Rook);
     }
 
-
-
     #[test]
     fn starting_pieces() {
         let pieces = create_starting_pieces();
         assert_ne!(pieces.len(), 0);
     }
-
 }

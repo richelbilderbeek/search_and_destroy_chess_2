@@ -1,7 +1,7 @@
 /// A square on a chess board
 #[derive(Debug, PartialEq, Eq)]
 pub struct Square {
-  coordinat: String
+    coordinat: String,
 }
 
 impl Square {
@@ -18,13 +18,13 @@ impl Square {
         if !rank_regex.is_match(coordinat_str) {
             panic!("The rank must be '1..8'");
         }
-        Square{
-          coordinat: String::from(coordinat_str)
+        Square {
+            coordinat: String::from(coordinat_str),
         }
     }
     /// Get the coordinat of the Square, e.g. 'a1'
     pub fn get(&self) -> String {
-      String::from(self.coordinat.clone())
+        String::from(self.coordinat.clone())
     }
     /// Get the file of the Square, e.g. 'a'
     pub fn get_file(&self) -> String {
