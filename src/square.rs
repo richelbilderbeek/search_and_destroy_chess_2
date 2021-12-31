@@ -1,4 +1,5 @@
 /// A square on a chess board
+#[derive(Debug, PartialEq, Eq)]
 pub struct Square {
   coordinat: String
 }

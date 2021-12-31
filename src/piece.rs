@@ -20,6 +20,9 @@ mod tests {
             position: Square::new("a2"),
             r#type: PieceType::Pawn
         };
+        assert_eq!(piece.color, Color::White);
+        assert_eq!(piece.position, Square::new("a2"));
+        assert_eq!(piece.r#type, PieceType::Pawn);
     }
 
 }
