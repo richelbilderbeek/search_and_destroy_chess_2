@@ -53,7 +53,7 @@ mod tests {
 
     #[test]
     fn constructor() {
-        let assets = Assets::new();
+        //let assets = Assets::new();
         assert_eq!(1 + 1, 2);
     }
 }
