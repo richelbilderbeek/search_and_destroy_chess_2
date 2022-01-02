@@ -34,6 +34,11 @@ jobs:
         with:
           command: test
 
+      - name: clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+
       # Do not run, as there are graphics
       #- name: run
       #  uses: actions-rs/cargo@v1
