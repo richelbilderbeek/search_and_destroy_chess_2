@@ -5,6 +5,7 @@ pub enum Color {
     White,
 }
 
+/// Convert a Color to a String
 pub fn to_str(color: Color) -> String {
     match color {
         Color::Black => "Black".to_string(),

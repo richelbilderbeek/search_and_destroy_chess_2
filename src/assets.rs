@@ -1,7 +1,18 @@
 extern crate piston_window;
-use piston_window::*;
 
-pub fn get_white_queen(window: &mut PistonWindow) -> G2dTexture {
+pub fn get_font(window: &mut piston_window::PistonWindow) -> piston_window::Glyphs {
+    use piston_window::*;
+    let assets = find_folder::Search::ParentsThenKids(3, 3)
+        .for_folder("assets")
+        .unwrap();
+    let mut glyphs = window
+        .load_font(assets.join("FiraSans-Regular.ttf"))
+        .unwrap();
+    glyphs
+}
+
+pub fn get_white_queen(window: &mut piston_window::PistonWindow) -> piston_window::G2dTexture {
+    use piston_window::*;
     let assets_folder = find_folder::Search::ParentsThenKids(3, 3)
         .for_folder("assets")
         .unwrap();

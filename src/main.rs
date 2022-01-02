@@ -31,14 +31,8 @@ fn main() {
         .build()
         .unwrap();
 
-    let assets = find_folder::Search::ParentsThenKids(3, 3)
-        .for_folder("assets")
-        .unwrap();
-    println!("Assets found at {:?}", assets);
-    let mut glyphs = window
-        .load_font(assets.join("FiraSans-Regular.ttf"))
-        .unwrap();
-    let white_queen: G2dTexture = assets::get_white_queen(&mut window);
+    let mut glyphs = assets::get_font(&mut window);
+    let white_queen = assets::get_white_queen(&mut window);
 
     while let Some(e) = window.next() {
         window.draw_2d(&e, |c, g, device| {
