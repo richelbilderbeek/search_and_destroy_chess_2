@@ -1,19 +1,21 @@
-pub struct Assets {
+pub struct Assets<'a> {
     assets_folder: std::path::PathBuf,
+    window: &'a mut piston_window::PistonWindow,
 }
 
-impl Assets {
-    pub fn new() -> Assets {
+impl <'a> Assets<'a> {
+    pub fn new(window: &mut piston_window::PistonWindow) -> Assets {
         Assets {
             assets_folder: find_folder::Search::ParentsThenKids(3, 3)
                 .for_folder("assets")
-                .unwrap()
+                .unwrap(),
+            window: window,
         }
     }
-    pub fn get_dark_square(&self, window: &mut piston_window::PistonWindow) -> piston_window::G2dTexture {
+    pub fn get_dark_square(&mut self) -> piston_window::G2dTexture {
         let texture_path = self.assets_folder.join("d.png");
         let texture: piston_window::G2dTexture = piston_window::Texture::from_path(
-            &mut window.create_texture_context(),
+            &mut self.window.create_texture_context(),
             &texture_path,
             piston_window::Flip::None,
             &piston_window::TextureSettings::new(),
@@ -22,34 +24,28 @@ impl Assets {
 
         texture
     }
+    pub fn get_font(&mut self) -> piston_window::Glyphs {
+        let glyphs = self.window
+            .load_font(self.assets_folder.join("FiraSans-Regular.ttf"))
+            .unwrap();
+        glyphs
+    }
+    pub fn get_white_queen(&mut self) -> piston_window::G2dTexture {
+        let white_queen = self.assets_folder.join("qw.png");
+        let white_queen: piston_window::G2dTexture = piston_window::Texture::from_path(
+            &mut self.window.create_texture_context(),
+            &white_queen,
+            piston_window::Flip::None,
+            &piston_window::TextureSettings::new(),
+        )
+        .unwrap();
+
+        white_queen
+    }
 }
 
 
-pub fn get_font(window: &mut piston_window::PistonWindow) -> piston_window::Glyphs {
-    let assets = find_folder::Search::ParentsThenKids(3, 3)
-        .for_folder("assets")
-        .unwrap();
-    let glyphs = window
-        .load_font(assets.join("FiraSans-Regular.ttf"))
-        .unwrap();
-    glyphs
-}
 
-pub fn get_white_queen(window: &mut piston_window::PistonWindow) -> piston_window::G2dTexture {
-    let assets_folder = find_folder::Search::ParentsThenKids(3, 3)
-        .for_folder("assets")
-        .unwrap();
-    let white_queen = assets_folder.join("qw.png");
-    let white_queen: piston_window::G2dTexture = piston_window::Texture::from_path(
-        &mut window.create_texture_context(),
-        &white_queen,
-        piston_window::Flip::None,
-        &piston_window::TextureSettings::new(),
-    )
-    .unwrap();
-
-    white_queen
-}
 
 #[cfg(test)]
 mod tests {

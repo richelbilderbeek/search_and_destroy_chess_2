@@ -34,10 +34,10 @@ fn main() {
         .build()
         .unwrap();
 
-    let assets = Assets::new();
-    let mut glyphs = assets::get_font(&mut window);
-    let white_queen = assets::get_white_queen(&mut window);
-    let dark_square = assets.get_dark_square(&mut window);
+    let mut assets = Assets::new(&mut window);
+    let mut glyphs = assets.get_font();
+    let white_queen = assets.get_white_queen();
+    let dark_square = assets.get_dark_square();
 
     while let Some(e) = window.next() {
         window.draw_2d(&e, |c, g, device| {
@@ -74,7 +74,6 @@ fn main() {
                     g,
                 )
                 .unwrap();
-
             image(
                 &dark_square,
                 c.transform.trans(100.0, 200.0).scale(scale_x, scale_y),
