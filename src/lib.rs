@@ -1,4 +1,4 @@
-// Must be called 'lib.rs' to test
+mod assets;
 mod board;
 mod color;
 mod piece;

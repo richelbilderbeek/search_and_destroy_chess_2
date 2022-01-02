@@ -1,3 +1,4 @@
+mod assets;
 mod board;
 mod color;
 mod piece;
@@ -37,15 +38,7 @@ fn main() {
     let mut glyphs = window
         .load_font(assets.join("FiraSans-Regular.ttf"))
         .unwrap();
-
-    let white_queen = assets.join("qw.png");
-    let white_queen: G2dTexture = Texture::from_path(
-        &mut window.create_texture_context(),
-        &white_queen,
-        Flip::None,
-        &TextureSettings::new(),
-    )
-    .unwrap();
+    let white_queen: G2dTexture = assets::get_white_queen(&mut window);
 
     while let Some(e) = window.next() {
         window.draw_2d(&e, |c, g, device| {
