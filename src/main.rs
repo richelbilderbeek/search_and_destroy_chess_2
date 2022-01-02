@@ -36,7 +36,19 @@ fn main() {
 
     let mut assets = Assets::new(&mut window);
     let mut glyphs = assets.get_font();
+    let black_bishop = assets.get_black_bishop();
+    let black_king = assets.get_black_king();
+    let black_knight = assets.get_black_knight();
+    let black_pawn = assets.get_black_pawn();
+    let black_queen = assets.get_black_queen();
+    let black_rook = assets.get_black_rook();
+    let white_bishop = assets.get_white_bishop();
+    let white_king = assets.get_white_king();
+    let white_knight = assets.get_white_knight();
+    let white_pawn = assets.get_white_pawn();
     let white_queen = assets.get_white_queen();
+    let white_rook = assets.get_white_rook();
+
     let dark_square = assets.get_square(Color::Black);
     let light_square = assets.get_square(Color::White);
     let board = crate::board::Board::new();
@@ -48,8 +60,8 @@ fn main() {
             //Draw the squares
             for file_index in 0..8 {
                 for rank_index in 0..8 {
-                    let x = file_index as f64 * square_width;
-                    let y = rank_index as f64 * square_height;
+                    let x = rank_index as f64 * square_height;
+                    let y = file_index as f64 * square_width;
                     let color = get_square_color_from_indices(file_index, rank_index);
                     image(
                         match color {
@@ -63,27 +75,37 @@ fn main() {
             }
 
             //Draw the pieces
-            /*
             for file_index in 0..8 {
                 for rank_index in 0..8 {
-                    let x = file_index as f64 * square_width;
-                    let y = rank_index as f64 * square_height;
+                    let x = rank_index as f64 * square_height;
+                    let y = file_index as f64 * square_width;
                     let piece = board.get_piece_from_indices(file_index, rank_index);
-                    image(
-                        match piece.get_color() {
-                            crate::color::Color::White => match piece.get_type() {
-                                crate::piece_type::PieceType::Queen => &white_queen,
+                    if let Some(piece) = piece {
+                        image(
+                            match piece.get_color() {
+                                crate::color::Color::Black => match piece.get_type() {
+                                    crate::piece_type::PieceType::Bishop => &black_bishop,
+                                    crate::piece_type::PieceType::Knight => &black_knight,
+                                    crate::piece_type::PieceType::King => &black_king,
+                                    crate::piece_type::PieceType::Pawn => &black_pawn,
+                                    crate::piece_type::PieceType::Queen => &black_queen,
+                                    crate::piece_type::PieceType::Rook => &black_rook,
+                                },
+                                crate::color::Color::White => match piece.get_type() {
+                                    crate::piece_type::PieceType::Bishop => &white_bishop,
+                                    crate::piece_type::PieceType::Knight => &white_knight,
+                                    crate::piece_type::PieceType::King => &white_king,
+                                    crate::piece_type::PieceType::Pawn => &white_pawn,
+                                    crate::piece_type::PieceType::Queen => &white_queen,
+                                    crate::piece_type::PieceType::Rook => &white_rook,
+                                },
                             },
-                            crate::color::Color::White => match piece.get_type() {
-
-                            },
-                        },
-                        c.transform.trans(x, y).scale(scale_x, scale_y),
-                        g,
-                    );
+                            c.transform.trans(x, y).scale(scale_x, scale_y),
+                            g,
+                        );
+                    }
                 }
             }
-            */
 
             let transform = c.transform.trans(10.0, 100.0);
             let color = [1.0, 0.0, 0.0, 1.0];
@@ -100,11 +122,6 @@ fn main() {
                     g,
                 )
                 .unwrap();
-            image(
-                &white_queen,
-                c.transform.trans(100.0, 200.0).scale(scale_x, scale_y),
-                g,
-            );
 
             // Update glyphs before rendering.
             glyphs.factory.encoder.flush(device);

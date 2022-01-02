@@ -12,6 +12,24 @@ impl<'a> Assets<'a> {
             window,
         }
     }
+    pub fn get_black_bishop(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("bb.png")
+    }
+    pub fn get_black_king(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("kb.png")
+    }
+    pub fn get_black_knight(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("nb.png")
+    }
+    pub fn get_black_pawn(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("pb.png")
+    }
+    pub fn get_black_queen(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("qb.png")
+    }
+    pub fn get_black_rook(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("rb.png")
+    }
     pub fn get_dark_square(&mut self) -> piston_window::G2dTexture {
         self.get_texture("d.png")
     }
@@ -42,8 +60,23 @@ impl<'a> Assets<'a> {
         .unwrap();
         texture
     }
+    pub fn get_white_bishop(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("bw.png")
+    }
+    pub fn get_white_king(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("kw.png")
+    }
+    pub fn get_white_knight(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("nw.png")
+    }
+    pub fn get_white_pawn(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("pw.png")
+    }
     pub fn get_white_queen(&mut self) -> piston_window::G2dTexture {
         self.get_texture("qw.png")
+    }
+    pub fn get_white_rook(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("rw.png")
     }
 }
 
