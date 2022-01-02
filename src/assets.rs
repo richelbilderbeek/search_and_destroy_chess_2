@@ -1,5 +1,4 @@
 pub fn get_font(window: &mut piston_window::PistonWindow) -> piston_window::Glyphs {
-
     let assets = find_folder::Search::ParentsThenKids(3, 3)
         .for_folder("assets")
         .unwrap();
@@ -19,14 +18,14 @@ pub fn get_white_queen(window: &mut piston_window::PistonWindow) -> piston_windo
         &white_queen,
         piston_window::Flip::None,
         &piston_window::TextureSettings::new(),
-    ).unwrap();
+    )
+    .unwrap();
 
     white_queen
 }
 
 #[cfg(test)]
 mod tests {
-
 
     #[test]
     fn constructor() {
