@@ -24,7 +24,7 @@ impl Square {
     }
     /// Get the coordinat of the Square, e.g. 'a1'
     pub fn get(&self) -> String {
-        String::from(self.coordinat.clone())
+        self.coordinat.clone()
     }
     /// Get the file of the Square, e.g. 'a'
     pub fn get_file(&self) -> String {
