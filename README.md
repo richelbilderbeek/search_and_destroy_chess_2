@@ -11,6 +11,8 @@ written in Rust.
 
 ## Screenshots
 
+![](pics/20220102.png)
+
 ![](pics/20211231.png)
 
 These screenshots below are from [Search And Destroy Chess](https://github.com/richelbilderbeek/SearchAndDestroyChess).
