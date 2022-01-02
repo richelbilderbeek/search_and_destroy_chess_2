@@ -5,7 +5,7 @@ pub struct Square {
 }
 
 impl Square {
-    pub fn Clone(&self) -> Square {
+    pub fn clone(&self) -> Square {
         Square {
             coordinat: String::from(self.coordinat.clone()),
         }

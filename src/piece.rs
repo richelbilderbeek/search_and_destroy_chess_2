@@ -11,10 +11,10 @@ pub struct Piece {
 }
 
 impl Piece {
-    pub fn Clone(&self) -> Piece {
+    pub fn clone(&self) -> Piece {
         Piece {
             color: self.color,
-            position: self.position.Clone(),
+            position: self.position.clone(),
             r#type: self.r#type,
         }
     }

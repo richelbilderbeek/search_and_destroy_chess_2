@@ -1,6 +1,7 @@
 use crate::color::Color;
 use crate::piece::create_starting_pieces;
 use crate::piece::Piece;
+use crate::piece_type::PieceType;
 use crate::square::get_nth_file;
 use crate::square::get_nth_rank;
 use crate::square::Square;
@@ -18,8 +19,8 @@ impl Board {
             pieces: create_starting_pieces(),
         }
     }
-    pub fn get_piece_from_indices(&self, rank: u8, file: u8) -> Piece {
-        self.pieces[0].Clone()
+    pub fn get_piece_from_indices(&self, rank: u8, file: u8) -> Option<Piece> {
+        Some(self.pieces[0].clone())
     }
 }
 
@@ -69,5 +70,11 @@ mod tests {
     fn get_square_color_from_indices() {
         assert_eq!(super::get_square_color_from_indices(0, 0), Color::Black);
         assert_eq!(super::get_square_color_from_indices(0, 1), Color::White);
+    }
+    #[test]
+    fn get_piece_from_indices() {
+        let board = Board::new();
+        assert_eq!(board.get_piece_from_indices(0, 0).unwrap().get_color(), Color::White);
+        assert_eq!(board.get_piece_from_indices(0, 0).unwrap().get_type(), PieceType::Rook);
     }
 }
