@@ -3,7 +3,7 @@ pub struct Assets<'a> {
     window: &'a mut piston_window::PistonWindow,
 }
 
-impl <'a> Assets<'a> {
+impl<'a> Assets<'a> {
     pub fn new(window: &mut piston_window::PistonWindow) -> Assets {
         Assets {
             assets_folder: find_folder::Search::ParentsThenKids(3, 3)
@@ -25,7 +25,8 @@ impl <'a> Assets<'a> {
         texture
     }
     pub fn get_font(&mut self) -> piston_window::Glyphs {
-        let glyphs = self.window
+        let glyphs = self
+            .window
             .load_font(self.assets_folder.join("FiraSans-Regular.ttf"))
             .unwrap();
         glyphs
@@ -44,12 +45,8 @@ impl <'a> Assets<'a> {
     }
 }
 
-
-
-
 #[cfg(test)]
 mod tests {
-    
 
     #[test]
     fn constructor() {

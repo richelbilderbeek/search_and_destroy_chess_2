@@ -8,8 +8,8 @@ mod square;
 extern crate find_folder;
 extern crate piston_window;
 
-use crate::board::get_square_color_from_indices;
 use crate::assets::Assets;
+use crate::board::get_square_color_from_indices;
 use crate::color::Color;
 use piston_window::*;
 
