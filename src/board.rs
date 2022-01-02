@@ -20,7 +20,13 @@ impl Board {
         }
     }
     pub fn get_piece_from_indices(&self, rank: u8, file: u8) -> Option<Piece> {
-        Some(self.pieces[0].clone())
+        for piece in &self.pieces {
+            if get_nth_rank(&piece.get_position()) == rank.into()
+              && get_nth_file(&piece.get_position()) == file.into() {
+                return Some(piece.clone())
+            }
+        }
+        None
     }
 }
 
@@ -76,5 +82,7 @@ mod tests {
         let board = Board::new();
         assert_eq!(board.get_piece_from_indices(0, 0).unwrap().get_color(), Color::White);
         assert_eq!(board.get_piece_from_indices(0, 0).unwrap().get_type(), PieceType::Rook);
+        assert_eq!(board.get_piece_from_indices(1, 1).unwrap().get_color(), Color::White);
+        assert_eq!(board.get_piece_from_indices(1, 1).unwrap().get_type(), PieceType::Pawn);
     }
 }

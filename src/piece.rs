@@ -29,12 +29,44 @@ impl Piece {
     }
 }
 
+pub fn create_black_bishop(position: &str) -> Piece {
+    Piece {
+        color: Color::Black,
+        position: Square::new(position),
+        r#type: PieceType::Bishop,
+    }
+}
+
+pub fn create_black_king(position: &str) -> Piece {
+    Piece {
+        color: Color::Black,
+        position: Square::new(position),
+        r#type: PieceType::King,
+    }
+}
+
+pub fn create_black_knight(position: &str) -> Piece {
+    Piece {
+        color: Color::Black,
+        position: Square::new(position),
+        r#type: PieceType::Knight,
+    }
+}
+
 
 pub fn create_black_pawn(position: &str) -> Piece {
     Piece {
         color: Color::Black,
         position: Square::new(position),
         r#type: PieceType::Pawn,
+    }
+}
+
+pub fn create_black_queen(position: &str) -> Piece {
+    Piece {
+        color: Color::Black,
+        position: Square::new(position),
+        r#type: PieceType::Queen,
     }
 }
 
@@ -59,11 +91,43 @@ pub fn create_black_starting_pawns() -> Vec<Piece> {
     ]
 }
 
+pub fn create_white_bishop(position: &str) -> Piece {
+    Piece {
+        color: Color::White,
+        position: Square::new(position),
+        r#type: PieceType::Bishop,
+    }
+}
+
+pub fn create_white_king(position: &str) -> Piece {
+    Piece {
+        color: Color::White,
+        position: Square::new(position),
+        r#type: PieceType::King,
+    }
+}
+
+pub fn create_white_knight(position: &str) -> Piece {
+    Piece {
+        color: Color::White,
+        position: Square::new(position),
+        r#type: PieceType::Knight,
+    }
+}
+
 pub fn create_white_pawn(position: &str) -> Piece {
     Piece {
         color: Color::White,
         position: Square::new(position),
         r#type: PieceType::Pawn,
+    }
+}
+
+pub fn create_white_queen(position: &str) -> Piece {
+    Piece {
+        color: Color::White,
+        position: Square::new(position),
+        r#type: PieceType::Queen,
     }
 }
 
@@ -89,12 +153,27 @@ pub fn create_white_starting_pawns() -> Vec<Piece> {
 }
 
 pub fn create_starting_pieces() -> Vec<Piece> {
-    let pieces: Vec<Piece> = vec![
+    let mut pieces: Vec<Piece> = vec![
         create_white_rook("a1"),
+        create_white_knight("b1"),
+        create_white_bishop("c1"),
+        create_white_queen("d1"),
+        create_white_king("e1"),
+        create_white_bishop("f1"),
+        create_white_knight("g1"),
         create_white_rook("h1"),
         create_black_rook("a8"),
+        create_black_knight("b8"),
+        create_black_bishop("c8"),
+        create_black_queen("d8"),
+        create_black_king("e8"),
+        create_black_bishop("f8"),
+        create_black_knight("g8"),
         create_black_rook("h8"),
     ];
+    for pawn in create_white_starting_pawns() {
+        pieces.push(pawn)
+    }
     pieces
 }
 
