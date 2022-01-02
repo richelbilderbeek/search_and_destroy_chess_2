@@ -37,8 +37,8 @@ fn main() {
     let mut assets = Assets::new(&mut window);
     let mut glyphs = assets.get_font();
     let white_queen = assets.get_white_queen();
-    let dark_square = assets.get_dark_square();
-    let light_square = assets.get_light_square();
+    let dark_square = assets.get_square(Color::Black);
+    let light_square = assets.get_square(Color::White);
 
     while let Some(e) = window.next() {
         window.draw_2d(&e, |c, g, device| {
