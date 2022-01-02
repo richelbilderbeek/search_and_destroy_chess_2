@@ -21,8 +21,8 @@ impl Board {
 }
 
 pub fn get_square_color_from_square(square: &Square) -> Color {
-    let file_index = get_nth_file(&square);
-    let rank_index = get_nth_rank(&square);
+    let file_index = get_nth_file(square);
+    let rank_index = get_nth_rank(square);
     get_square_color_from_indices(file_index, rank_index)
 }
 
@@ -30,7 +30,7 @@ pub fn get_square_color_from_indices(file_index: u32, rank_index: u32) -> Color 
     let file_bit = file_index % 2;
     let rank_bit = rank_index % 2;
     let bit_int = (rank_bit + file_bit) % 2;
-    assert_eq!(bit_int == 0 || bit_int == 1, true);
+    assert!(bit_int == 0 || bit_int == 1);
     let bit = bit_int == 0;
     match bit {
         false => Color::White,

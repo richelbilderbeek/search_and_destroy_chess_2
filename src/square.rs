@@ -28,12 +28,12 @@ impl Square {
     }
     /// Get the file of the Square, e.g. 'a'
     pub fn get_file(&self) -> String {
-        let copy: String = String::from(self.coordinat.clone());
-        copy.chars().nth(0).unwrap().to_string()
+        let copy: String = self.coordinat.clone();
+        copy.chars().next().unwrap().to_string()
     }
     /// Get the rank of the Square, e.g. '1'
     pub fn get_rank(&self) -> u32 {
-        let copy: String = String::from(self.coordinat.clone());
+        let copy: String = self.coordinat.clone();
         let slice = &copy[1..2];
         let first_str = String::from(slice);
         let rank: u32 = first_str.parse().unwrap();
@@ -51,7 +51,7 @@ pub fn get_nth_file(square: &Square) -> u32 {
 /// Get the nth rank of the Square, e.g. '0' for the first rank
 /// Or, the number compared to 1
 pub fn get_nth_rank(square: &Square) -> u32 {
-    square.get_rank() - 1 as u32
+    square.get_rank() - 1_u32
 }
 
 #[cfg(test)]

@@ -9,7 +9,7 @@ impl<'a> Assets<'a> {
             assets_folder: find_folder::Search::ParentsThenKids(3, 3)
                 .for_folder("assets")
                 .unwrap(),
-            window: window,
+            window,
         }
     }
     pub fn get_dark_square(&mut self) -> piston_window::G2dTexture {
