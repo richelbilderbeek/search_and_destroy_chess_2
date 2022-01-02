@@ -8,7 +8,7 @@ extern crate find_folder;
 extern crate piston_window;
 
 use crate::board::get_square_color_from_indices;
-use crate::board::Board;
+
 use crate::color::Color;
 use piston_window::*;
 
@@ -25,7 +25,7 @@ fn main() {
     let window_size = [window_width, window_height];
     let square_width = window_width as f64 / 8.0;
     let square_height = window_height as f64 / 8.0;
-    let square_size = [square_width, square_height];
+    let _square_size = [square_width, square_height];
     let mut window: PistonWindow = WindowSettings::new("Search And Destroy Chess 2", window_size)
         .build()
         .unwrap();
