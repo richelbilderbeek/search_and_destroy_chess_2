@@ -1,9 +1,9 @@
 use crate::color::Color;
 use crate::piece::create_starting_pieces;
 use crate::piece::Piece;
-use crate::square::Square;
 use crate::square::get_nth_file;
 use crate::square::get_nth_rank;
+use crate::square::Square;
 
 /// The position of pieces on a board.
 /// Does not include any temporary information, such as
@@ -53,8 +53,14 @@ mod tests {
     }
     #[test]
     fn get_square_color_from_square() {
-        assert_eq!(super::get_square_color_from_square(&Square::new("a1")), Color::Black);
-        assert_eq!(super::get_square_color_from_square(&Square::new("b1")), Color::White);
+        assert_eq!(
+            super::get_square_color_from_square(&Square::new("a1")),
+            Color::Black
+        );
+        assert_eq!(
+            super::get_square_color_from_square(&Square::new("b1")),
+            Color::White
+        );
     }
     #[test]
     fn get_square_color_from_indices() {

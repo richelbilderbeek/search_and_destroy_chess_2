@@ -7,8 +7,8 @@ mod square;
 extern crate find_folder;
 extern crate piston_window;
 
-use crate::board::Board;
 use crate::board::get_square_color_from_indices;
+use crate::board::Board;
 use crate::color::Color;
 use piston_window::*;
 
@@ -26,11 +26,9 @@ fn main() {
     let square_width = window_width as f64 / 8.0;
     let square_height = window_height as f64 / 8.0;
     let square_size = [square_width, square_height];
-    let mut window: PistonWindow = WindowSettings::new(
-        "Search And Destroy Chess 2",
-        window_size,
-    ).build()
-     .unwrap();
+    let mut window: PistonWindow = WindowSettings::new("Search And Destroy Chess 2", window_size)
+        .build()
+        .unwrap();
 
     let assets = find_folder::Search::ParentsThenKids(3, 3)
         .for_folder("assets")
@@ -45,8 +43,9 @@ fn main() {
         &mut window.create_texture_context(),
         &white_queen,
         Flip::None,
-        &TextureSettings::new()
-    ).unwrap();
+        &TextureSettings::new(),
+    )
+    .unwrap();
 
     while let Some(e) = window.next() {
         window.draw_2d(&e, |c, g, device| {
@@ -54,7 +53,7 @@ fn main() {
 
             for file_index in 0..8 {
                 for rank_index in 0..8 {
-                    let x = file_index as f64* square_width;
+                    let x = file_index as f64 * square_width;
                     let y = rank_index as f64 * square_height;
                     let color = get_square_color_from_indices(file_index, rank_index);
                     let screen_color = color_to_screen_color(color);
@@ -74,7 +73,13 @@ fn main() {
                 .unwrap();
 
             text::Text::new_color(color, 32)
-                .draw("Again", &mut glyphs, &c.draw_state, c.transform.trans(10.0, 200.0), g)
+                .draw(
+                    "Again",
+                    &mut glyphs,
+                    &c.draw_state,
+                    c.transform.trans(10.0, 200.0),
+                    g,
+                )
                 .unwrap();
 
             image(&white_queen, c.transform.trans(10.0, 100.0), g);
