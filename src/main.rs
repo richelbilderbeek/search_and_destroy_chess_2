@@ -38,6 +38,7 @@ fn main() {
     let mut glyphs = assets.get_font();
     let white_queen = assets.get_white_queen();
     let dark_square = assets.get_dark_square();
+    let light_square = assets.get_light_square();
 
     while let Some(e) = window.next() {
         window.draw_2d(&e, |c, g, device| {
@@ -77,6 +78,11 @@ fn main() {
             image(
                 &dark_square,
                 c.transform.trans(100.0, 200.0).scale(scale_x, scale_y),
+                g,
+            );
+            image(
+                &light_square,
+                c.transform.trans(150.0, 250.0).scale(scale_x, scale_y),
                 g,
             );
             image(

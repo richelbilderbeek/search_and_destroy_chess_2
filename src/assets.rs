@@ -31,6 +31,21 @@ impl<'a> Assets<'a> {
             .unwrap();
         glyphs
     }
+    pub fn get_light_square(&mut self) -> piston_window::G2dTexture {
+        self.get_texture("l.png")
+    }
+    pub fn get_texture(&mut self, filename: &str) -> piston_window::G2dTexture {
+        let texture_path = self.assets_folder.join(filename);
+        let texture: piston_window::G2dTexture = piston_window::Texture::from_path(
+            &mut self.window.create_texture_context(),
+            &texture_path,
+            piston_window::Flip::None,
+            &piston_window::TextureSettings::new(),
+        )
+        .unwrap();
+
+        texture
+    }
     pub fn get_white_queen(&mut self) -> piston_window::G2dTexture {
         let white_queen = self.assets_folder.join("qw.png");
         let white_queen: piston_window::G2dTexture = piston_window::Texture::from_path(
