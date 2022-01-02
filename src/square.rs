@@ -10,9 +10,6 @@ impl Square {
             coordinat: String::from(self.coordinat.clone()),
         }
     }
-}
-
-impl Square {
     /// Create a new square from a string, e.g. 'a1'
     pub fn new(coordinat_str: &str) -> Square {
         if coordinat_str.len() != 2 {

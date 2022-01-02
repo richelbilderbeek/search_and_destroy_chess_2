@@ -18,6 +18,15 @@ impl Piece {
             r#type: self.r#type,
         }
     }
+    pub fn get_color(&self) -> Color {
+        self.color
+    }
+    pub fn get_position(&self) -> Square {
+        Square::new(&self.position.get())
+    }
+    pub fn get_type(&self) -> PieceType {
+        self.r#type
+    }
 }
 
 
