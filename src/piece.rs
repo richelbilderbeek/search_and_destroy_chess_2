@@ -174,6 +174,9 @@ pub fn create_starting_pieces() -> Vec<Piece> {
     for pawn in create_white_starting_pawns() {
         pieces.push(pawn)
     }
+    for pawn in create_black_starting_pawns() {
+        pieces.push(pawn)
+    }
     pieces
 }
 
@@ -222,6 +225,6 @@ mod tests {
     #[test]
     fn starting_pieces() {
         let pieces = create_starting_pieces();
-        assert_ne!(pieces.len(), 0);
+        assert_eq!(pieces.len(), 32);
     }
 }
