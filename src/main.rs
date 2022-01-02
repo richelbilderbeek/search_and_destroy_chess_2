@@ -69,7 +69,7 @@ fn main() {
                 )
                 .unwrap();
 
-            image(&white_queen, c.transform.trans(10.0, 100.0), g);
+            image(&white_queen, c.transform.trans(100.0, 200.0).scale(0.5, 0.5), g);
 
             // Update glyphs before rendering.
             glyphs.factory.encoder.flush(device);
