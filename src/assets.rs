@@ -10,6 +10,18 @@ impl Assets {
                 .unwrap()
         }
     }
+    pub fn get_dark_square(&self, window: &mut piston_window::PistonWindow) -> piston_window::G2dTexture {
+        let texture_path = self.assets_folder.join("d.png");
+        let texture: piston_window::G2dTexture = piston_window::Texture::from_path(
+            &mut window.create_texture_context(),
+            &texture_path,
+            piston_window::Flip::None,
+            &piston_window::TextureSettings::new(),
+        )
+        .unwrap();
+
+        texture
+    }
 }
 
 

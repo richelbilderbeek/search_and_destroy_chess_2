@@ -9,7 +9,7 @@ extern crate find_folder;
 extern crate piston_window;
 
 use crate::board::get_square_color_from_indices;
-
+use crate::assets::Assets;
 use crate::color::Color;
 use piston_window::*;
 
@@ -26,13 +26,18 @@ fn main() {
     let window_size = [window_width, window_height];
     let square_width = window_width as f64 / 8.0;
     let square_height = window_height as f64 / 8.0;
-    let _square_size = [square_width, square_height];
+    let image_width = 128; // pixels
+    let image_height = 128; // pixels
+    let scale_x = square_width / image_width as f64;
+    let scale_y = square_height / image_height as f64;
     let mut window: PistonWindow = WindowSettings::new("Search And Destroy Chess 2", window_size)
         .build()
         .unwrap();
 
+    let assets = Assets::new();
     let mut glyphs = assets::get_font(&mut window);
     let white_queen = assets::get_white_queen(&mut window);
+    let dark_square = assets.get_dark_square(&mut window);
 
     while let Some(e) = window.next() {
         window.draw_2d(&e, |c, g, device| {
@@ -53,6 +58,7 @@ fn main() {
                     );
                 }
             }
+
             let transform = c.transform.trans(10.0, 100.0);
             let color = [1.0, 0.0, 0.0, 1.0];
             text::Text::new_color(color, 32)
@@ -70,8 +76,13 @@ fn main() {
                 .unwrap();
 
             image(
+                &dark_square,
+                c.transform.trans(100.0, 200.0).scale(scale_x, scale_y),
+                g,
+            );
+            image(
                 &white_queen,
-                c.transform.trans(100.0, 200.0).scale(0.4, 0.4),
+                c.transform.trans(100.0, 200.0).scale(scale_x, scale_y),
                 g,
             );
 
