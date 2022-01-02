@@ -1,3 +1,18 @@
+pub struct Assets {
+    assets_folder: std::path::PathBuf,
+}
+
+impl Assets {
+    pub fn new() -> Assets {
+        Assets {
+            assets_folder: find_folder::Search::ParentsThenKids(3, 3)
+                .for_folder("assets")
+                .unwrap()
+        }
+    }
+}
+
+
 pub fn get_font(window: &mut piston_window::PistonWindow) -> piston_window::Glyphs {
     let assets = find_folder::Search::ParentsThenKids(3, 3)
         .for_folder("assets")
@@ -26,16 +41,11 @@ pub fn get_white_queen(window: &mut piston_window::PistonWindow) -> piston_windo
 
 #[cfg(test)]
 mod tests {
+    use super::*;
 
     #[test]
     fn constructor() {
-        //let mut window: PistonWindow = WindowSettings::new("Test", [640, 400])
-        //    .build()
-        //    .unwrap();
-        //let white_queen = get_white_queen(&mut window);
-
-        // Cannot test, as creating a window creates
-        // another EventLoop
+        let assets = Assets::new();
         assert_eq!(1 + 1, 2);
     }
 }
