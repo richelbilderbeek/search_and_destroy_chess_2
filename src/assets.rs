@@ -1,27 +1,24 @@
-extern crate piston_window;
-
 pub fn get_font(window: &mut piston_window::PistonWindow) -> piston_window::Glyphs {
-    use piston_window::*;
+
     let assets = find_folder::Search::ParentsThenKids(3, 3)
         .for_folder("assets")
         .unwrap();
-    let mut glyphs = window
+    let glyphs = window
         .load_font(assets.join("FiraSans-Regular.ttf"))
         .unwrap();
     glyphs
 }
 
 pub fn get_white_queen(window: &mut piston_window::PistonWindow) -> piston_window::G2dTexture {
-    use piston_window::*;
     let assets_folder = find_folder::Search::ParentsThenKids(3, 3)
         .for_folder("assets")
         .unwrap();
     let white_queen = assets_folder.join("qw.png");
-    let white_queen: G2dTexture = Texture::from_path(
+    let white_queen: piston_window::G2dTexture = piston_window::Texture::from_path(
         &mut window.create_texture_context(),
         &white_queen,
-        Flip::None,
-        &TextureSettings::new(),
+        piston_window::Flip::None,
+        &piston_window::TextureSettings::new(),
     ).unwrap();
 
     white_queen
@@ -29,7 +26,7 @@ pub fn get_white_queen(window: &mut piston_window::PistonWindow) -> piston_windo
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+
 
     #[test]
     fn constructor() {
