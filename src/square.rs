@@ -1,7 +1,15 @@
 /// A square on a chess board
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Square {
     coordinat: String,
+}
+
+impl Square {
+    pub fn Clone(&self) -> Square {
+        Square {
+            coordinat: String::from(self.coordinat.clone()),
+        }
+    }
 }
 
 impl Square {

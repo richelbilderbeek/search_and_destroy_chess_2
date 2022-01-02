@@ -3,11 +3,23 @@ use crate::piece_type::PieceType;
 use crate::square::Square;
 
 /// A chess piece
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Piece {
     color: Color,
     position: Square,
     r#type: PieceType,
 }
+
+impl Piece {
+    pub fn Clone(&self) -> Piece {
+        Piece {
+            color: self.color,
+            position: self.position.Clone(),
+            r#type: self.r#type,
+        }
+    }
+}
+
 
 pub fn create_black_pawn(position: &str) -> Piece {
     Piece {

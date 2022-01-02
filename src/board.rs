@@ -18,6 +18,9 @@ impl Board {
             pieces: create_starting_pieces(),
         }
     }
+    pub fn get_piece_from_indices(&self, rank: u8, file: u8) -> Piece {
+        self.pieces[0].Clone()
+    }
 }
 
 pub fn get_square_color_from_square(square: &Square) -> Color {

@@ -1,5 +1,5 @@
 /// A square on a chess board
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub enum Color {
     Black,
     White,

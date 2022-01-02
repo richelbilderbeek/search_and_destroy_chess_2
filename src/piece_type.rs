@@ -1,5 +1,5 @@
 /// The type of a chesspiece
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub enum PieceType {
     Bishop,
     King,
