@@ -34,6 +34,7 @@ fn main() {
     let mut glyphs = assets::get_font(&mut window);
     let white_queen = assets::get_white_queen(&mut window);
 
+
     while let Some(e) = window.next() {
         window.draw_2d(&e, |c, g, device| {
             clear([0.0, 0.0, 0.0, 1.0], g);
@@ -69,7 +70,7 @@ fn main() {
                 )
                 .unwrap();
 
-            image(&white_queen, c.transform.trans(100.0, 200.0).scale(0.5, 0.5), g);
+            image(&white_queen, c.transform.trans(100.0, 200.0).scale(0.4, 0.4), g);
 
             // Update glyphs before rendering.
             glyphs.factory.encoder.flush(device);
