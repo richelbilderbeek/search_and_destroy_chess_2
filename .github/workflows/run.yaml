@@ -19,6 +19,12 @@ jobs:
         with:
           toolchain: stable
 
+      - name: Install SFML
+        run: sudo apt install libsfml-dev
+
+      - name: Install CSFML
+        run: sudo apt install libcsfml-dev
+
       - name: check
         uses: actions-rs/cargo@v1
         with:
