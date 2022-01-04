@@ -30,7 +30,7 @@ impl GameView {
         let window = std::cell::RefCell::new(
             RenderWindow::new(
                 (game_width, game_height),
-                "SFML Pong",
+                "Search And Destroy Chess 2",
                 Style::CLOSE,
                 &context_settings,
             )
