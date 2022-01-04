@@ -13,16 +13,6 @@ use std::{env, f32::consts::PI};
 fn main() {
     let mut rng = thread_rng();
 
-    // Optional antialiasing
-    let mut aa_level = 0;
-
-    if let Some(arg) = env::args().nth(1) {
-        match arg.parse::<u32>() {
-            Ok(arg_as_num) => aa_level = arg_as_num,
-            Err(e) => println!("Didn't set AA level: {}", e),
-        }
-    }
-
     // Define some constants
     let game_width = 800;
     let game_height = 600;
