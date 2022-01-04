@@ -107,6 +107,7 @@ fn main() {
                 }
             }
 
+            /*
             let transform = c.transform.trans(10.0, 100.0);
             let color = [1.0, 0.0, 0.0, 1.0];
             text::Text::new_color(color, 32)
@@ -125,6 +126,7 @@ fn main() {
 
             // Update glyphs before rendering.
             glyphs.factory.encoder.flush(device);
+            */
         });
     }
 }
