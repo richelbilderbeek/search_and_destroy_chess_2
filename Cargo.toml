@@ -5,5 +5,9 @@ edition = "2018"
 
 [dependencies]
 find_folder = "0.3.0"
-piston_window = "0.120.0"
+#sdl2 = "0.35.1"
+#ggez = "0.7.0"
+sfml = "0.16.0"
+rand = "0.8.4"
 regex = "1.5.4"
+# piston_window = "0.120.0"

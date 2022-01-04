@@ -1,3 +1,4 @@
+/*
 pub struct Assets<'a> {
     assets_folder: std::path::PathBuf,
     window: &'a mut piston_window::PistonWindow,
@@ -89,3 +90,4 @@ mod tests {
         assert_eq!(1 + 1, 2);
     }
 }
+*/
