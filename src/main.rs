@@ -19,11 +19,7 @@ struct GameView {
 }
 
 impl GameView {
-    pub fn new() -> GameView {
-
-        // Define some constants
-        let game_width = 800;
-        let game_height = 600;
+    pub fn new(game_width: u32, game_height: u32) -> GameView {
 
         // Create the window of the application
         let context_settings = ContextSettings::default();
@@ -262,7 +258,9 @@ impl GameView {
 }
 
 fn main() {
-    let game_view = GameView::new();
+    let game_width = 800;
+    let game_height = 600;
+    let game_view = GameView::new(game_width, game_height);
     game_view.run()
 }
 
