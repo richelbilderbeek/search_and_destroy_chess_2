@@ -1,5 +1,23 @@
 /*
 pub struct Assets<'a> {
+    ball_soundbuffer: sfml::SfBox<sfml::audio::SoundBuffer>,
+    ball_sound: sfml::audio::Sound<'a>,
+}
+
+impl<'a> Assets<'a> {
+    pub fn new() -> Assets<'a> {
+        let ball_soundbuffer = sfml::audio::SoundBuffer::from_file("assets/examples_resources_ball.wav").unwrap();
+        let ball_sound = sfml::audio::Sound::with_buffer(&ball_soundbuffer);
+        Assets{
+            ball_soundbuffer,
+            ball_sound,
+        }
+    }
+}
+*/
+
+/*
+pub struct Assets<'a> {
     assets_folder: std::path::PathBuf,
     window: &'a mut piston_window::PistonWindow,
 }

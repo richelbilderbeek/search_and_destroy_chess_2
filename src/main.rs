@@ -1,3 +1,5 @@
+mod assets;
+
 use rand::{thread_rng, Rng};
 use sfml::{
     audio::{Sound, SoundBuffer, SoundSource},
@@ -16,27 +18,26 @@ struct GameView {
     window: std::cell::RefCell<RenderWindow>,
     paddle_size: Vector2f,
     ball_radius: f32,
+    //assets: crate::assets::Assets<'a>,
 }
 
 impl GameView {
     pub fn new(game_width: u32, game_height: u32) -> GameView {
 
         // Create the window of the application
-        let context_settings = ContextSettings::default();
         let window = std::cell::RefCell::new(
             RenderWindow::new(
                 (game_width, game_height),
                 "Search And Destroy Chess 2",
                 Style::CLOSE,
-                &context_settings,
+                &ContextSettings::default(),
             )
         );
-        let paddle_size = Vector2f::new(25., 100.);
         GameView {
             game_width,
             game_height,
             window,
-            paddle_size,
+            paddle_size: Vector2f::new(25., 100.),
             ball_radius: 10.,
         }
     }
