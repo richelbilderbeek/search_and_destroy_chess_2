@@ -30,6 +30,7 @@ struct GameView {
     paddle_size: Vector2f,
     ball_radius: f32,
     board: board::Board,
+    font: sfml::SfBox<sfml::graphics::Font>,
     //assets: crate::assets::Assets<'a>,
 }
 
@@ -52,6 +53,8 @@ impl GameView {
             paddle_size: Vector2f::new(25., 100.),
             ball_radius: 10.,
             board: board::Board::new(),
+            font: Font::from_file("assets/sansation.ttf").unwrap(),
+
         }
     }
     pub fn run(&self) {
@@ -66,7 +69,7 @@ impl GameView {
         let mut left_paddle = RectangleShape::new();
         left_paddle.set_size(self.paddle_size - 3.);
         left_paddle.set_outline_thickness(3.);
-        left_paddle.set_outline_color(Color::BLACK);
+        left_paddle.set_outline_color(Color::BLUE);
         left_paddle.set_fill_color(Color::rgb(100, 100, 200));
         left_paddle.set_origin(self.paddle_size / 2.);
 
@@ -86,12 +89,9 @@ impl GameView {
         ball.set_fill_color(Color::WHITE);
         ball.set_origin((self.ball_radius / 2., self.ball_radius / 2.));
 
-        // Load the text font
-        let font = Font::from_file("assets/sansation.ttf").unwrap();
-
         // Initialize the pause message
         let mut pause_message = Text::default();
-        pause_message.set_font(&font);
+        pause_message.set_font(&self.font);
         pause_message.set_character_size(40);
         pause_message.set_position((170., 150.));
         pause_message.set_fill_color(Color::WHITE);
