@@ -1,3 +1,10 @@
+mod board;
+mod color;
+mod piece;
+mod piece_type;
+mod square;
+//mod sound_asset;
+
 extern crate rand;
 extern crate sfml;
 
@@ -15,12 +22,14 @@ use sfml::{
 #[allow(unused_imports)]
 use std::{env, f32::consts::PI};
 
+#[allow(dead_code)]
 struct GameView {
     game_width: u32,
     game_height: u32,
     window: std::cell::RefCell<RenderWindow>,
     paddle_size: Vector2f,
     ball_radius: f32,
+    board: board::Board,
     //assets: crate::assets::Assets<'a>,
 }
 
@@ -42,6 +51,7 @@ impl GameView {
             window,
             paddle_size: Vector2f::new(25., 100.),
             ball_radius: 10.,
+            board: board::Board::new(),
         }
     }
     pub fn run(&self) {
@@ -49,8 +59,8 @@ impl GameView {
         self.window.borrow_mut().set_vertical_sync_enabled(true);
 
         // Load the sounds used in the game
-        let ball_soundbuffer = SoundBuffer::from_file("assets/examples_resources_ball.wav").unwrap();
-        let mut ball_sound = Sound::with_buffer(&ball_soundbuffer);
+        let ball_soundbuffer: sfml::SfBox<SoundBuffer> = SoundBuffer::from_file("assets/examples_resources_ball.wav").unwrap();
+        let mut ball_sound: sfml::audio::Sound = Sound::with_buffer(&ball_soundbuffer);
 
         // Create the left paddle
         let mut left_paddle = RectangleShape::new();
