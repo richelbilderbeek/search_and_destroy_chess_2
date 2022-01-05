@@ -1,4 +1,5 @@
-mod assets;
+extern crate rand;
+extern crate sfml;
 
 use rand::{thread_rng, Rng};
 use sfml::{
@@ -10,6 +11,8 @@ use sfml::{
     system::{Clock, Time, Vector2f},
     window::{ContextSettings, Event, Key, Style},
 };
+
+#[allow(unused_imports)]
 use std::{env, f32::consts::PI};
 
 struct GameView {
@@ -90,7 +93,7 @@ impl GameView {
         let paddle_speed = 400.;
         let mut right_paddle_speed = 0.;
         let mut ball_speed = 400.;
-        let mut ball_angle = 0.;
+        let mut ball_angle: f32 = 0.;
 
         let mut clock = Clock::start();
         let mut is_playing = false;
@@ -265,7 +268,7 @@ fn main() {
     game_view.run()
 }
 
-fn on_bounce(ball_sound: &mut Sound, ball_speed: &mut f32) {
+fn on_bounce(ball_sound: &mut sfml::audio::Sound, ball_speed: &mut f32) {
     ball_sound.play();
     ball_sound.set_pitch(ball_sound.pitch() + 0.004);
     *ball_speed += 16.0;

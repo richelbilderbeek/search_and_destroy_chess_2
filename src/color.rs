@@ -6,6 +6,7 @@ pub enum Color {
 }
 
 /// Convert a Color to a String
+#[allow(dead_code)]
 pub fn to_str(color: Color) -> String {
     match color {
         Color::Black => "Black".to_string(),
