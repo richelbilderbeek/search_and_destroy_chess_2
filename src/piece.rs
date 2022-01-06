@@ -370,6 +370,13 @@ pub fn create_white_starting_pawns() -> Vec<Piece> {
     ]
 }
 
+/// Create the starting pieces in their standard positions
+/// 
+/// ```
+/// use search_and_destroy_chess_2::piece::create_starting_pieces;
+/// let pieces = create_starting_pieces();
+/// assert_eq!(32, pieces.len());
+/// ```
 pub fn create_starting_pieces() -> Vec<Piece> {
     let mut pieces: Vec<Piece> = vec![
         create_white_rook("a1"),
