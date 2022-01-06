@@ -99,9 +99,21 @@ pub fn get_square_color_from_indices(file_index: u32, rank_index: u32) -> Color 
     }
 }
 
+/// Detect if a square on the board contains a pawn
+/// 
+/// ```
+/// use search_and_destroy_chess_2::board::Board;
+/// use search_and_destroy_chess_2::board::is_pawn;
+/// use search_and_destroy_chess_2::square::Square;
+/// 
+/// let board = Board::new();
+/// assert_eq!(true, is_pawn(&board, Square::new("a2")));
+/// assert_eq!(false, is_pawn(&board, Square::new("a1")));
+/// ```
 #[allow(dead_code)]
-pub fn is_pawn(_board: Board, _square: Square) -> bool {
-    true
+pub fn is_pawn(board: &Board, square: Square) -> bool {
+    let piece = board.get_piece_from_indices(get_nth_rank(&square) as u8, get_nth_file(&square) as u8).unwrap();
+    piece.get_type() == PieceType::Pawn
 }
 
 #[cfg(test)]
@@ -111,7 +123,8 @@ mod tests {
     #[test]
     fn create_board() {
         let board = Board::new();
-        assert_eq!(true, is_pawn(board, Square::new("a2")));
+        assert_eq!(true, is_pawn(&board, Square::new("a2")));
+        assert_eq!(false, is_pawn(&board, Square::new("a1")));
     }
     #[test]
     fn get_square_color_from_square() {
