@@ -1,4 +1,15 @@
 /// The type of a chesspiece
+/// ```
+/// use search_and_destroy_chess_2::piece_type::PieceType;
+/// use search_and_destroy_chess_2::piece_type::to_str;
+/// 
+/// assert_eq!(to_str(PieceType::Bishop), "Bishop");
+/// assert_eq!(to_str(PieceType::King), "King");
+/// assert_eq!(to_str(PieceType::Knight), "Knight");
+/// assert_eq!(to_str(PieceType::Pawn), "Pawn");
+/// assert_eq!(to_str(PieceType::Queen), "Queen");
+/// assert_eq!(to_str(PieceType::Rook), "Rook");
+/// ```
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub enum PieceType {
     Bishop,
@@ -10,6 +21,19 @@ pub enum PieceType {
 }
 
 
+/// Convert a PieceType to a String
+/// 
+/// ```
+/// use search_and_destroy_chess_2::piece_type::PieceType;
+/// use search_and_destroy_chess_2::piece_type::to_str;
+/// 
+/// assert_eq!(to_str(PieceType::Bishop), "Bishop");
+/// assert_eq!(to_str(PieceType::King), "King");
+/// assert_eq!(to_str(PieceType::Knight), "Knight");
+/// assert_eq!(to_str(PieceType::Pawn), "Pawn");
+/// assert_eq!(to_str(PieceType::Queen), "Queen");
+/// assert_eq!(to_str(PieceType::Rook), "Rook");
+/// ```
 #[allow(dead_code)]
 pub fn to_str(piece_type: PieceType) -> String {
     match piece_type {

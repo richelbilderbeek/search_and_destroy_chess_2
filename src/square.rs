@@ -5,12 +5,26 @@ pub struct Square {
 }
 
 impl Square {
+    /// ```
+    /// use search_and_destroy_chess_2::square::Square;
+    /// 
+    /// let square = Square::new("d1");
+    /// let square_again = square.clone();
+    /// assert_eq!(square, square_again);
+    /// ```
     pub fn clone(&self) -> Square {
         Square {
             coordinat: String::from(self.coordinat.clone()),
         }
     }
     /// Create a new square from a string, e.g. 'a1'
+    /// ```
+    /// use search_and_destroy_chess_2::square::Square;
+    /// 
+    /// let square = Square::new("d1");
+    /// let square_again = Square::new("d1");
+    /// assert_eq!(square, square_again);
+    /// ```
     pub fn new(coordinat_str: &str) -> Square {
         if coordinat_str.len() != 2 {
             panic!("A coordinat has two characters");
@@ -28,15 +42,34 @@ impl Square {
         }
     }
     /// Get the coordinat of the Square, e.g. 'a1'
+    /// Create a new square from a string, e.g. 'a1'
+    /// ```
+    /// use search_and_destroy_chess_2::square::Square;
+    /// 
+    /// let square = Square::new("d1");
+    /// assert_eq!(square.get(), "d1");
+    /// ```
     pub fn get(&self) -> String {
         self.coordinat.clone()
     }
     /// Get the file of the Square, e.g. 'a'
+    /// ```
+    /// use search_and_destroy_chess_2::square::Square;
+    /// 
+    /// let square = Square::new("e1");
+    /// assert_eq!(square.get_file(), "e");
+    /// ```
     pub fn get_file(&self) -> String {
         let copy: String = self.coordinat.clone();
         copy.chars().next().unwrap().to_string()
     }
     /// Get the rank of the Square, e.g. '1'
+    /// ```
+    /// use search_and_destroy_chess_2::square::Square;
+    /// 
+    /// let square = Square::new("f7");
+    /// assert_eq!(square.get_rank(), 7);
+    /// ```
     pub fn get_rank(&self) -> u32 {
         let copy: String = self.coordinat.clone();
         let slice = &copy[1..2];
@@ -48,13 +81,31 @@ impl Square {
 
 /// Get the nth file of the Square, e.g. '0' for the first file.
 /// Or, the letter compared to 'a'
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_nth_file;
+/// 
+/// let square = Square::new("a1");
+/// assert_eq!(get_nth_file(&square), 0);
+/// let square = Square::new("h1");
+/// assert_eq!(get_nth_file(&square), 7);
+/// ```
 pub fn get_nth_file(square: &Square) -> u32 {
-    let char_vec: Vec<char> = square.get_file().chars().collect();
-    (char_vec[0] as i32 - 'a' as i32) as u32
+let char_vec: Vec<char> = square.get_file().chars().collect();
+(char_vec[0] as i32 - 'a' as i32) as u32
 }
 
 /// Get the nth rank of the Square, e.g. '0' for the first rank
 /// Or, the number compared to 1
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_nth_rank;
+/// 
+/// let square = Square::new("a1");
+/// assert_eq!(get_nth_rank(&square), 0);
+/// let square = Square::new("a8");
+/// assert_eq!(get_nth_rank(&square), 7);
+/// ```
 pub fn get_nth_rank(square: &Square) -> u32 {
     square.get_rank() - 1_u32
 }
