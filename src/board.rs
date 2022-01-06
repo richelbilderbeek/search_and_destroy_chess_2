@@ -22,11 +22,11 @@ impl Board {
     /// 
     /// ```
     /// use search_and_destroy_chess_2::board::Board;
-    /// use search_and_destroy_chess_2::board::is_pawn;
-    /// use search_and_destroy_chess_2::square::Square;
+    /// use search_and_destroy_chess_2::piece_type::PieceType;
     /// 
     /// let board = Board::new();
-    /// assert!(is_pawn(board, Square::new("a2")));
+    /// let piece = board.get_piece_from_indices(0, 0).unwrap();
+    /// assert_eq!(piece.get_type(), PieceType::Rook);
     /// ```
     #[allow(dead_code)]
     pub fn new() -> Board {
@@ -40,6 +40,7 @@ impl Board {
     /// ```
     /// use search_and_destroy_chess_2::board::Board;
     /// use search_and_destroy_chess_2::piece_type::PieceType;
+    /// 
     /// let board = Board::new();
     /// let piece = board.get_piece_from_indices(0, 0).unwrap();
     /// assert_eq!(piece.get_type(), PieceType::Rook);
@@ -56,6 +57,17 @@ impl Board {
     }
 }
 
+/// Get the color of a square
+/// 
+/// ```
+/// use search_and_destroy_chess_2::board::get_square_color_from_square;
+/// use search_and_destroy_chess_2::color::Color;
+/// use search_and_destroy_chess_2::square::Square;
+/// 
+/// let square = Square::new("d1");
+/// let color = get_square_color_from_square(&square);
+/// assert_eq!(color, Color::White);
+/// ```
 #[allow(dead_code)]
 pub fn get_square_color_from_square(square: &Square) -> Color {
     let file_index = get_nth_file(square);
@@ -63,6 +75,18 @@ pub fn get_square_color_from_square(square: &Square) -> Color {
     get_square_color_from_indices(file_index, rank_index)
 }
 
+/// Get the color of a square, based on its indices,
+/// i.e. square a1 is `(0, 0)`, d1 is `(3, 0)`
+/// 
+/// ```
+/// use search_and_destroy_chess_2::board::get_square_color_from_indices;
+/// use search_and_destroy_chess_2::color::Color;
+/// use search_and_destroy_chess_2::square::Square;
+/// 
+/// let square = Square::new("d1");
+/// let color = get_square_color_from_indices(3, 0);
+/// assert_eq!(color, Color::White);
+/// ```
 pub fn get_square_color_from_indices(file_index: u32, rank_index: u32) -> Color {
     let file_bit = file_index % 2;
     let rank_bit = rank_index % 2;
