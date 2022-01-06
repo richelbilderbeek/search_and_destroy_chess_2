@@ -1,6 +1,6 @@
-mod assets;
-mod board;
-mod color;
-mod piece;
-mod piece_type;
-mod square;
+pub mod assets;
+pub mod board;
+pub mod color;
+pub mod piece;
+pub mod piece_type;
+pub mod square;

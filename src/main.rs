@@ -1,8 +1,9 @@
-mod board;
-mod color;
-mod piece;
-mod piece_type;
-mod square;
+pub mod board;
+pub mod color;
+pub mod piece;
+pub mod piece_type;
+pub mod square;
+pub mod scribble;
 //mod sound_asset;
 
 extern crate rand;

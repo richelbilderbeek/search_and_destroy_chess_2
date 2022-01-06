@@ -17,12 +17,33 @@ pub struct Board {
 }
 
 impl Board {
+
+    /// Create a new Board
+    /// 
+    /// ```
+    /// use search_and_destroy_chess_2::board::Board;
+    /// use search_and_destroy_chess_2::board::is_pawn;
+    /// use search_and_destroy_chess_2::square::Square;
+    /// 
+    /// let board = Board::new();
+    /// assert!(is_pawn(board, Square::new("a2")));
+    /// ```
     #[allow(dead_code)]
     pub fn new() -> Board {
         Board {
             pieces: create_starting_pieces(),
         }
     }
+
+    /// Get a piece based on its indices
+    /// 
+    /// ```
+    /// use search_and_destroy_chess_2::board::Board;
+    /// use search_and_destroy_chess_2::piece_type::PieceType;
+    /// let board = Board::new();
+    /// let piece = board.get_piece_from_indices(0, 0).unwrap();
+    /// assert_eq!(piece.get_type(), PieceType::Rook);
+    /// ```
     #[allow(dead_code)]
     pub fn get_piece_from_indices(&self, rank: u8, file: u8) -> Option<Piece> {
         for piece in &self.pieces {
