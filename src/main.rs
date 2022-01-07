@@ -115,16 +115,14 @@ impl GameView {
         for file_index in 0..8 {
             for rank_index in 0..8 {
                 let x = rank_index as f32 * square_width;
-                let y = file_index as f32 * square_height;
+                // files go up, 'file_index + 1' as tiles are draw from top
+                let y = self.game_height as f32 - ((file_index + 1) as f32 * square_height);
                 let piece_option = self.board.get_piece_from_indices(file_index, rank_index);
-                match piece_option {
-                    Some(piece) => {
+                if let Some(piece) = piece_option {
                         let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_piece(piece));
                         sprite.set_position(Vector2f::new(x, y));
                         sprite.set_scale(Vector2f::new(scale_x, scale_y));
                         self.window.borrow_mut().draw(&sprite);
-                    },
-                    None => {},
                 }
             }
         }
@@ -140,7 +138,8 @@ impl GameView {
         for file_index in 0..8 {
             for rank_index in 0..8 {
                 let x = rank_index as f32 * square_width;
-                let y = file_index as f32 * square_height;
+                // files go up, 'file_index + 1' as tiles are draw from top
+                let y = self.game_height as f32 - ((file_index + 1) as f32 * square_height);
                 let color = get_square_color_from_indices(file_index, rank_index);
                 let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_square(color));
                 sprite.set_position(Vector2f::new(x, y));
