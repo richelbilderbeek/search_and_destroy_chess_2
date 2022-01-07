@@ -8,6 +8,7 @@ pub struct Assets {
     pub black_rook: sfml::SfBox<sfml::graphics::Texture>,
     pub dark_square: sfml::SfBox<sfml::graphics::Texture>,
     pub light_square: sfml::SfBox<sfml::graphics::Texture>,
+    question_mark: sfml::SfBox<sfml::graphics::Texture>,
     pub white_bishop: sfml::SfBox<sfml::graphics::Texture>,
     pub white_king: sfml::SfBox<sfml::graphics::Texture>,
     pub white_knight: sfml::SfBox<sfml::graphics::Texture>,
@@ -38,6 +39,7 @@ impl Assets {
             black_rook: sfml::graphics::Texture::from_file("assets/rb.png").unwrap(),
             dark_square: sfml::graphics::Texture::from_file("assets/d.png").unwrap(),
             light_square: sfml::graphics::Texture::from_file("assets/l.png").unwrap(),
+            question_mark: sfml::graphics::Texture::from_file("assets/qm.png").unwrap(),
             white_bishop: sfml::graphics::Texture::from_file("assets/bw.png").unwrap(),
             white_king: sfml::graphics::Texture::from_file("assets/kw.png").unwrap(),
             white_knight: sfml::graphics::Texture::from_file("assets/nw.png").unwrap(),
@@ -46,6 +48,27 @@ impl Assets {
             white_rook: sfml::graphics::Texture::from_file("assets/rw.png").unwrap(),
         }
     }
+
+    /// Get the height of the images used
+    /// ```
+    /// use search_and_destroy_chess_2::assets::Assets;
+    /// 
+    /// let assets = Assets::new();
+    /// assert_eq!(assets.get_image_width(), 128);
+    /// assert_eq!(assets.get_image_height(), 128);
+    /// ```
+    pub fn get_image_height(&self) -> i32 { 128 }
+
+    /// Get the width of the images used
+    /// ```
+    /// use search_and_destroy_chess_2::assets::Assets;
+    /// 
+    /// let assets = Assets::new();
+    /// assert_eq!(assets.get_image_width(), 128);
+    /// assert_eq!(assets.get_image_height(), 128);
+    /// ```
+    pub fn get_image_width(&self) -> i32 { 128 }
+
     /// Get the texture of a piece
     ///
     /// ```
@@ -74,7 +97,20 @@ impl Assets {
                 crate::piece_type::PieceType::Rook => &self.white_rook,
             },
         }
-}
+    }
+
+    /// Get the texture of a question mark
+    ///
+    /// ```
+    /// use search_and_destroy_chess_2::assets::Assets;
+    /// 
+    /// let assets = Assets::new();
+    /// let question_mark = assets.get_question_mark();
+    /// ```
+    pub fn get_question_mark(&self) ->  &sfml::SfBox<sfml::graphics::Texture> {
+        &self.question_mark
+    }
+
     /// Get the texture of a square
     ///
     /// ```
@@ -95,76 +131,6 @@ impl Assets {
     }
 }
 
-/*
-    pub fn get_black_bishop(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("bb.png")
-    }
-    pub fn get_black_king(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("kb.png")
-    }
-    pub fn get_black_knight(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("nb.png")
-    }
-    pub fn get_black_pawn(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("pb.png")
-    }
-    pub fn get_black_queen(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("qb.png")
-    }
-    pub fn get_black_rook(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("rb.png")
-    }
-    pub fn get_dark_square(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("d.png")
-    }
-    pub fn get_font(&mut self) -> piston_window::Glyphs {
-        let glyphs = self
-            .window
-            .load_font(self.assets_folder.join("FiraSans-Regular.ttf"))
-            .unwrap();
-        glyphs
-    }
-    pub fn get_light_square(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("l.png")
-    }
-    pub fn get_square(&mut self, color: crate::color::Color) -> piston_window::G2dTexture {
-        match color {
-            crate::color::Color::White => self.get_light_square(),
-            crate::color::Color::Black => self.get_dark_square(),
-        }
-    }
-    pub fn get_texture(&mut self, filename: &str) -> piston_window::G2dTexture {
-        let texture_path = self.assets_folder.join(filename);
-        let texture: piston_window::G2dTexture = piston_window::Texture::from_path(
-            &mut self.window.create_texture_context(),
-            &texture_path,
-            piston_window::Flip::None,
-            &piston_window::TextureSettings::new(),
-        )
-        .unwrap();
-        texture
-    }
-    pub fn get_white_bishop(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("bw.png")
-    }
-    pub fn get_white_king(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("kw.png")
-    }
-    pub fn get_white_knight(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("nw.png")
-    }
-    pub fn get_white_pawn(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("pw.png")
-    }
-    pub fn get_white_queen(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("qw.png")
-    }
-    pub fn get_white_rook(&mut self) -> piston_window::G2dTexture {
-        self.get_texture("rw.png")
-    }
-}
-*/
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -172,7 +138,6 @@ mod tests {
     #[test]
     fn constructor() {
         let assets = Assets::new();
-        assert!(!assets.light_square.is_smooth());
-        assert_eq!(1 + 1, 2);
+        assert!(!assets.get_question_mark().is_smooth());
     }
 }

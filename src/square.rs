@@ -81,6 +81,9 @@ impl Square {
 
 /// Get the nth file of the Square, e.g. '0' for the first file.
 /// Or, the letter compared to 'a'
+/// 
+/// A file is a column of the chessboard. 
+/// 
 /// ```
 /// use search_and_destroy_chess_2::square::Square;
 /// use search_and_destroy_chess_2::square::get_nth_file;

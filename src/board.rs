@@ -55,6 +55,20 @@ impl Board {
         }
         None
     }
+    pub fn get_pieces(&self) -> &Vec<Piece> {
+        &self.pieces
+    }
+}
+
+pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
+  let pieces = board.get_pieces();
+  let mut invisible_squares = vec![];
+  for piece in pieces {
+        if piece.get_color() == color {
+            invisible_squares.push(piece.get_position());
+        }
+  }
+  invisible_squares
 }
 
 /// Get the color of a square
