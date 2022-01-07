@@ -7,6 +7,7 @@ pub struct Assets {
     pub black_queen: sfml::SfBox<sfml::graphics::Texture>,
     pub black_rook: sfml::SfBox<sfml::graphics::Texture>,
     pub dark_square: sfml::SfBox<sfml::graphics::Texture>,
+    font: sfml::SfBox<sfml::graphics::Font>,
     pub light_square: sfml::SfBox<sfml::graphics::Texture>,
     question_mark: sfml::SfBox<sfml::graphics::Texture>,
     pub white_bishop: sfml::SfBox<sfml::graphics::Texture>,
@@ -28,6 +29,8 @@ impl Assets {
     /// let assets = Assets::new();
     /// let dark_square = assets.get_square(Color::Black);
     /// let black_bishop = assets.get_piece(create_black_bishop("a1")); // Note that the position is irrelevant
+    //// assert_eq!(assets.get_image_height(), 128);
+    //// assert_eq!(assets.get_image_width(), 128);
     /// ```
     pub fn new() -> Assets {
         Assets{
@@ -38,6 +41,7 @@ impl Assets {
             black_queen: sfml::graphics::Texture::from_file("assets/qb.png").unwrap(),
             black_rook: sfml::graphics::Texture::from_file("assets/rb.png").unwrap(),
             dark_square: sfml::graphics::Texture::from_file("assets/d.png").unwrap(),
+            font: sfml::graphics::Font::from_file("assets/sansation.ttf").unwrap(),
             light_square: sfml::graphics::Texture::from_file("assets/l.png").unwrap(),
             question_mark: sfml::graphics::Texture::from_file("assets/qm.png").unwrap(),
             white_bishop: sfml::graphics::Texture::from_file("assets/bw.png").unwrap(),
@@ -48,6 +52,15 @@ impl Assets {
             white_rook: sfml::graphics::Texture::from_file("assets/rw.png").unwrap(),
         }
     }
+
+    /// Get the font
+    /// ```
+    /// use search_and_destroy_chess_2::assets::Assets;
+    /// 
+    /// let assets = Assets::new();
+    /// let font = assets.get_font();
+    /// ```
+    pub fn get_font(&self) -> &sfml::SfBox<sfml::graphics::Font> { &self.font }
 
     /// Get the height of the images used
     /// ```
@@ -139,5 +152,7 @@ mod tests {
     fn constructor() {
         let assets = Assets::new();
         assert!(!assets.get_question_mark().is_smooth());
+        assert_eq!(assets.get_image_height(), 128);
+        assert_eq!(assets.get_image_width(), 128);
     }
 }

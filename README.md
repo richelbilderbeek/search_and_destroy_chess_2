@@ -11,6 +11,8 @@ written in Rust.
 
 ## Screenshots
 
+![](pics/20220107.png)
+
 ![](pics/20220104.png)
 
 ![](pics/20220102.png)

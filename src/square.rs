@@ -79,6 +79,74 @@ impl Square {
     }
 }
 
+/// Create a coordinat string from two indices
+/// ```
+/// assert_eq!(create_coordinat_from_indices(0, 0), String::from("a1"));
+/// assert_eq!(create_coordinat_from_indices(7, 0), String::from("h1"));
+/// assert_eq!(create_coordinat_from_indices(7, 4), String::from("h4"));
+/// assert_eq!(create_coordinat_from_indices(7, 7), String::from("h7"));
+/// ```
+pub fn create_coordinat_from_indices(file_index: u8, rank_index: u8) -> String {
+    let file_str = match file_index {
+        0 => String::from("a"),
+        1 => String::from("b"),
+        2 => String::from("c"),
+        3 => String::from("d"),
+        4 => String::from("e"),
+        5 => String::from("f"),
+        6 => String::from("g"),
+        7 => String::from("h"),
+        _ => panic!("Use a file_index from [0..8]")
+    };
+    let rank_str = match rank_index {
+        0 => String::from("1"),
+        1 => String::from("2"),
+        2 => String::from("3"),
+        3 => String::from("4"),
+        4 => String::from("5"),
+        5 => String::from("6"),
+        6 => String::from("7"),
+        7 => String::from("8"),
+        _ => panic!("Use a rank_index from [0..8]")
+    };
+    let str = file_str + &rank_str;
+    str
+}
+
+/// Get all the 64 coordinats on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// 
+/// let coordinats = get_all_coordinats()
+/// assert_eq!(coordinats.len(), 64);
+/// ```
+pub fn get_all_coordinats() -> Vec<String> {
+    let mut squares: Vec<String> = Vec::new();
+    for file_index in 0..8 {
+        for rank_index in 0..8 {
+            squares.push(create_coordinat_from_indices(file_index, rank_index));
+        }
+    }
+    squares
+}
+
+/// Get all the 64 squares on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_nth_rank;
+/// 
+/// let squares = get_all_squares()
+/// assert_eq!(squares.len(), 64);
+/// ```
+pub fn get_all_squares() -> Vec<Square> {
+    let coordinats = get_all_coordinats();
+    let mut squares: Vec<Square> = Vec::new();
+    for coordinat in coordinats {
+        squares.push(Square::new(&coordinat));
+    }
+    squares
+}
+
 /// Get the nth file of the Square, e.g. '0' for the first file.
 /// Or, the letter compared to 'a'
 /// 
@@ -175,5 +243,9 @@ mod tests {
     #[should_panic(expected = "The rank must be '1..8'")]
     fn invalid_rank() {
         Square::new("a9");
+    }
+    #[test]
+    fn get_all_squares() {
+        assert_eq!(super::get_all_squares().len(), 64);
     }
 }
