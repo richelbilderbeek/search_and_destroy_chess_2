@@ -21,9 +21,12 @@ impl Assets {
     /// 
     /// ```
     /// use search_and_destroy_chess_2::assets::Assets;
+    /// use search_and_destroy_chess_2::color::Color;
+    /// use search_and_destroy_chess_2::piece::*;
     /// 
     /// let assets = Assets::new();
-    /// assert!(!assets.light_square_texture.is_smooth());
+    /// let dark_square = assets.get_square(Color::Black);
+    /// let black_bishop = assets.get_piece(create_black_bishop("a1")); // Note that the position is irrelevant
     /// ```
     pub fn new() -> Assets {
         Assets{
@@ -43,15 +46,14 @@ impl Assets {
             white_rook: sfml::graphics::Texture::from_file("assets/rw.png").unwrap(),
         }
     }
-    /// Get the texture of a square
+    /// Get the texture of a piece
     ///
     /// ```
     /// use search_and_destroy_chess_2::assets::Assets;
-    /// use search_and_destroy_chess_2::color::Color;
+    /// use search_and_destroy_chess_2::piece::*;
     /// 
     /// let assets = Assets::new();
-    /// let dark_square = assets.get_square(Color::Black);
-    /// let light_square = assets.get_square(Color::White);
+    /// let black_bishop = assets.get_piece(create_black_bishop("c8"));
     /// ```
     pub fn get_piece(&self, piece: crate::piece::Piece) ->  &sfml::SfBox<sfml::graphics::Texture> {
         match piece.get_color() {
@@ -170,7 +172,7 @@ mod tests {
     #[test]
     fn constructor() {
         let assets = Assets::new();
-        assert!(!assets.light_square_texture.is_smooth());
+        assert!(!assets.light_square.is_smooth());
         assert_eq!(1 + 1, 2);
     }
 }
