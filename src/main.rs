@@ -1,22 +1,21 @@
+pub mod assets;
 pub mod board;
 pub mod color;
 pub mod piece;
 pub mod piece_type;
 pub mod square;
 pub mod scribble;
-//mod sound_asset;
 
 extern crate rand;
 extern crate sfml;
 
-use rand::{thread_rng, Rng};
 use sfml::{
-    audio::{Sound, SoundBuffer, SoundSource},
+    audio::{Sound, SoundBuffer},
     graphics::{
-        CircleShape, Color, Font, RectangleShape, RenderTarget, RenderWindow, Shape, Text,
+        Color, Font, RenderTarget, RenderWindow,
         Transformable,
     },
-    system::{Clock, Time, Vector2f},
+    system::{Vector2f},
     window::{ContextSettings, Event, Key, Style},
 };
 
@@ -30,7 +29,7 @@ struct GameView {
     window: std::cell::RefCell<RenderWindow>,
     board: board::Board,
     font: sfml::SfBox<sfml::graphics::Font>,
-    //assets: crate::assets::Assets<'a>,
+    assets: crate::assets::Assets,
 }
 
 impl GameView {
@@ -51,10 +50,10 @@ impl GameView {
             window,
             board: board::Board::new(),
             font: Font::from_file("assets/sansation.ttf").unwrap(),
+            assets: crate::assets::Assets::new(),
         }
     }
     pub fn run(&self) {
-        let mut rng = thread_rng();
         self.window.borrow_mut().set_vertical_sync_enabled(true);
 
         // Load the sounds used in the game
@@ -63,9 +62,13 @@ impl GameView {
 
         let dark_square_texture = sfml::graphics::Texture::from_file("assets/d.png").unwrap();
         let mut dark_square_sprite = sfml::graphics::Sprite::with_texture(&dark_square_texture);
-
         dark_square_sprite.set_origin(Vector2f::new(28_f32, 28_f32));
         dark_square_sprite.set_position(Vector2f::new(0_f32, 0_f32));
+
+        let mut light_square_sprite = sfml::graphics::Sprite::with_texture(&self.assets.light_square_texture);
+        light_square_sprite.set_origin(Vector2f::new(28_f32, 28_f32));
+        light_square_sprite.set_position(Vector2f::new(320_f32, 320_f32));
+
 
         let mut up = false;
         let mut down = false;
@@ -95,9 +98,10 @@ impl GameView {
             assert!(down == true || down == false);
 
             self.window.borrow_mut().draw(&dark_square_sprite);
+            self.window.borrow_mut().draw(&light_square_sprite);
 
             // Display things on screen
-            self.window.borrow_mut().display()
+            self.window.borrow_mut().display();
         }
     }
 }

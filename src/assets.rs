@@ -1,36 +1,23 @@
-/*
-pub struct Assets<'a> {
-    ball_soundbuffer: sfml::SfBox<sfml::audio::SoundBuffer>,
-    ball_sound: sfml::audio::Sound<'a>,
+#[allow(dead_code)]
+pub struct Assets {
+    pub light_square_texture: sfml::SfBox<sfml::graphics::Texture>,
 }
 
-impl<'a> Assets<'a> {
-    pub fn new() -> Assets<'a> {
-        let ball_soundbuffer = sfml::audio::SoundBuffer::from_file("assets/examples_resources_ball.wav").unwrap();
-        let ball_sound = sfml::audio::Sound::with_buffer(&ball_soundbuffer);
+impl Assets {
+    ///
+    /// ```
+    /// let assets = search_and_destroy_chess_2::assets::Assets::new();
+    /// assert!(!assets.light_square_texture.is_smooth());
+    /// ```
+
+    pub fn new() -> Assets {
         Assets{
-            ball_soundbuffer,
-            ball_sound,
+            light_square_texture: sfml::graphics::Texture::from_file("assets/l.png").unwrap(),
         }
     }
 }
-*/
 
 /*
-pub struct Assets<'a> {
-    assets_folder: std::path::PathBuf,
-    window: &'a mut piston_window::PistonWindow,
-}
-
-impl<'a> Assets<'a> {
-    pub fn new(window: &mut piston_window::PistonWindow) -> Assets {
-        Assets {
-            assets_folder: find_folder::Search::ParentsThenKids(3, 3)
-                .for_folder("assets")
-                .unwrap(),
-            window,
-        }
-    }
     pub fn get_black_bishop(&mut self) -> piston_window::G2dTexture {
         self.get_texture("bb.png")
     }
@@ -98,14 +85,16 @@ impl<'a> Assets<'a> {
         self.get_texture("rw.png")
     }
 }
+*/
 
 #[cfg(test)]
 mod tests {
+    use super::*;
 
     #[test]
     fn constructor() {
-        //let assets = Assets::new();
+        let assets = Assets::new();
+        assert!(!assets.light_square_texture.is_smooth());
         assert_eq!(1 + 1, 2);
     }
 }
-*/
