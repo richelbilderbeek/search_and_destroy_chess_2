@@ -7,14 +7,32 @@ pub struct Assets {
 impl Assets {
     ///
     /// ```
-    /// let assets = search_and_destroy_chess_2::assets::Assets::new();
+    /// use search_and_destroy_chess_2::assets::Assets;
+    /// 
+    /// let assets = Assets::new();
     /// assert!(!assets.light_square_texture.is_smooth());
     /// ```
-
     pub fn new() -> Assets {
         Assets{
             dark_square_texture: sfml::graphics::Texture::from_file("assets/d.png").unwrap(),
             light_square_texture: sfml::graphics::Texture::from_file("assets/l.png").unwrap(),
+        }
+    }
+    ///
+    /// ```
+    /// use search_and_destroy_chess_2::assets::Assets;
+    /// use search_and_destroy_chess_2::color::Color;
+    /// 
+    /// let assets = Assets::new();
+    /// let dark_square_texture = assets.get_square(Color::Black);
+    /// let light_square_texture = assets.get_square(Color::White);
+    /// ```
+    pub fn get_square(&self, color: crate::color::Color) ->  &sfml::SfBox<sfml::graphics::Texture> {
+        use crate::color::Color;
+
+        match color {
+            Color::Black => &self.dark_square_texture,
+            Color::White => &self.light_square_texture,
         }
     }
 }

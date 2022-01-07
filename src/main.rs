@@ -56,18 +56,16 @@ impl GameView {
     pub fn run(&self) {
         self.window.borrow_mut().set_vertical_sync_enabled(true);
 
-        // Load the sounds used in the game
         let ball_soundbuffer: sfml::SfBox<SoundBuffer> = SoundBuffer::from_file("assets/examples_resources_ball.wav").unwrap();
         let mut ball_sound: sfml::audio::Sound = Sound::with_buffer(&ball_soundbuffer);
 
-        let mut dark_square_sprite = sfml::graphics::Sprite::with_texture(&self.assets.dark_square_texture);
+        let mut dark_square_sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_square(crate::color::Color::Black));
         dark_square_sprite.set_origin(Vector2f::new(28_f32, 28_f32));
         dark_square_sprite.set_position(Vector2f::new(0_f32, 0_f32));
 
-        let mut light_square_sprite = sfml::graphics::Sprite::with_texture(&self.assets.light_square_texture);
+        let mut light_square_sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_square(crate::color::Color::White));
         light_square_sprite.set_origin(Vector2f::new(28_f32, 28_f32));
         light_square_sprite.set_position(Vector2f::new(320_f32, 320_f32));
-
 
         let mut up = false;
         let mut down = false;
