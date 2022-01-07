@@ -19,6 +19,9 @@ use sfml::{
     window::{ContextSettings, Event, Key, Style},
 };
 
+use crate::board::get_square_color_from_indices;
+
+
 #[allow(unused_imports)]
 use std::{env, f32::consts::PI};
 
@@ -94,11 +97,28 @@ impl GameView {
             assert!(up == true || up == false);
             assert!(down == true || down == false);
 
-            self.window.borrow_mut().draw(&dark_square_sprite);
-            self.window.borrow_mut().draw(&light_square_sprite);
+            self.draw_pieces();
+
+            //self.window.borrow_mut().draw(&dark_square_sprite);
+            //self.window.borrow_mut().draw(&light_square_sprite);
 
             // Display things on screen
             self.window.borrow_mut().display();
+        }
+    }
+    pub fn draw_pieces(&self) {
+
+        let square_width = self.game_width as f32 / 8.0;
+        let square_height = self.game_height as f32 / 8.0;
+        for file_index in 0..8 {
+            for rank_index in 0..8 {
+                let x = rank_index as f32 * square_width;
+                let y = file_index as f32 * square_height;
+                let color = get_square_color_from_indices(file_index, rank_index);
+                let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_square(color));
+                sprite.set_position(Vector2f::new(x, y));
+                self.window.borrow_mut().draw(&sprite);
+            }
         }
     }
 }
@@ -162,21 +182,6 @@ fn main() {
             clear([0.0, 0.0, 0.0, 1.0], g);
 
             //Draw the squares
-            for file_index in 0..8 {
-                for rank_index in 0..8 {
-                    let x = rank_index as f64 * square_height;
-                    let y = file_index as f64 * square_width;
-                    let color = get_square_color_from_indices(file_index, rank_index);
-                    image(
-                        match color {
-                            crate::color::Color::Black => &dark_square,
-                            crate::color::Color::White => &light_square,
-                        },
-                        c.transform.trans(x, y).scale(scale_x, scale_y),
-                        g,
-                    );
-                }
-            }
 
             //Draw the pieces
             for file_index in 0..8 {

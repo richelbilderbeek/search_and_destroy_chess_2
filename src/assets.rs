@@ -5,7 +5,8 @@ pub struct Assets {
 }
 
 impl Assets {
-    ///
+    ///Create a new collection of assets
+    /// 
     /// ```
     /// use search_and_destroy_chess_2::assets::Assets;
     /// 
@@ -18,6 +19,7 @@ impl Assets {
             light_square_texture: sfml::graphics::Texture::from_file("assets/l.png").unwrap(),
         }
     }
+    /// Get the texture of a square
     ///
     /// ```
     /// use search_and_destroy_chess_2::assets::Assets;
