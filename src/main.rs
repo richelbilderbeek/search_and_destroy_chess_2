@@ -97,10 +97,8 @@ impl GameView {
             assert!(up == true || up == false);
             assert!(down == true || down == false);
 
+            self.draw_squares();
             self.draw_pieces();
-
-            //self.window.borrow_mut().draw(&dark_square_sprite);
-            //self.window.borrow_mut().draw(&light_square_sprite);
 
             // Display things on screen
             self.window.borrow_mut().display();
@@ -108,8 +106,37 @@ impl GameView {
     }
     pub fn draw_pieces(&self) {
 
+        let image_width = 128; // pixels
+        let image_height = 128; // pixels
         let square_width = self.game_width as f32 / 8.0;
         let square_height = self.game_height as f32 / 8.0;
+        let scale_x = square_width / image_width as f32;
+        let scale_y = square_height / image_height as f32;
+        for file_index in 0..8 {
+            for rank_index in 0..8 {
+                let x = rank_index as f32 * square_width;
+                let y = file_index as f32 * square_height;
+                let piece_option = self.board.get_piece_from_indices(file_index, rank_index);
+                match piece_option {
+                    Some(piece) => {
+                        let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_piece(piece));
+                        sprite.set_position(Vector2f::new(x, y));
+                        sprite.set_scale(Vector2f::new(scale_x, scale_y));
+                        self.window.borrow_mut().draw(&sprite);
+                    },
+                    None => {},
+                }
+            }
+        }
+    }
+    pub fn draw_squares(&self) {
+
+        let image_width = 128; // pixels
+        let image_height = 128; // pixels
+        let square_width = self.game_width as f32 / 8.0;
+        let square_height = self.game_height as f32 / 8.0;
+        let scale_x = square_width / image_width as f32;
+        let scale_y = square_height / image_height as f32;
         for file_index in 0..8 {
             for rank_index in 0..8 {
                 let x = rank_index as f32 * square_width;
@@ -117,6 +144,7 @@ impl GameView {
                 let color = get_square_color_from_indices(file_index, rank_index);
                 let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_square(color));
                 sprite.set_position(Vector2f::new(x, y));
+                sprite.set_scale(Vector2f::new(scale_x, scale_y));
                 self.window.borrow_mut().draw(&sprite);
             }
         }

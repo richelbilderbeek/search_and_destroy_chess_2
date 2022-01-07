@@ -1,7 +1,8 @@
 #[allow(dead_code)]
 pub struct Assets {
-    pub dark_square_texture: sfml::SfBox<sfml::graphics::Texture>,
-    pub light_square_texture: sfml::SfBox<sfml::graphics::Texture>,
+    pub black_bishop: sfml::SfBox<sfml::graphics::Texture>,
+    pub dark_square: sfml::SfBox<sfml::graphics::Texture>,
+    pub light_square: sfml::SfBox<sfml::graphics::Texture>,
 }
 
 impl Assets {
@@ -15,8 +16,9 @@ impl Assets {
     /// ```
     pub fn new() -> Assets {
         Assets{
-            dark_square_texture: sfml::graphics::Texture::from_file("assets/d.png").unwrap(),
-            light_square_texture: sfml::graphics::Texture::from_file("assets/l.png").unwrap(),
+            black_bishop: sfml::graphics::Texture::from_file("assets/bb.png").unwrap(),
+            dark_square: sfml::graphics::Texture::from_file("assets/d.png").unwrap(),
+            light_square: sfml::graphics::Texture::from_file("assets/l.png").unwrap(),
         }
     }
     /// Get the texture of a square
@@ -26,15 +28,28 @@ impl Assets {
     /// use search_and_destroy_chess_2::color::Color;
     /// 
     /// let assets = Assets::new();
-    /// let dark_square_texture = assets.get_square(Color::Black);
-    /// let light_square_texture = assets.get_square(Color::White);
+    /// let dark_square = assets.get_square(Color::Black);
+    /// let light_square = assets.get_square(Color::White);
+    /// ```
+    pub fn get_piece(&self, color: crate::piece::Piece) ->  &sfml::SfBox<sfml::graphics::Texture> {
+        &self.black_bishop
+    }
+    /// Get the texture of a square
+    ///
+    /// ```
+    /// use search_and_destroy_chess_2::assets::Assets;
+    /// use search_and_destroy_chess_2::color::Color;
+    /// 
+    /// let assets = Assets::new();
+    /// let dark_square = assets.get_square(Color::Black);
+    /// let light_square = assets.get_square(Color::White);
     /// ```
     pub fn get_square(&self, color: crate::color::Color) ->  &sfml::SfBox<sfml::graphics::Texture> {
         use crate::color::Color;
 
         match color {
-            Color::Black => &self.dark_square_texture,
-            Color::White => &self.light_square_texture,
+            Color::Black => &self.dark_square,
+            Color::White => &self.light_square,
         }
     }
 }
