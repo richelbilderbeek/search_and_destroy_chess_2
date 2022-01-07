@@ -60,8 +60,7 @@ impl GameView {
         let ball_soundbuffer: sfml::SfBox<SoundBuffer> = SoundBuffer::from_file("assets/examples_resources_ball.wav").unwrap();
         let mut ball_sound: sfml::audio::Sound = Sound::with_buffer(&ball_soundbuffer);
 
-        let dark_square_texture = sfml::graphics::Texture::from_file("assets/d.png").unwrap();
-        let mut dark_square_sprite = sfml::graphics::Sprite::with_texture(&dark_square_texture);
+        let mut dark_square_sprite = sfml::graphics::Sprite::with_texture(&self.assets.dark_square_texture);
         dark_square_sprite.set_origin(Vector2f::new(28_f32, 28_f32));
         dark_square_sprite.set_position(Vector2f::new(0_f32, 0_f32));
 

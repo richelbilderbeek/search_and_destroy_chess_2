@@ -1,5 +1,6 @@
 #[allow(dead_code)]
 pub struct Assets {
+    pub dark_square_texture: sfml::SfBox<sfml::graphics::Texture>,
     pub light_square_texture: sfml::SfBox<sfml::graphics::Texture>,
 }
 
@@ -12,6 +13,7 @@ impl Assets {
 
     pub fn new() -> Assets {
         Assets{
+            dark_square_texture: sfml::graphics::Texture::from_file("assets/d.png").unwrap(),
             light_square_texture: sfml::graphics::Texture::from_file("assets/l.png").unwrap(),
         }
     }
