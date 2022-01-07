@@ -14,7 +14,6 @@ use sfml::{
         RenderTarget,
         Transformable,
     },
-    window::{ContextSettings, Event, Key, Style},
 };
 
 use crate::board::get_square_color_from_indices;
@@ -40,8 +39,8 @@ impl GameView {
             sfml::graphics::RenderWindow::new(
                 (game_width, game_height),
                 "Search And Destroy Chess 2",
-                Style::CLOSE,
-                &ContextSettings::default(),
+                sfml::window::Style::CLOSE,
+                &sfml::window::ContextSettings::default(),
             )
         );
         GameView {
@@ -65,17 +64,17 @@ impl GameView {
         loop {
             while let Some(event) = &self.window.borrow_mut().poll_event() {
                 match event {
-                    Event::Closed
-                    | Event::KeyPressed {
-                        code: Key::ESCAPE, ..
+                    sfml::window::Event::Closed
+                    | sfml::window::Event::KeyPressed {
+                        code: sfml::window::Key::ESCAPE, ..
                     } => return,
-                    Event::KeyPressed { code: Key::UP, .. } => {
+                    sfml::window::Event::KeyPressed { code: sfml::window::Key::UP, .. } => {
                         ball_sound.play();
                         up = true
                     },
-                    Event::KeyReleased { code: Key::UP, .. } => up = false,
-                    Event::KeyPressed { code: Key::DOWN, .. } => down = true,
-                    Event::KeyReleased { code: Key::DOWN, .. } => down = false,
+                    sfml::window::Event::KeyReleased { code: sfml::window::Key::UP, .. } => up = false,
+                    sfml::window::Event::KeyPressed { code: sfml::window::Key::DOWN, .. } => down = true,
+                    sfml::window::Event::KeyReleased { code: sfml::window::Key::DOWN, .. } => down = false,
                     _ => {}
                 }
             }
