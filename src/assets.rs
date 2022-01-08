@@ -1,5 +1,6 @@
 #[allow(dead_code)]
 pub struct Assets {
+    bounce_sound_buffer: sfml::SfBox<sfml::audio::SoundBuffer>,
     pub black_bishop: sfml::SfBox<sfml::graphics::Texture>,
     pub black_king: sfml::SfBox<sfml::graphics::Texture>,
     pub black_knight: sfml::SfBox<sfml::graphics::Texture>,
@@ -34,6 +35,7 @@ impl Assets {
     /// ```
     pub fn new() -> Assets {
         Assets{
+            bounce_sound_buffer: sfml::audio::SoundBuffer::from_file("assets/examples_resources_ball.wav").unwrap(),
             black_bishop: sfml::graphics::Texture::from_file("assets/bb.png").unwrap(),
             black_king: sfml::graphics::Texture::from_file("assets/kb.png").unwrap(),
             black_knight: sfml::graphics::Texture::from_file("assets/nb.png").unwrap(),
@@ -52,6 +54,15 @@ impl Assets {
             white_rook: sfml::graphics::Texture::from_file("assets/rw.png").unwrap(),
         }
     }
+
+    /// Get the sound buffer for the bounce sound
+    /// ```
+    /// use search_and_destroy_chess_2::assets::Assets;
+    /// 
+    /// let assets = Assets::new();
+    /// let bounce_sound_buffer = assets.get_bounce_sound_buffer();
+    /// ```
+    pub fn get_bounce_sound_buffer(&self) -> &sfml::SfBox<sfml::audio::SoundBuffer> { &self.bounce_sound_buffer }
 
     /// Get the font
     /// ```
