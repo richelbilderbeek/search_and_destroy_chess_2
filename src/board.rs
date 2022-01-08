@@ -14,6 +14,7 @@ use crate::square::Square;
 #[allow(dead_code)]
 pub struct Board {
     pieces: Vec<Piece>,
+    pieces_again: [[Option<Piece>; 8]; 8],
 }
 
 impl Board {
@@ -30,8 +31,15 @@ impl Board {
     /// ```
     #[allow(dead_code)]
     pub fn new() -> Board {
+
+        let mut pieces_again: [[Option<crate::piece::Piece>; 8]; 8] = [
+          [None; 8]; 8
+        ];
+        pieces_again[0][0] = Some(crate::piece::create_white_rook("a1"));
+
         Board {
             pieces: create_starting_pieces(),
+            pieces_again: pieces_again,
         }
     }
 
