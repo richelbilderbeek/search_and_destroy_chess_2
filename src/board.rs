@@ -1,5 +1,4 @@
 use crate::color::Color;
-use crate::piece::create_starting_pieces;
 use crate::piece::Piece;
 
 #[allow(unused_imports)]
@@ -13,8 +12,7 @@ use crate::square::Square;
 /// the possibility of en-passant or castling.
 #[allow(dead_code)]
 pub struct Board {
-    pieces: Vec<Piece>,
-    pieces_again: [[Option<Piece>; 8]; 8],
+    ranks: Vec<crate::rank::Rank>,
 }
 
 impl Board {
@@ -32,14 +30,8 @@ impl Board {
     #[allow(dead_code)]
     pub fn new() -> Board {
 
-        let mut pieces_again: [[Option<crate::piece::Piece>; 8]; 8] = [
-          [None; 8]; 8
-        ];
-        pieces_again[0][0] = Some(crate::piece::create_white_rook("a1"));
-
         Board {
-            pieces: create_starting_pieces(),
-            pieces_again: pieces_again,
+            ranks: cargo::rank::create_starting_ranks(),
         }
     }
 
@@ -55,26 +47,42 @@ impl Board {
     /// ```
     #[allow(dead_code)]
     pub fn get_piece_from_indices(&self, rank: u8, file: u8) -> Option<Piece> {
+        /*
         for piece in &self.pieces {
             if get_nth_rank(&piece.get_position()) == rank.into()
               && get_nth_file(&piece.get_position()) == file.into() {
                 return Some(piece.clone())
             }
         }
+        */
         None
     }
-    pub fn get_pieces(&self) -> &Vec<Piece> {
-        &self.pieces
+    /// Get the ranks of a chessboard
+    /// 
+    /// ```
+    /// use search_and_destroy_chess_2::board::Board;
+    /// 
+    /// let board = Board::new();
+    /// let ranks = board.get_ranks();
+    /// assert_eq!(ranks.len(), 8);
+    /// ```
+    pub fn get_ranks(&self) -> &Vec<crate::rank::Rank> {
+        &self.ranks
     }
 }
 
 pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
-  let pieces = board.get_pieces();
+  let ranks = board.get_ranks();
   let mut invisible_squares = vec![];
-  for piece in pieces {
-        if piece.get_color() == color {
-            invisible_squares.push(piece.get_position());
+  for rank in ranks {
+      for file_index in 0..8 {
+        if let Some(piece) = crate::rank::get_piece_from_file_index(rank, file_index) {
+            if piece.get_color() == color {
+                
+                invisible_squares.push(crate::square::create_coordinat_from_indices(file_index, rank_index));
+            }
         }
+      }
   }
   invisible_squares
 }
@@ -86,7 +94,7 @@ pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
 /// use search_and_destroy_chess_2::color::Color;
 /// use search_and_destroy_chess_2::square::Square;
 /// 
-/// let square = Square::new("d1");
+/// let square = Square::new();
 /// let color = get_square_color_from_square(&square);
 /// assert_eq!(color, Color::White);
 /// ```
@@ -105,7 +113,7 @@ pub fn get_square_color_from_square(square: &Square) -> Color {
 /// use search_and_destroy_chess_2::color::Color;
 /// use search_and_destroy_chess_2::square::Square;
 /// 
-/// let square = Square::new("d1");
+/// let square = Square::new();
 /// let color = get_square_color_from_indices(3, 0);
 /// assert_eq!(color, Color::White);
 /// ```
@@ -129,7 +137,7 @@ pub fn get_square_color_from_indices(file_index: u32, rank_index: u32) -> Color 
 /// use search_and_destroy_chess_2::square::Square;
 /// 
 /// let board = Board::new();
-/// assert_eq!(true, is_pawn(&board, Square::new("a2")));
+/// assert_eq!(true, is_pawn(&board, Square::new()));
 /// assert_eq!(false, is_pawn(&board, Square::new("a1")));
 /// ```
 #[allow(dead_code)]

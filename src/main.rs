@@ -4,6 +4,7 @@ pub mod color;
 pub mod game_view;
 pub mod piece;
 pub mod piece_type;
+pub mod rank;
 pub mod square;
 pub mod scribble;
 

@@ -29,7 +29,7 @@ impl Assets {
     /// 
     /// let assets = Assets::new();
     /// let dark_square = assets.get_square(Color::Black);
-    /// let black_bishop = assets.get_piece(create_black_bishop("a1")); // Note that the position is irrelevant
+    /// let black_bishop = assets.get_piece(create_black_bishop());
     //// assert_eq!(assets.get_image_height(), 128);
     //// assert_eq!(assets.get_image_width(), 128);
     /// ```
@@ -100,7 +100,7 @@ impl Assets {
     /// use search_and_destroy_chess_2::piece::*;
     /// 
     /// let assets = Assets::new();
-    /// let black_bishop = assets.get_piece(create_black_bishop("c8"));
+    /// let black_bishop = assets.get_piece(create_black_bishop());
     /// ```
     pub fn get_piece(&self, piece: crate::piece::Piece) ->  &sfml::SfBox<sfml::graphics::Texture> {
         match piece.get_color() {

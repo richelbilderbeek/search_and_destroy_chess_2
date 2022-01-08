@@ -8,7 +8,7 @@ impl Square {
     /// ```
     /// use search_and_destroy_chess_2::square::Square;
     /// 
-    /// let square = Square::new("d1");
+    /// let square = Square::new();
     /// let square_again = square.clone();
     /// assert_eq!(square, square_again);
     /// ```
@@ -21,8 +21,8 @@ impl Square {
     /// ```
     /// use search_and_destroy_chess_2::square::Square;
     /// 
-    /// let square = Square::new("d1");
-    /// let square_again = Square::new("d1");
+    /// let square = Square::new();
+    /// let square_again = Square::new();
     /// assert_eq!(square, square_again);
     /// ```
     pub fn new(coordinat_str: &str) -> Square {
@@ -46,8 +46,8 @@ impl Square {
     /// ```
     /// use search_and_destroy_chess_2::square::Square;
     /// 
-    /// let square = Square::new("d1");
-    /// assert_eq!(square.get(), "d1");
+    /// let square = Square::new();
+    /// assert_eq!(square.get(), );
     /// ```
     pub fn get(&self) -> String {
         self.coordinat.clone()
@@ -187,7 +187,7 @@ mod tests {
 
     #[test]
     fn create_square() {
-        let str = "a2";
+        let str = ;
         let square = Square::new(str);
         assert_eq!(str, square.coordinat);
     }
@@ -217,16 +217,16 @@ mod tests {
     fn get_nth_file() {
         // the letter compared to 'a'
         assert_eq!(super::get_nth_file(&Square::new("a1")), 0);
-        assert_eq!(super::get_nth_file(&Square::new("a2")), 0);
-        assert_eq!(super::get_nth_file(&Square::new("b1")), 1);
+        assert_eq!(super::get_nth_file(&Square::new("b3")), 1);
+        assert_eq!(super::get_nth_file(&Square::new("c5")), 2);
     }
 
     #[test]
     fn get_nth_rank() {
         // the number minus 1
         assert_eq!(super::get_nth_rank(&Square::new("a1")), 0);
-        assert_eq!(super::get_nth_rank(&Square::new("b1")), 0);
-        assert_eq!(super::get_nth_rank(&Square::new("a2")), 1);
+        assert_eq!(super::get_nth_rank(&Square::new("b3")), 2);
+        assert_eq!(super::get_nth_rank(&Square::new("c5")), 4);
     }
 
     #[test]
