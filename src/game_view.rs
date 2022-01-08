@@ -34,9 +34,10 @@ impl GameView {
         }
     }
 
+    /// Draw the screen
     pub fn draw(&self) {
         // Clear the window
-        self.window.borrow_mut().clear(sfml::graphics::Color::rgb(50, 200, 50));
+        //self.window.borrow_mut().clear(sfml::graphics::Color::rgb(50, 200, 50));
 
 
         self.draw_squares();
@@ -47,7 +48,7 @@ impl GameView {
         // Display things on screen
         self.window.borrow_mut().display();
     }
-    pub fn draw_fog_of_war(&self) {
+    fn draw_fog_of_war(&self) {
         use crate::board::get_invisible_squares;
         use crate::square::get_nth_file;
         use crate::square::get_nth_rank;
@@ -70,7 +71,7 @@ impl GameView {
             self.window.borrow_mut().draw(&sprite);
         }
     }
-    pub fn draw_pieces(&self) {
+    fn draw_pieces(&self) {
 
         let square_width = self.game_width as f32 / 8.0;
         let square_height = self.game_height as f32 / 8.0;
@@ -91,7 +92,7 @@ impl GameView {
             }
         }
     }
-    pub fn draw_square_coordinats(&self) {
+    fn draw_square_coordinats(&self) {
         let scale_x = get_scale_x(self);
         let scale_y = get_scale_y(self);
         let square_width = self.game_width as f32 / 8.0;
@@ -111,7 +112,7 @@ impl GameView {
 
         }
     }
-    pub fn draw_squares(&self) {
+    fn draw_squares(&self) {
 
         let square_width = self.game_width as f32 / 8.0;
         let square_height = self.game_height as f32 / 8.0;
