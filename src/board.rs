@@ -31,7 +31,7 @@ impl Board {
     pub fn new() -> Board {
 
         Board {
-            ranks: cargo::rank::create_starting_ranks(),
+            ranks: crate::rank::create_starting_ranks(),
         }
     }
 
@@ -73,13 +73,17 @@ impl Board {
 
 pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
   let ranks = board.get_ranks();
-  let mut invisible_squares = vec![];
+  let mut invisible_squares: Vec<Square> = vec![];
   for rank in ranks {
       for file_index in 0..8 {
         if let Some(piece) = crate::rank::get_piece_from_file_index(rank, file_index) {
             if piece.get_color() == color {
                 
-                invisible_squares.push(crate::square::create_coordinat_from_indices(file_index, rank_index));
+                invisible_squares.push(
+                    crate::square::Square::new(
+                        &crate::square::create_coordinat_from_indices(file_index as u8, 1 as u8)
+                    )
+                );
             }
         }
       }

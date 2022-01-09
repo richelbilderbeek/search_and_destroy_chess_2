@@ -187,7 +187,7 @@ mod tests {
 
     #[test]
     fn create_square() {
-        let str = ;
+        let str = "a2";
         let square = Square::new(str);
         assert_eq!(str, square.coordinat);
     }

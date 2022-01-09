@@ -59,10 +59,10 @@ impl Rank {
     pub fn get(&self) -> &Vec<Option<Piece>> { &self.pieces }
 }
 
-pub fn get_piece_from_file_index(rank: &Rank, file_index: usize) -> Option<Piece> {
+pub fn get_piece_from_file_index(rank: &Rank, file_index: usize) -> &Option<Piece> {
     assert!(file_index >= 0);
     assert!(file_index <= 7);
-    rank.get()[file_index]
+    &rank.get()[file_index]
 }
 
 pub fn create_pieces_from_rank_index(rank_index: u8) -> Vec<Option<Piece>> {
@@ -93,7 +93,7 @@ pub fn create_pieces_from_rank_index(rank_index: u8) -> Vec<Option<Piece>> {
             Some(create_black_knight()),
             Some(create_black_rook()),
         ],
-        _ => vec1[None; 8],
+        _ => vec![None; 8],
     }
 }
 
