@@ -46,16 +46,10 @@ impl Board {
     /// assert_eq!(piece.get_type(), PieceType::Rook);
     /// ```
     #[allow(dead_code)]
-    pub fn get_piece_from_indices(&self, rank: u8, file: u8) -> Option<Piece> {
-        /*
-        for piece in &self.pieces {
-            if get_nth_rank(&piece.get_position()) == rank.into()
-              && get_nth_file(&piece.get_position()) == file.into() {
-                return Some(piece.clone())
-            }
-        }
-        */
-        None
+    pub fn get_piece_from_indices(&self, file_index: usize, rank_index: usize) -> Option<Piece> {
+        assert!(rank_index <= 7);
+        assert!(file_index <= 7);
+        crate::rank::get_piece_from_file_index(&self.ranks[rank_index], file_index)
     }
     /// Get the ranks of a chessboard
     /// 
@@ -146,7 +140,7 @@ pub fn get_square_color_from_indices(file_index: u32, rank_index: u32) -> Color 
 /// ```
 #[allow(dead_code)]
 pub fn is_pawn(board: &Board, square: Square) -> bool {
-    let piece = board.get_piece_from_indices(get_nth_rank(&square) as u8, get_nth_file(&square) as u8).unwrap();
+    let piece = board.get_piece_from_indices(get_nth_rank(&square) as usize, get_nth_file(&square) as usize).unwrap();
     piece.get_type() == PieceType::Pawn
 }
 
