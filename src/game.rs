@@ -1,4 +1,5 @@
 /// A chess game
+#[allow(dead_code)]
 pub struct Game {
     board: crate::board::Board,
     current_player: crate::color::Color,
