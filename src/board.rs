@@ -68,13 +68,14 @@ impl Board {
 
 pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
     let mut invisible_squares: Vec<Square> = vec![];
-    for rank in board.get_ranks() {
+    for rank_index in 1..8 {
+        let rank = &board.get_ranks()[rank_index];
         for file_index in crate::file_index::get_all_file_indices() {
             if let Some(piece) = crate::rank::get_piece(&rank, &file_index) {
                 if piece.get_color() == color {
                 invisible_squares.push(
                     crate::square::Square::new(
-                        &crate::square::create_coordinat_from_indices(&file_index, 1 as u8)
+                        &crate::square::create_coordinat_from_indices(&file_index, rank_index as u8)
                     )
                 );
             }
