@@ -1,3 +1,5 @@
+use crate::file_index::FileIndex;
+
 /// A square on a chess board
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Square {
@@ -8,7 +10,7 @@ impl Square {
     /// ```
     /// use search_and_destroy_chess_2::square::Square;
     /// 
-    /// let square = Square::new();
+    /// let square = Square::new("c5");
     /// let square_again = square.clone();
     /// assert_eq!(square, square_again);
     /// ```
@@ -21,8 +23,8 @@ impl Square {
     /// ```
     /// use search_and_destroy_chess_2::square::Square;
     /// 
-    /// let square = Square::new();
-    /// let square_again = Square::new();
+    /// let square = Square::new("b3");
+    /// let square_again = Square::new("b3");
     /// assert_eq!(square, square_again);
     /// ```
     pub fn new(coordinat_str: &str) -> Square {
@@ -46,8 +48,8 @@ impl Square {
     /// ```
     /// use search_and_destroy_chess_2::square::Square;
     /// 
-    /// let square = Square::new();
-    /// assert_eq!(square.get(), );
+    /// let square = Square::new("b3");
+    /// assert_eq!(square.get(), "b3");
     /// ```
     pub fn get(&self) -> String {
         self.coordinat.clone()
@@ -70,24 +72,27 @@ impl Square {
     /// let square = Square::new("f7");
     /// assert_eq!(square.get_rank(), 7);
     /// ```
-    pub fn get_rank(&self) -> u32 {
+    pub fn get_rank(&self) -> usize {
         let copy: String = self.coordinat.clone();
         let slice = &copy[1..2];
         let first_str = String::from(slice);
-        let rank: u32 = first_str.parse().unwrap();
+        let rank: usize = first_str.parse().unwrap();
         rank
     }
 }
 
 /// Create a coordinat string from two indices
 /// ```
-/// assert_eq!(create_coordinat_from_indices(0, 0), String::from("a1"));
-/// assert_eq!(create_coordinat_from_indices(7, 0), String::from("h1"));
-/// assert_eq!(create_coordinat_from_indices(7, 4), String::from("h4"));
-/// assert_eq!(create_coordinat_from_indices(7, 7), String::from("h7"));
+/// use search_and_destroy_chess_2::file_index::FileIndex;
+/// use search_and_destroy_chess_2::square::create_coordinat_from_indices;
+/// 
+/// assert_eq!(create_coordinat_from_indices(&FileIndex::new(0), 0), String::from("a1"));
+/// assert_eq!(create_coordinat_from_indices(&FileIndex::new(7), 0), String::from("h1"));
+/// assert_eq!(create_coordinat_from_indices(&FileIndex::new(7), 3), String::from("h4"));
+/// assert_eq!(create_coordinat_from_indices(&FileIndex::new(7), 7), String::from("h8"));
 /// ```
-pub fn create_coordinat_from_indices(file_index: u8, rank_index: u8) -> String {
-    let file_str = match file_index {
+pub fn create_coordinat_from_indices(file_index: &FileIndex, rank_index: u8) -> String {
+    let file_str = match file_index.get() {
         0 => String::from("a"),
         1 => String::from("b"),
         2 => String::from("c"),
@@ -116,15 +121,16 @@ pub fn create_coordinat_from_indices(file_index: u8, rank_index: u8) -> String {
 /// Get all the 64 coordinats on a chessboard
 /// ```
 /// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_all_coordinats;
 /// 
-/// let coordinats = get_all_coordinats()
+/// let coordinats = get_all_coordinats();
 /// assert_eq!(coordinats.len(), 64);
 /// ```
 pub fn get_all_coordinats() -> Vec<String> {
     let mut squares: Vec<String> = Vec::new();
-    for file_index in 0..8 {
+    for file_index in crate::file_index::get_all_file_indices() {
         for rank_index in 0..8 {
-            squares.push(create_coordinat_from_indices(file_index, rank_index));
+            squares.push(create_coordinat_from_indices(&file_index, rank_index));
         }
     }
     squares
@@ -133,13 +139,13 @@ pub fn get_all_coordinats() -> Vec<String> {
 /// Get all the 64 squares on a chessboard
 /// ```
 /// use search_and_destroy_chess_2::square::Square;
-/// use search_and_destroy_chess_2::square::get_nth_rank;
+/// use search_and_destroy_chess_2::square::get_all_squares;
 /// 
-/// let squares = get_all_squares()
+/// let squares = get_all_squares();
 /// assert_eq!(squares.len(), 64);
 /// ```
 pub fn get_all_squares() -> Vec<Square> {
-    let coordinats = get_all_coordinats();
+    let coordinats = crate::square::get_all_coordinats();
     let mut squares: Vec<Square> = Vec::new();
     for coordinat in coordinats {
         squares.push(Square::new(&coordinat));
@@ -157,13 +163,13 @@ pub fn get_all_squares() -> Vec<Square> {
 /// use search_and_destroy_chess_2::square::get_nth_file;
 /// 
 /// let square = Square::new("a1");
-/// assert_eq!(get_nth_file(&square), 0);
+/// assert_eq!(get_nth_file(&square).get(), 0);
 /// let square = Square::new("h1");
-/// assert_eq!(get_nth_file(&square), 7);
+/// assert_eq!(get_nth_file(&square).get(), 7);
 /// ```
-pub fn get_nth_file(square: &Square) -> u32 {
-let char_vec: Vec<char> = square.get_file().chars().collect();
-(char_vec[0] as i32 - 'a' as i32) as u32
+pub fn get_nth_file(square: &Square) -> FileIndex {
+    let char_vec: Vec<char> = square.get_file().chars().collect();
+    crate::file_index::FileIndex::new((char_vec[0] as i32 - 'a' as i32) as usize)
 }
 
 /// Get the nth rank of the Square, e.g. '0' for the first rank
@@ -177,8 +183,8 @@ let char_vec: Vec<char> = square.get_file().chars().collect();
 /// let square = Square::new("a8");
 /// assert_eq!(get_nth_rank(&square), 7);
 /// ```
-pub fn get_nth_rank(square: &Square) -> u32 {
-    square.get_rank() - 1_u32
+pub fn get_nth_rank(square: &Square) -> usize {
+    square.get_rank() - 1_usize
 }
 
 #[cfg(test)]
@@ -214,19 +220,19 @@ mod tests {
     }
 
     #[test]
-    fn get_nth_file() {
+    fn test_get_nth_file() {
         // the letter compared to 'a'
-        assert_eq!(super::get_nth_file(&Square::new("a1")), 0);
-        assert_eq!(super::get_nth_file(&Square::new("b3")), 1);
-        assert_eq!(super::get_nth_file(&Square::new("c5")), 2);
+        assert_eq!(get_nth_file(&Square::new("a1")).get(), 0);
+        assert_eq!(get_nth_file(&Square::new("b3")).get(), 1);
+        assert_eq!(get_nth_file(&Square::new("c5")).get(), 2);
     }
 
     #[test]
-    fn get_nth_rank() {
+    fn test_get_nth_rank() {
         // the number minus 1
-        assert_eq!(super::get_nth_rank(&Square::new("a1")), 0);
-        assert_eq!(super::get_nth_rank(&Square::new("b3")), 2);
-        assert_eq!(super::get_nth_rank(&Square::new("c5")), 4);
+        assert_eq!(get_nth_rank(&Square::new("a1")), 0);
+        assert_eq!(get_nth_rank(&Square::new("b3")), 2);
+        assert_eq!(get_nth_rank(&Square::new("c5")), 4);
     }
 
     #[test]

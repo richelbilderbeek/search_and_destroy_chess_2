@@ -100,7 +100,7 @@ pub fn create_black_king() -> Piece {
 /// use search_and_destroy_chess_2::piece_type::PieceType;
 /// use search_and_destroy_chess_2::square::Square;
 /// 
-/// let piece = create_black_knight("b8");
+/// let piece = create_black_knight();
 /// assert_eq!(piece.get_color(), Color::Black);
 /// assert_eq!(piece.get_type(), PieceType::Knight);
 /// ```

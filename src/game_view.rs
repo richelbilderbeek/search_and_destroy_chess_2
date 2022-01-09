@@ -58,7 +58,7 @@ impl GameView {
         for square in squares {
             let file_index = get_nth_file(&square);
             let rank_index = get_nth_rank(&square);
-            let x = file_index as f32 * get_square_width(&self) as f32;
+            let x = file_index.get() as f32 * get_square_width(&self) as f32;
             // files go up, 'file_index + 1' as tiles are draw from top
             let y = self.game_height as f32 - ((rank_index + 1) as f32 * get_square_height(&self) as f32);
             let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_question_mark());
@@ -69,12 +69,12 @@ impl GameView {
     }
     /// Draw the chess pieces
     fn draw_pieces(&self) {
-        for file_index in 0..8 {
+        for file_index in crate::file_index::get_all_file_indices() {
             for rank_index in 0..8 {
-                let x = file_index as f32 * get_square_width(&self) as f32;
+                let x = file_index.get() as f32 * get_square_width(&self) as f32;
                 // files go up, 'file_index + 1' as tiles are draw from top
                 let y = self.game_height as f32 - ((rank_index + 1) as f32 * get_square_height(&self) as f32);
-                let piece_option = self.board.get_piece_from_indices(file_index, rank_index);
+                let piece_option = self.board.get_piece_from_indices(&file_index, rank_index);
                 if let Some(piece) = piece_option {
                         let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_piece(piece));
                         sprite.set_position(sfml::system::Vector2f::new(x, y));
@@ -90,7 +90,7 @@ impl GameView {
         for square in squares {
             let file_index = crate::square::get_nth_file(&square);
             let rank_index = crate::square::get_nth_rank(&square);
-            let x = file_index as f32 * get_square_width(&self) as f32;
+            let x = file_index.get() as f32 * get_square_width(&self) as f32;
             // files go up, 'file_index + 1' as tiles are draw from top
             let y = self.game_height as f32 - ((rank_index + 1) as f32 * get_square_height(&self) as f32);
             let coordinat = square.get();
@@ -102,12 +102,12 @@ impl GameView {
         }
     }
     fn draw_squares(&self) {
-        for file_index in 0..8 {
+        for file_index in crate::file_index::get_all_file_indices() {
             for rank_index in 0..8 {
-                let x = file_index as f32 * get_square_width(&self) as f32;
+                let x = file_index.get() as f32 * get_square_width(&self) as f32;
                 // files go up, 'file_index + 1' as tiles are draw from top
                 let y = self.game_height as f32 - ((rank_index + 1) as f32 * get_square_height(&self) as f32);
-                let color = crate::board::get_square_color_from_indices(file_index, rank_index);
+                let color = crate::board::get_square_color_from_indices(&file_index, rank_index);
                 let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_square(color));
                 sprite.set_position(sfml::system::Vector2f::new(x, y));
                 sprite.set_scale(sfml::system::Vector2f::new(get_scale_x(self), get_scale_y(self)));

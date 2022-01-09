@@ -1,4 +1,5 @@
 use crate::piece::Piece;
+use crate::file_index::FileIndex;
 
 /// A rank, a row on a chessboard
 pub struct Rank {
@@ -10,12 +11,15 @@ impl Rank {
     /// Create a rank (i.e. a row) of a chess board
     /// 
     /// ```
-    /// use search_and_destroy_chess_2::board::Rank;
+    /// use search_and_destroy_chess_2::file_index::FileIndex;
     /// use search_and_destroy_chess_2::piece_type::PieceType;
+    /// use search_and_destroy_chess_2::rank::Rank;
+    /// use search_and_destroy_chess_2::rank::create_pieces_from_rank_index;
+    /// use search_and_destroy_chess_2::rank::get_piece;
     /// 
-    /// let rank = Rank::new();
-    /// let piece = rank.get_piece_from_file_index(0);
-    /// assert_eq(piece, None());
+    /// let rank = Rank::new(create_pieces_from_rank_index(3));
+    /// let piece = get_piece(&rank, &FileIndex::new(0));
+    /// assert_eq!(piece, None);
     /// ```
     #[allow(dead_code)]
     pub fn new(pieces: Vec<Option<Piece>>) -> Rank {
@@ -35,7 +39,7 @@ impl Rank {
     /// 
     /// let rank = Rank::new();
     /// let piece = board.get_piece_from_indices(0);
-    /// assert_eq(piece, None());
+    /// assert_eq!(piece, None);
     /// ```
     #[allow(dead_code)]
     pub fn new_from_rank_index(rank_index: u8) -> Rank {
@@ -49,19 +53,21 @@ impl Rank {
 
     /// Get the pieces
     /// ```
-    /// use search_and_destroy_chess_2::board::Rank;
+    /// use search_and_destroy_chess_2::rank::Rank;
+    /// use search_and_destroy_chess_2::rank::create_pieces_from_rank_index;
+    /// use search_and_destroy_chess_2::rank::get_piece;
+    /// use search_and_destroy_chess_2::file_index::FileIndex;
     /// use search_and_destroy_chess_2::piece_type::PieceType;
     /// 
-    /// let rank = Rank::new();
-    /// let piece = board.get_piece_from_indices(0);
-    /// assert_eq(piece, None());
+    /// let rank = Rank::new(create_pieces_from_rank_index(3));
+    /// let piece = get_piece(&rank, &FileIndex::new(0));
+    /// assert_eq!(piece, None);
     /// ```
     pub fn get(&self) -> &Vec<Option<Piece>> { &self.pieces }
 }
 
-pub fn get_piece_from_file_index(rank: &Rank, file_index: usize) -> Option<Piece> {
-    assert!(file_index <= 7);
-    rank.get()[file_index].clone()
+pub fn get_piece(rank: &Rank, file_index: &FileIndex) -> Option<Piece> {
+    rank.get()[file_index.get()].clone()
 }
 
 pub fn create_pieces_from_rank_index(rank_index: u8) -> Vec<Option<Piece>> {

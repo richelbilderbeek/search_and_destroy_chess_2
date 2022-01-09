@@ -2,6 +2,7 @@ use crate::color::Color;
 use crate::piece::Piece;
 
 #[allow(unused_imports)]
+use crate::file_index::FileIndex;
 use crate::piece_type::PieceType;
 use crate::square::get_nth_file;
 use crate::square::get_nth_rank;
@@ -21,10 +22,11 @@ impl Board {
     /// 
     /// ```
     /// use search_and_destroy_chess_2::board::Board;
+    /// use search_and_destroy_chess_2::file_index::FileIndex;
     /// use search_and_destroy_chess_2::piece_type::PieceType;
     /// 
     /// let board = Board::new();
-    /// let piece = board.get_piece_from_indices(0, 0).unwrap();
+    /// let piece = board.get_piece_from_indices(&FileIndex::new(0), 0).unwrap();
     /// assert_eq!(piece.get_type(), PieceType::Rook);
     /// ```
     #[allow(dead_code)]
@@ -39,17 +41,16 @@ impl Board {
     /// 
     /// ```
     /// use search_and_destroy_chess_2::board::Board;
+    /// use search_and_destroy_chess_2::file_index::FileIndex;
     /// use search_and_destroy_chess_2::piece_type::PieceType;
     /// 
     /// let board = Board::new();
-    /// let piece = board.get_piece_from_indices(0, 0).unwrap();
+    /// let piece = board.get_piece_from_indices(&FileIndex::new(0), 0).unwrap();
     /// assert_eq!(piece.get_type(), PieceType::Rook);
     /// ```
     #[allow(dead_code)]
-    pub fn get_piece_from_indices(&self, file_index: usize, rank_index: usize) -> Option<Piece> {
-        assert!(rank_index <= 7);
-        assert!(file_index <= 7);
-        crate::rank::get_piece_from_file_index(&self.ranks[rank_index], file_index)
+    pub fn get_piece_from_indices(&self, file_index: &FileIndex, rank_index: usize) -> Option<Piece> {
+        crate::rank::get_piece(&self.ranks[rank_index], &file_index)
     }
     /// Get the ranks of a chessboard
     /// 
@@ -66,16 +67,14 @@ impl Board {
 }
 
 pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
-  let ranks = board.get_ranks();
-  let mut invisible_squares: Vec<Square> = vec![];
-  for rank in ranks {
-      for file_index in 0..8 {
-        if let Some(piece) = crate::rank::get_piece_from_file_index(rank, file_index) {
-            if piece.get_color() == color {
-                
+    let mut invisible_squares: Vec<Square> = vec![];
+    for rank in board.get_ranks() {
+        for file_index in crate::file_index::get_all_file_indices() {
+            if let Some(piece) = crate::rank::get_piece(&rank, &file_index) {
+                if piece.get_color() == color {
                 invisible_squares.push(
                     crate::square::Square::new(
-                        &crate::square::create_coordinat_from_indices(file_index as u8, 1 as u8)
+                        &crate::square::create_coordinat_from_indices(&file_index, 1 as u8)
                     )
                 );
             }
@@ -92,7 +91,7 @@ pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
 /// use search_and_destroy_chess_2::color::Color;
 /// use search_and_destroy_chess_2::square::Square;
 /// 
-/// let square = Square::new();
+/// let square = Square::new("d1");
 /// let color = get_square_color_from_square(&square);
 /// assert_eq!(color, Color::White);
 /// ```
@@ -100,7 +99,7 @@ pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
 pub fn get_square_color_from_square(square: &Square) -> Color {
     let file_index = get_nth_file(square);
     let rank_index = get_nth_rank(square);
-    get_square_color_from_indices(file_index, rank_index)
+    get_square_color_from_indices(&file_index, rank_index)
 }
 
 /// Get the color of a square, based on its indices,
@@ -109,14 +108,15 @@ pub fn get_square_color_from_square(square: &Square) -> Color {
 /// ```
 /// use search_and_destroy_chess_2::board::get_square_color_from_indices;
 /// use search_and_destroy_chess_2::color::Color;
+/// use search_and_destroy_chess_2::file_index::FileIndex;
 /// use search_and_destroy_chess_2::square::Square;
 /// 
-/// let square = Square::new();
-/// let color = get_square_color_from_indices(3, 0);
+/// let square = Square::new("d1");
+/// let color = get_square_color_from_indices(&FileIndex::new(3), 0);
 /// assert_eq!(color, Color::White);
 /// ```
-pub fn get_square_color_from_indices(file_index: u32, rank_index: u32) -> Color {
-    let file_bit = file_index % 2;
+pub fn get_square_color_from_indices(file_index: &crate::file_index::FileIndex, rank_index: usize) -> Color {
+    let file_bit = file_index.get() % 2;
     let rank_bit = rank_index % 2;
     let bit_int = (rank_bit + file_bit) % 2;
     assert!(bit_int == 0 || bit_int == 1);
@@ -135,13 +135,16 @@ pub fn get_square_color_from_indices(file_index: u32, rank_index: u32) -> Color 
 /// use search_and_destroy_chess_2::square::Square;
 /// 
 /// let board = Board::new();
-/// assert_eq!(true, is_pawn(&board, Square::new()));
+/// assert_eq!(true, is_pawn(&board, Square::new("a2")));
 /// assert_eq!(false, is_pawn(&board, Square::new("a1")));
 /// ```
 #[allow(dead_code)]
 pub fn is_pawn(board: &Board, square: Square) -> bool {
-    let piece = board.get_piece_from_indices(get_nth_rank(&square) as usize, get_nth_file(&square) as usize).unwrap();
-    piece.get_type() == PieceType::Pawn
+    let piece_option = board.get_piece_from_indices(&get_nth_file(&square), get_nth_rank(&square) as usize);
+    match piece_option {
+        Some(piece) => piece.get_type() == PieceType::Pawn,
+        None => false,
+    }
 }
 
 #[cfg(test)]
@@ -155,27 +158,27 @@ mod tests {
         assert_eq!(false, is_pawn(&board, Square::new("a1")));
     }
     #[test]
-    fn get_square_color_from_square() {
+    fn test_get_square_color_from_square() {
         assert_eq!(
-            super::get_square_color_from_square(&Square::new("a1")),
+            get_square_color_from_square(&Square::new("a1")),
             Color::Black
         );
         assert_eq!(
-            super::get_square_color_from_square(&Square::new("b1")),
+            get_square_color_from_square(&Square::new("b1")),
             Color::White
         );
     }
     #[test]
-    fn get_square_color_from_indices() {
-        assert_eq!(super::get_square_color_from_indices(0, 0), Color::Black);
-        assert_eq!(super::get_square_color_from_indices(0, 1), Color::White);
+    fn test_get_square_color_from_indices() {
+        assert_eq!(get_square_color_from_indices(&FileIndex::new(0), 0), Color::Black);
+        assert_eq!(get_square_color_from_indices(&FileIndex::new(0), 1), Color::White);
     }
     #[test]
     fn get_piece_from_indices() {
         let board = Board::new();
-        assert_eq!(board.get_piece_from_indices(0, 0).unwrap().get_color(), Color::White);
-        assert_eq!(board.get_piece_from_indices(0, 0).unwrap().get_type(), PieceType::Rook);
-        assert_eq!(board.get_piece_from_indices(1, 1).unwrap().get_color(), Color::White);
-        assert_eq!(board.get_piece_from_indices(1, 1).unwrap().get_type(), PieceType::Pawn);
+        assert_eq!(board.get_piece_from_indices(&FileIndex::new(0), 0).unwrap().get_color(), Color::White);
+        assert_eq!(board.get_piece_from_indices(&FileIndex::new(0), 0).unwrap().get_type(), PieceType::Rook);
+        assert_eq!(board.get_piece_from_indices(&FileIndex::new(1), 1).unwrap().get_color(), Color::White);
+        assert_eq!(board.get_piece_from_indices(&FileIndex::new(1), 1).unwrap().get_type(), PieceType::Pawn);
     }
 }
