@@ -90,11 +90,15 @@ impl GameView {
     }
     /// Draw the selector: cursor, selected 'from' square, selected 'to' square
     fn draw_selector(&self) {
-        let selector = self.game.get_selector();
-        let cursor_options = selector.get_cursor();
-        if let Some(cursor) = cursor_options {
-            let file_index = crate::square::get_nth_file(&cursor);
-            let rank_index = crate::square::get_nth_rank(&cursor);
+        self.draw_square(self.game.get_selector().get_cursor());
+        self.draw_square(self.game.get_selector().get_from());
+        self.draw_square(self.game.get_selector().get_to());
+    }
+    /// Draw the selector: cursor, selected 'from' square, selected 'to' square
+    fn draw_square(&self, square_option: Option<crate::square::Square>) {
+        if let Some(square) = square_option {
+            let file_index = crate::square::get_nth_file(&square);
+            let rank_index = crate::square::get_nth_rank(&square);
             let x = file_index.get() as f32 * get_square_width(&self) as f32;
             // files go up, 'file_index + 1' as tiles are draw from top
             let y = self.game_height as f32 - ((rank_index + 1) as f32 * get_square_height(&self) as f32);
@@ -185,7 +189,7 @@ impl GameView {
         self.game_width
     }
 
-    pub fn run(&self) {
+    pub fn run(&mut self) {
         self.window.borrow_mut().set_vertical_sync_enabled(true);
 
         let mut ball_sound: sfml::audio::Sound = sfml::audio::Sound::with_buffer(&self.assets.get_bounce_sound_buffer());
@@ -200,6 +204,8 @@ impl GameView {
                         code: sfml::window::Key::ESCAPE, ..
                     } => return,
                     sfml::window::Event::KeyPressed { code: sfml::window::Key::UP, .. } => {
+                        //self.game.get_selector().move_cursor_up();
+                        //self.game.get_selector().set_cursor(Some(crate::square::Square::new("a1")));
                         ball_sound.play();
                         up = true
                     },

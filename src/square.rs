@@ -198,6 +198,16 @@ pub fn get_random_square() -> crate::square::Square {
     crate::square::Square::new(&get_random_coordinat())
 }
 
+pub fn get_square_above(square: Square) -> crate::square::Square {
+    crate::square::Square::new(
+        &crate::square::create_coordinat_from_indices(
+            &crate::square::get_nth_file(&square),
+            ((crate::square::get_nth_rank(&square) + 1) % 8) as u8
+        )
+    )
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -265,4 +275,13 @@ mod tests {
     fn get_all_squares() {
         assert_eq!(super::get_all_squares().len(), 64);
     }
+    #[test]
+    fn test_get_square_above() {
+        let square_1 = Square::new("d7");
+        let square_2 = get_square_above(square_1);
+        assert_eq!(square_2.get(), String::from("d8"));
+        let square_3 = get_square_above(square_2);
+        assert_eq!(square_3.get(), String::from("d1"));
+    }
+    
 }

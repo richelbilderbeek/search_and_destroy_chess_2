@@ -42,7 +42,7 @@ impl Game {
     /// ```
     pub fn get_current_player(&self) -> crate::color::Color { self.current_player.clone() }
 
-    pub fn get_selector(&self) -> crate::selector::Selector { self.selector.clone() }
+    pub fn get_selector(&self) -> &crate::selector::Selector { &self.selector }
 }
 
 pub fn get_invisible_squares(game: &crate::game::Game, color: crate::color::Color) -> Vec<crate::square::Square> {

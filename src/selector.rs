@@ -75,6 +75,14 @@ impl Selector {
     /// ```
     pub fn get_to(&self) -> Option<crate::square::Square> { self.to.clone() }
 
+    /// Moves the cursor up, if there is one.
+    /// If the cursor leaves the top of the screen, the cursor will be put at the bottom
+    pub fn move_cursor_up(&mut self) {
+        if let Some(some_cursor) = &self.cursor {
+            self.cursor = Some(crate::square::get_square_above(some_cursor.clone()));
+        }
+    }
+
     /// Set the cursor
     /// 
     /// ```
@@ -164,5 +172,15 @@ mod tests {
         assert_eq!(selector.get_to(), Some(random_square));
         selector.set_to(None);
         assert_eq!(selector.get_to(), None);
+    }
+    #[test]
+    fn move_cursor() {
+        let mut selector = Selector::new();
+        let random_square = crate::square::get_random_square();
+        selector.set_cursor(Some(random_square.clone()));
+        let before = selector.get_cursor();
+        selector.move_cursor_up();
+        let after = selector.get_cursor();
+        assert_ne!(before, after);
     }
 }
