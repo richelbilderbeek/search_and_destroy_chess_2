@@ -16,6 +16,9 @@ pub struct GameView {
 impl GameView {
     pub fn new(game_width: u32, game_height: u32) -> GameView {
 
+        // Cannot run on GitHub Actions
+        assert!(!crate::is_on_gha::is_on_gha());
+
         // Create the window of the application
         let window = std::cell::RefCell::new(
             sfml::graphics::RenderWindow::new(
@@ -119,7 +122,7 @@ impl GameView {
     /// Get the assets
     /// 
     /// ```
-    /// if 1 == 2 {
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
     ///     let game_width = 800;
     ///     let game_height = 600;
     ///     let game_view = crate::game_view::GameView::new(game_width, game_height);
@@ -133,7 +136,7 @@ impl GameView {
     /// Get the height of the view
     /// 
     /// ```
-    /// if 1 == 2 {
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
     ///     let game_width = 800;
     ///     let game_height = 600;
     ///     let game_view = crate::game_view::GameView::new(game_width, game_height);
@@ -148,7 +151,7 @@ impl GameView {
     /// Get the width of the view
     /// 
     /// ```
-    /// if 1 == 2 {
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
     ///     let game_width = 800;
     ///     let game_height = 600;
     ///     let game_view = crate::game_view::GameView::new(game_width, game_height);

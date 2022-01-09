@@ -27,13 +27,19 @@ impl Assets {
     /// use search_and_destroy_chess_2::color::Color;
     /// use search_and_destroy_chess_2::piece::*;
     /// 
-    /// let assets = Assets::new();
-    /// let dark_square = assets.get_square(Color::Black);
-    /// let black_bishop = assets.get_piece(create_black_bishop());
-    //// assert_eq!(assets.get_image_height(), 128);
-    //// assert_eq!(assets.get_image_width(), 128);
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
+    ///     let assets = Assets::new();
+    ///     let dark_square = assets.get_square(Color::Black);
+    ///     let black_bishop = assets.get_piece(create_black_bishop());
+    ///     assert_eq!(assets.get_image_height(), 128);
+    ///     assert_eq!(assets.get_image_width(), 128);
+    /// }
     /// ```
     pub fn new() -> Assets {
+
+        // Cannot run on GitHub Actions
+        assert!(!crate::is_on_gha::is_on_gha());
+
         Assets{
             bounce_sound_buffer: sfml::audio::SoundBuffer::from_file("assets/examples_resources_ball.wav").unwrap(),
             black_bishop: sfml::graphics::Texture::from_file("assets/bb.png").unwrap(),
@@ -59,8 +65,10 @@ impl Assets {
     /// ```
     /// use search_and_destroy_chess_2::assets::Assets;
     /// 
-    /// let assets = Assets::new();
-    /// let bounce_sound_buffer = assets.get_bounce_sound_buffer();
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
+    ///     let assets = Assets::new();
+    ///     let bounce_sound_buffer = assets.get_bounce_sound_buffer();
+    /// }
     /// ```
     pub fn get_bounce_sound_buffer(&self) -> &sfml::SfBox<sfml::audio::SoundBuffer> { &self.bounce_sound_buffer }
 
@@ -68,8 +76,10 @@ impl Assets {
     /// ```
     /// use search_and_destroy_chess_2::assets::Assets;
     /// 
-    /// let assets = Assets::new();
-    /// let font = assets.get_font();
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
+    ///     let assets = Assets::new();
+    ///     let font = assets.get_font();
+    /// }
     /// ```
     pub fn get_font(&self) -> &sfml::SfBox<sfml::graphics::Font> { &self.font }
 
@@ -77,9 +87,11 @@ impl Assets {
     /// ```
     /// use search_and_destroy_chess_2::assets::Assets;
     /// 
-    /// let assets = Assets::new();
-    /// assert_eq!(assets.get_image_width(), 128);
-    /// assert_eq!(assets.get_image_height(), 128);
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
+    ///     let assets = Assets::new();
+    ///     assert_eq!(assets.get_image_width(), 128);
+    ///     assert_eq!(assets.get_image_height(), 128);
+    /// }
     /// ```
     pub fn get_image_height(&self) -> i32 { 128 }
 
@@ -87,9 +99,11 @@ impl Assets {
     /// ```
     /// use search_and_destroy_chess_2::assets::Assets;
     /// 
-    /// let assets = Assets::new();
-    /// assert_eq!(assets.get_image_width(), 128);
-    /// assert_eq!(assets.get_image_height(), 128);
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
+    ///     let assets = Assets::new();
+    ///     assert_eq!(assets.get_image_width(), 128);
+    ///     assert_eq!(assets.get_image_height(), 128);
+    /// }
     /// ```
     pub fn get_image_width(&self) -> i32 { 128 }
 
@@ -99,8 +113,10 @@ impl Assets {
     /// use search_and_destroy_chess_2::assets::Assets;
     /// use search_and_destroy_chess_2::piece::*;
     /// 
-    /// let assets = Assets::new();
-    /// let black_bishop = assets.get_piece(create_black_bishop());
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
+    ///     let assets = Assets::new();
+    ///     let black_bishop = assets.get_piece(create_black_bishop());
+    /// }
     /// ```
     pub fn get_piece(&self, piece: crate::piece::Piece) ->  &sfml::SfBox<sfml::graphics::Texture> {
         match piece.get_color() {
@@ -128,8 +144,10 @@ impl Assets {
     /// ```
     /// use search_and_destroy_chess_2::assets::Assets;
     /// 
-    /// let assets = Assets::new();
-    /// let question_mark = assets.get_question_mark();
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
+    ///     let assets = Assets::new();
+    ///     let question_mark = assets.get_question_mark();
+    /// }
     /// ```
     pub fn get_question_mark(&self) ->  &sfml::SfBox<sfml::graphics::Texture> {
         &self.question_mark
@@ -141,9 +159,11 @@ impl Assets {
     /// use search_and_destroy_chess_2::assets::Assets;
     /// use search_and_destroy_chess_2::color::Color;
     /// 
-    /// let assets = Assets::new();
-    /// let dark_square = assets.get_square(Color::Black);
-    /// let light_square = assets.get_square(Color::White);
+    /// if !search_and_destroy_chess_2::is_on_gha::is_on_gha() {
+    ///     let assets = Assets::new();
+    ///     let dark_square = assets.get_square(Color::Black);
+    ///     let light_square = assets.get_square(Color::White);
+    /// }
     /// ```
     pub fn get_square(&self, color: crate::color::Color) ->  &sfml::SfBox<sfml::graphics::Texture> {
         use crate::color::Color;
@@ -161,9 +181,11 @@ mod tests {
 
     #[test]
     fn constructor() {
-        let assets = Assets::new();
-        assert!(!assets.get_question_mark().is_smooth());
-        assert_eq!(assets.get_image_height(), 128);
-        assert_eq!(assets.get_image_width(), 128);
+        if !crate::is_on_gha::is_on_gha() {
+            let assets = Assets::new();
+            assert!(!assets.get_question_mark().is_smooth());
+            assert_eq!(assets.get_image_height(), 128);
+            assert_eq!(assets.get_image_width(), 128);
+        }
     }
 }
