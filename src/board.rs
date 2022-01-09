@@ -11,6 +11,7 @@ use crate::square::Square;
 /// The position of pieces on a board.
 /// Does not include any temporary information, such as
 /// the possibility of en-passant or castling.
+#[derive(Debug, PartialEq, Eq, Clone)]
 #[allow(dead_code)]
 pub struct Board {
     ranks: Vec<crate::rank::Rank>,

@@ -9,7 +9,7 @@ pub struct GameView {
     game_width: u32,
     game_height: u32,
     window: std::cell::RefCell<sfml::graphics::RenderWindow>,
-    board: crate::board::Board,
+    game: crate::game::Game,
     assets: crate::assets::Assets,
 }
 
@@ -32,7 +32,7 @@ impl GameView {
             game_width,
             game_height,
             window,
-            board: crate::board::Board::new(),
+            game: crate::game::Game::new(),
             assets: crate::assets::Assets::new(),
         }
     }
@@ -52,12 +52,12 @@ impl GameView {
     }
     /// Draw the question marks ruthlessly obscuring the squares of the board
     fn draw_fog_of_war(&self) {
-        use crate::board::get_invisible_squares;
+        use crate::color::Color;
+        use crate::game::get_invisible_squares;
         use crate::square::get_nth_file;
         use crate::square::get_nth_rank;
-        use crate::color::Color;
 
-        let squares = get_invisible_squares(&self.board, Color::Black);
+        let squares = get_invisible_squares(&self.game, Color::Black);
         for square in squares {
             let file_index = get_nth_file(&square);
             let rank_index = get_nth_rank(&square);
@@ -77,7 +77,7 @@ impl GameView {
                 let x = file_index.get() as f32 * get_square_width(&self) as f32;
                 // files go up, 'file_index + 1' as tiles are draw from top
                 let y = self.game_height as f32 - ((rank_index + 1) as f32 * get_square_height(&self) as f32);
-                let piece_option = self.board.get_piece_from_indices(&file_index, rank_index);
+                let piece_option = crate::game::get_piece_from_indices(&self.game, &file_index, rank_index);
                 if let Some(piece) = piece_option {
                         let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_piece(piece));
                         sprite.set_position(sfml::system::Vector2f::new(x, y));

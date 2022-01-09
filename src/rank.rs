@@ -2,6 +2,7 @@ use crate::piece::Piece;
 use crate::file_index::FileIndex;
 
 /// A rank, a row on a chessboard
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Rank {
     pieces: Vec<Option<Piece>>,
 }
