@@ -13,9 +13,11 @@ extern crate rand;
 extern crate sfml;
 
 fn main() {
-    use crate::game_view::GameView;
-    let game_width = 800;
-    let game_height = 600;
-    let game_view = GameView::new(game_width, game_height);
-    game_view.run()
+    if 1 == 2 {
+        use crate::game_view::GameView;
+        let game_width = 800;
+        let game_height = 600;
+        let game_view = GameView::new(game_width, game_height);
+        game_view.run()
+    }
 }
