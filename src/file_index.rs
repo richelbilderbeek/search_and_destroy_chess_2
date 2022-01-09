@@ -1,5 +1,7 @@
+extern crate rand;
+
 /// The index of a file, that is the column
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub struct FileIndex {
     index: usize
 }
@@ -29,6 +31,12 @@ impl FileIndex {
 
 }
 
+pub fn create_random_file_index() -> FileIndex {
+    crate::file_index::FileIndex::new(
+        4
+    )
+}
+
 /// Get all the file indices, i.e. 0..8
 /// 
 ///```
@@ -56,13 +64,17 @@ mod tests {
 
     #[test]
     fn create_file() {
-        let _file_index = FileIndex::new(3);
+        let file_index = FileIndex::new(3);
+        let file_index_again = file_index.clone();
+        assert_eq!(file_index.get(), file_index_again.get());
     }
     #[test]
     fn compare_equal() {
         let file_index_a = FileIndex::new(3);
         let file_index_b = FileIndex::new(3);
         assert_eq!(file_index_a.get(), file_index_b.get());
+        assert_eq!(file_index_a, file_index_b);
+        assert!(file_index_a == file_index_b);
     }
     #[test]
     fn get() {

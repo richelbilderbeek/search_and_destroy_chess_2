@@ -2,11 +2,14 @@ pub mod assets;
 pub mod board;
 pub mod color;
 pub mod file_index;
+pub mod game;
 pub mod game_view;
 pub mod is_on_gha;
 pub mod piece;
 pub mod piece_type;
 pub mod rank;
+pub mod rank_index;
+pub mod selector;
 pub mod square;
 pub mod scribble;
 

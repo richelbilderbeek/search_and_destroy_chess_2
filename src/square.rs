@@ -187,6 +187,17 @@ pub fn get_nth_rank(square: &Square) -> usize {
     square.get_rank() - 1_usize
 }
 
+pub fn get_random_coordinat() -> String {
+    crate::square::create_coordinat_from_indices(
+        &crate::file_index::create_random_file_index(),
+        crate::rank_index::create_random_rank_index() as u8
+    )
+}
+
+pub fn get_random_square() -> crate::square::Square {
+    crate::square::Square::new(&get_random_coordinat())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
