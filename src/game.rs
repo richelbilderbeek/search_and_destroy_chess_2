@@ -53,6 +53,12 @@ pub fn get_piece_from_indices(game: &crate::game::Game, file_index: &crate::file
     game.get_board().get_piece_from_indices(&file_index, rank_index)
 }
 
+/*
+pub fn move_cursor_up(game: &crate::game::Game) {
+    &game.get_selector().move_cursor_up();
+}
+*/
+
 #[cfg(test)]
 mod tests {
     use super::*;

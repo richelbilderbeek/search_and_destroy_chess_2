@@ -204,8 +204,10 @@ impl GameView {
                         code: sfml::window::Key::ESCAPE, ..
                     } => return,
                     sfml::window::Event::KeyPressed { code: sfml::window::Key::UP, .. } => {
+                        //TODO: let the cursor move
                         //self.game.get_selector().move_cursor_up();
                         //self.game.get_selector().set_cursor(Some(crate::square::Square::new("a1")));
+                        //crate::game::move_cursor_up(&self.game);
                         ball_sound.play();
                         up = true
                     },
