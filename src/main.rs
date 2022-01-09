@@ -12,7 +12,6 @@ pub mod scribble;
 extern crate rand;
 extern crate sfml;
 
-
 fn main() {
     use crate::game_view::GameView;
     let game_width = 800;
