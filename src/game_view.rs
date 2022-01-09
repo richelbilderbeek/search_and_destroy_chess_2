@@ -46,6 +46,7 @@ impl GameView {
         self.draw_square_coordinats();
         self.draw_pieces();
         self.draw_fog_of_war();
+        self.draw_selector();
 
         // Display things on screen
         self.window.borrow_mut().display();
@@ -85,6 +86,27 @@ impl GameView {
                         self.window.borrow_mut().draw(&sprite);
                 }
             }
+        }
+    }
+    /// Draw the selector: cursor, selected 'from' square, selected 'to' square
+    fn draw_selector(&self) {
+        let selector = self.game.get_selector();
+        let cursor_options = selector.get_cursor();
+        if let Some(cursor) = cursor_options {
+            let file_index = crate::square::get_nth_file(&cursor);
+            let rank_index = crate::square::get_nth_rank(&cursor);
+            let x = file_index.get() as f32 * get_square_width(&self) as f32;
+            // files go up, 'file_index + 1' as tiles are draw from top
+            let y = self.game_height as f32 - ((rank_index + 1) as f32 * get_square_height(&self) as f32);
+            let mut rectangle = sfml::graphics::RectangleShape::new();
+            use sfml::graphics::Shape;
+            rectangle.set_fill_color(sfml::graphics::Color::rgba(128 as u8, 128 as u8, 128 as u8, 128 as u8));
+            rectangle.set_origin(sfml::system::Vector2f::new(0 as f32, 0 as f32));
+            rectangle.set_outline_thickness(1.);
+            rectangle.set_outline_color(sfml::graphics::Color::BLACK);
+            rectangle.set_size(sfml::system::Vector2f::new(get_square_width(&self) as f32, get_square_height(&self) as f32));
+            rectangle.set_position(sfml::system::Vector2f::new(x, y));
+            self.window.borrow_mut().draw(&rectangle);
         }
     }
     /// Draw the coordinats on the square

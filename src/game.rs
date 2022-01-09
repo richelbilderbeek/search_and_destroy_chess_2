@@ -20,11 +20,13 @@ impl Game {
     /// assert_eq!(current_player, Color::White);
     /// ```
     pub fn new() -> Game {
+        let mut selector = crate::selector::Selector::new();
+        selector.set_cursor(Some(crate::square::get_random_square()));
 
         Game {
             board: crate::board::Board::new(),
             current_player: crate::color::Color::White,
-            selector: crate::selector::Selector::new(),
+            selector,
         }
     }
 
