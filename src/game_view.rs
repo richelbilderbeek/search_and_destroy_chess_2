@@ -119,10 +119,12 @@ impl GameView {
     /// Get the assets
     /// 
     /// ```
-    /// let game_width = 800;
-    /// let game_height = 600;
-    /// let game_view = crate::game_view::GameView::new(game_width, game_height);
-    /// let assets = game_view.get_assets();
+    /// if 1 == 2 {
+    ///     let game_width = 800;
+    ///     let game_height = 600;
+    ///     let game_view = crate::game_view::GameView::new(game_width, game_height);
+    ///     let assets = game_view.get_assets();
+    /// }
     /// ```
     pub fn get_assets(&self) -> &crate::assets::Assets {
         &self.assets
@@ -131,11 +133,13 @@ impl GameView {
     /// Get the height of the view
     /// 
     /// ```
-    /// let game_width = 800;
-    /// let game_height = 600;
-    /// let game_view = crate::game_view::GameView::new(game_width, game_height);
-    /// assert_eq!(game_view.get_height(), game_height)
-    /// assert_eq!(game_view.get_width(), game_width)
+    /// if 1 == 2 {
+    ///     let game_width = 800;
+    ///     let game_height = 600;
+    ///     let game_view = crate::game_view::GameView::new(game_width, game_height);
+    ///     assert_eq!(game_view.get_height(), game_height)
+    ///     assert_eq!(game_view.get_width(), game_width)
+    /// }
     /// ```
     pub fn get_height(&self) -> u32 {
         self.game_height
@@ -144,11 +148,13 @@ impl GameView {
     /// Get the width of the view
     /// 
     /// ```
-    /// let game_width = 800;
-    /// let game_height = 600;
-    /// let game_view = crate::game_view::GameView::new(game_width, game_height);
-    /// assert_eq!(game_view.get_width(), game_width)
-    /// assert_eq!(game_view.get_height(), game_height)
+    /// if 1 == 2 {
+    ///     let game_width = 800;
+    ///     let game_height = 600;
+    ///     let game_view = crate::game_view::GameView::new(game_width, game_height);
+    ///     assert_eq!(game_view.get_width(), game_width)
+    ///     assert_eq!(game_view.get_height(), game_height)
+    /// }
     /// ```
     pub fn get_width(&self) -> u32 {
         self.game_width
