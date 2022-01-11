@@ -1,6 +1,7 @@
 pub mod assets;
 pub mod board;
 pub mod color;
+pub mod direction;
 pub mod file_index;
 pub mod game;
 pub mod is_on_gha;
