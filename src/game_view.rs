@@ -203,13 +203,11 @@ impl GameView {
                     | sfml::window::Event::KeyPressed {
                         code: sfml::window::Key::ESCAPE, ..
                     } => return,
-                    sfml::window::Event::KeyPressed { code: sfml::window::Key::UP, .. } => {
-                        //TODO: let the cursor move
-                        //self.game.get_selector().move_cursor_up();
-                        //self.game.get_selector().set_cursor(Some(crate::square::Square::new("a1")));
-                        crate::game::move_cursor_up(&self.game);
+                    sfml::window::Event::KeyReleased { code: sfml::window::Key::SPACE, .. } => {
                         ball_sound.play();
-                        up = true
+                    }
+                    sfml::window::Event::KeyPressed { code: sfml::window::Key::UP, .. } => {
+                        crate::game::move_cursor_up(&self.game);
                     },
                     sfml::window::Event::KeyReleased { code: sfml::window::Key::UP, .. } => up = false,
                     sfml::window::Event::KeyPressed { code: sfml::window::Key::DOWN, .. } => down = true,
