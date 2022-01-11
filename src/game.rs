@@ -4,7 +4,7 @@
 pub struct Game {
     board: crate::board::Board,
     current_player: crate::color::Color,
-    selector: crate::selector::Selector,
+    selector: std::cell::RefCell<crate::selector::Selector>,
 }
 
 impl Game {
@@ -26,7 +26,7 @@ impl Game {
         Game {
             board: crate::board::Board::new(),
             current_player: crate::color::Color::White,
-            selector,
+            selector: std::cell::RefCell::new(selector),
         }
     }
 
@@ -42,7 +42,7 @@ impl Game {
     /// ```
     pub fn get_current_player(&self) -> crate::color::Color { self.current_player.clone() }
 
-    pub fn get_selector(&self) -> &crate::selector::Selector { &self.selector }
+    pub fn get_selector(&self) -> std::cell::RefMut<crate::selector::Selector> { self.selector.borrow_mut() }
 }
 
 pub fn get_invisible_squares(game: &crate::game::Game, color: crate::color::Color) -> Vec<crate::square::Square> {
@@ -53,11 +53,9 @@ pub fn get_piece_from_indices(game: &crate::game::Game, file_index: &crate::file
     game.get_board().get_piece_from_indices(&file_index, rank_index)
 }
 
-/*
 pub fn move_cursor_up(game: &crate::game::Game) {
-    &game.get_selector().move_cursor_up();
+    game.get_selector().move_cursor_up();
 }
-*/
 
 #[cfg(test)]
 mod tests {
@@ -67,5 +65,13 @@ mod tests {
     fn create_game() {
         let game = Game::new();
         assert_eq!(game.get_current_player(), crate::color::Color::White);
+    }
+    #[test]
+    fn move_cursor() {
+        let game = Game::new();
+        let cursor_before = game.get_selector().get_cursor();
+        move_cursor_up(&game);
+        let cursor_after = game.get_selector().get_cursor();
+        assert_ne!(cursor_before, cursor_after);
     }
 }

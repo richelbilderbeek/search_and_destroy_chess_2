@@ -207,7 +207,7 @@ impl GameView {
                         //TODO: let the cursor move
                         //self.game.get_selector().move_cursor_up();
                         //self.game.get_selector().set_cursor(Some(crate::square::Square::new("a1")));
-                        //crate::game::move_cursor_up(&self.game);
+                        crate::game::move_cursor_up(&self.game);
                         ball_sound.play();
                         up = true
                     },
