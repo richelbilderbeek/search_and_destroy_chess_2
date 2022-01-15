@@ -90,7 +90,7 @@ impl GameView {
     }
     /// Draw the selector: cursor, selected 'from' square, selected 'to' square
     fn draw_selector(&self) {
-        self.draw_square(self.game.get_selector().get_cursor());
+        self.draw_square(Some(self.game.get_selector().get_cursor()));
         self.draw_square(self.game.get_selector().get_from());
         self.draw_square(self.game.get_selector().get_to());
     }
@@ -202,7 +202,10 @@ impl GameView {
                         code: sfml::window::Key::ESCAPE, ..
                     } => return,
                     sfml::window::Event::KeyReleased { code: sfml::window::Key::SPACE, .. } => {
-                        ball_sound.play();
+                        if crate::game::can_select(&self.game) {
+                            //crate::game::do_select(&self.game);
+                            ball_sound.play();
+                        }
                     }
                     sfml::window::Event::KeyPressed { code: sfml::window::Key::UP, .. } => {
                         crate::game::move_cursor(&self.game, crate::direction::Direction::Up);

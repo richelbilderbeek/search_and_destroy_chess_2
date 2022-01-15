@@ -1,7 +1,7 @@
 /// A selector
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Selector {
-    cursor: Option<crate::square::Square>,
+    cursor: crate::square::Square,
     from: Option<crate::square::Square>,
     to: Option<crate::square::Square>,
 }
@@ -15,13 +15,12 @@ impl Selector {
     /// use search_and_destroy_chess_2::color::Color;
     /// 
     /// let selector = Selector::new();
-    /// assert_eq!(selector.get_cursor(), None);
     /// assert_eq!(selector.get_from(), None);
     /// assert_eq!(selector.get_to(), None);
     /// ```
     pub fn new() -> Selector {
         Selector {
-            cursor: None,
+            cursor: crate::square::get_random_square(),
             from: None,
             to: None,
         }
@@ -34,14 +33,11 @@ impl Selector {
     /// use search_and_destroy_chess_2::square::get_random_square;
     /// 
     /// let mut selector = Selector::new();
-    /// assert_eq!(selector.get_cursor(), None);
     /// let random_square = get_random_square();
-    /// selector.set_cursor(Some(random_square.clone()));
-    /// assert_eq!(selector.get_cursor(), Some(random_square));
-    /// selector.set_cursor(None);
-    /// assert_eq!(selector.get_cursor(), None);
+    /// selector.set_cursor(random_square.clone());
+    /// assert_eq!(selector.get_cursor(), random_square);
     /// ```
-    pub fn get_cursor(&self) -> Option<crate::square::Square> { self.cursor.clone() }
+    pub fn get_cursor(&self) -> crate::square::Square { self.cursor.clone() }
 
     /// Get the selected 'from' square
     /// 
@@ -78,17 +74,7 @@ impl Selector {
     /// Moves the cursor up, if there is one.
     /// If the cursor leaves the top of the screen, the cursor will be put at the bottom
     pub fn move_cursor(&mut self, direction: crate::direction::Direction) {
-        if let Some(some_cursor) = &self.cursor {
-            self.cursor = Some(crate::square::get_square_at(some_cursor.clone(), direction));
-        }
-    }
-
-    /// Moves the cursor up, if there is one.
-    /// If the cursor leaves the top of the screen, the cursor will be put at the bottom
-    pub fn move_cursor_up(&mut self) {
-        if let Some(some_cursor) = &self.cursor {
-            self.cursor = Some(crate::square::get_square_above(some_cursor.clone()));
-        }
+        self.cursor = crate::square::get_square_at(self.cursor.clone(), direction);
     }
 
     /// Set the cursor
@@ -98,14 +84,11 @@ impl Selector {
     /// use search_and_destroy_chess_2::square::get_random_square;
     /// 
     /// let mut selector = Selector::new();
-    /// assert_eq!(selector.get_cursor(), None);
     /// let random_square = get_random_square();
-    /// selector.set_cursor(Some(random_square.clone()));
-    /// assert_eq!(selector.get_cursor(), Some(random_square));
-    /// selector.set_cursor(None);
-    /// assert_eq!(selector.get_cursor(), None);
+    /// selector.set_cursor(random_square.clone());
+    /// assert_eq!(selector.get_cursor(), random_square);
     /// ```
-    pub fn set_cursor(&mut self, cursor: Option<crate::square::Square>) { self.cursor = cursor }
+    pub fn set_cursor(&mut self, cursor: crate::square::Square) { self.cursor = cursor }
 
     /// Set the selected 'from' square
     /// 
@@ -147,24 +130,22 @@ mod tests {
     #[test]
     fn create_selector() {
         let selector = Selector::new();
-        assert_eq!(selector.get_cursor(), None);
         assert_eq!(selector.get_from(), None);
         assert_eq!(selector.get_to(), None);
     }
     #[test]
     fn change_cursor() {
         let mut selector = Selector::new();
-        assert_eq!(selector.get_cursor(), None);
         let random_square = crate::square::get_random_square();
-        selector.set_cursor(Some(random_square.clone()));
-        assert_eq!(selector.get_cursor(), Some(random_square));
-        selector.set_cursor(None);
-        assert_eq!(selector.get_cursor(), None);
+        selector.set_cursor(random_square.clone());
+        assert_eq!(selector.get_cursor(), random_square);
+        let random_square = crate::square::get_random_square();
+        selector.set_cursor(random_square.clone());
+        assert_eq!(selector.get_cursor(), random_square);
     }
     #[test]
     fn change_from() {
         let mut selector = Selector::new();
-        assert_eq!(selector.get_from(), None);
         let random_square = crate::square::get_random_square();
         selector.set_from(Some(random_square.clone()));
         assert_eq!(selector.get_from(), Some(random_square));
@@ -185,9 +166,9 @@ mod tests {
     fn move_cursor() {
         let mut selector = Selector::new();
         let random_square = crate::square::get_random_square();
-        selector.set_cursor(Some(random_square.clone()));
+        selector.set_cursor(random_square.clone());
         let before = selector.get_cursor();
-        selector.move_cursor_up();
+        selector.move_cursor(crate::direction::Direction::Up);
         let after = selector.get_cursor();
         assert_ne!(before, after);
     }
