@@ -60,6 +60,14 @@ pub fn can_select(game: &crate::game::Game) -> bool {
     }
 }
 
+/// Determine if the player can select a square
+/// This is true if the current player is on a square with one of his/her pieces.
+/// It is is irrelevant if another piece is selected: that other piece gets deselected
+pub fn do_select(game: &crate::game::Game) {
+    assert!(can_select(&game));
+    game.get_selector().set_from(Some(game.get_selector().get_cursor()))
+}
+
 pub fn get_invisible_squares(game: &crate::game::Game, color: crate::color::Color) -> Vec<crate::square::Square> {
     crate::board::get_invisible_squares(&game.get_board(), color)
 }

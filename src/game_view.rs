@@ -203,7 +203,7 @@ impl GameView {
                     } => return,
                     sfml::window::Event::KeyReleased { code: sfml::window::Key::SPACE, .. } => {
                         if crate::game::can_select(&self.game) {
-                            //crate::game::do_select(&self.game);
+                            crate::game::do_select(&self.game);
                             ball_sound.play();
                         }
                     }
