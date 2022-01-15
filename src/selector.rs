@@ -77,6 +77,14 @@ impl Selector {
 
     /// Moves the cursor up, if there is one.
     /// If the cursor leaves the top of the screen, the cursor will be put at the bottom
+    pub fn move_cursor(&mut self, direction: crate::direction::Direction) {
+        if let Some(some_cursor) = &self.cursor {
+            self.cursor = Some(crate::square::get_square_at(some_cursor.clone(), direction));
+        }
+    }
+
+    /// Moves the cursor up, if there is one.
+    /// If the cursor leaves the top of the screen, the cursor will be put at the bottom
     pub fn move_cursor_up(&mut self) {
         if let Some(some_cursor) = &self.cursor {
             self.cursor = Some(crate::square::get_square_above(some_cursor.clone()));

@@ -193,8 +193,6 @@ impl GameView {
         self.window.borrow_mut().set_vertical_sync_enabled(true);
 
         let mut ball_sound: sfml::audio::Sound = sfml::audio::Sound::with_buffer(&self.assets.get_bounce_sound_buffer());
-        let mut up = false;
-        let mut down = false;
 
         loop {
             while let Some(event) = &self.window.borrow_mut().poll_event() {
@@ -207,17 +205,21 @@ impl GameView {
                         ball_sound.play();
                     }
                     sfml::window::Event::KeyPressed { code: sfml::window::Key::UP, .. } => {
-                        crate::game::move_cursor_up(&self.game);
+                        crate::game::move_cursor(&self.game, crate::direction::Direction::Up);
                     },
-                    sfml::window::Event::KeyReleased { code: sfml::window::Key::UP, .. } => up = false,
-                    sfml::window::Event::KeyPressed { code: sfml::window::Key::DOWN, .. } => down = true,
-                    sfml::window::Event::KeyReleased { code: sfml::window::Key::DOWN, .. } => down = false,
+                    sfml::window::Event::KeyPressed { code: sfml::window::Key::RIGHT, .. } => {
+                        crate::game::move_cursor(&self.game, crate::direction::Direction::Right);
+                    },
+                    sfml::window::Event::KeyPressed { code: sfml::window::Key::DOWN, .. } => {
+                        crate::game::move_cursor(&self.game, crate::direction::Direction::Down);
+                    },
+                    sfml::window::Event::KeyPressed { code: sfml::window::Key::LEFT, .. } => {
+                        crate::game::move_cursor(&self.game, crate::direction::Direction::Left);
+                    },
                     _ => {}
                 }
             }
 
-            assert!(up == true || up == false);
-            assert!(down == true || down == false);
             self.draw();
         }
     }

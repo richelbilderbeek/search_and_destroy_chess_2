@@ -187,6 +187,13 @@ pub fn get_nth_rank(square: &Square) -> usize {
     square.get_rank() - 1_usize
 }
 
+/// Get a random chess board coordinat
+/// ```
+/// use search_and_destroy_chess_2::square::get_random_coordinat;
+/// 
+/// let coordinat = get_random_coordinat();
+/// assert_eq!(coordinat.len(), 2);
+/// ```
 pub fn get_random_coordinat() -> String {
     crate::square::create_coordinat_from_indices(
         &crate::file_index::create_random_file_index(),
@@ -194,10 +201,28 @@ pub fn get_random_coordinat() -> String {
     )
 }
 
+/// Get a random chess board square
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_random_square;
+/// 
+/// let square = get_random_square();
+/// ```
 pub fn get_random_square() -> crate::square::Square {
     crate::square::Square::new(&get_random_coordinat())
 }
 
+/// Get the square above a square on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_square_above;
+/// 
+/// let square_1 = Square::new("d7");
+/// let square_2 = get_square_above(square_1);
+/// assert_eq!(square_2.get(), String::from("d8"));
+/// let square_3 = get_square_above(square_2);
+/// assert_eq!(square_3.get(), String::from("d1"));
+/// ```
 pub fn get_square_above(square: Square) -> crate::square::Square {
     crate::square::Square::new(
         &crate::square::create_coordinat_from_indices(
@@ -206,6 +231,89 @@ pub fn get_square_above(square: Square) -> crate::square::Square {
         )
     )
 }
+
+/// Get the square at a relative direction
+/// ```
+/// use search_and_destroy_chess_2::direction::Direction;
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_square_at;
+/// 
+/// let square_1 = Square::new("d4");
+/// let square_2 = get_square_at(square_1, Direction::Up);
+/// assert_eq!(square_2.get(), String::from("d5"));
+/// let square_3 = get_square_at(square_2, Direction::Right);
+/// assert_eq!(square_3.get(), String::from("e5"));
+/// ```
+pub fn get_square_at(square: Square, direction: crate::direction::Direction) -> crate::square::Square {
+    match direction {
+        crate::direction::Direction::Up => get_square_above(square),
+        crate::direction::Direction::Right => get_square_at_rhs(square),
+        crate::direction::Direction::Down => get_square_below(square),
+        crate::direction::Direction::Left => get_square_at_lhs(square),
+    }
+}
+
+/// Get the square at the left hand side of another square on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_square_at_lhs;
+/// 
+/// let square_1 = Square::new("b7");
+/// let square_2 = get_square_at_lhs(square_1);
+/// assert_eq!(square_2.get(), String::from("a7"));
+/// let square_3 = get_square_at_lhs(square_2);
+/// assert_eq!(square_3.get(), String::from("h7"));
+/// ```
+pub fn get_square_at_lhs(square: Square) -> crate::square::Square {
+    crate::square::Square::new(
+        &crate::square::create_coordinat_from_indices(
+            &crate::file_index::FileIndex::new((crate::square::get_nth_file(&square).get() + 7) % 8),
+            crate::square::get_nth_rank(&square) as u8
+        )
+    )
+}
+
+/// Get the square at the right hand side of another square on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_square_at_rhs;
+/// 
+/// let square_1 = Square::new("g3");
+/// let square_2 = get_square_at_rhs(square_1);
+/// assert_eq!(square_2.get(), String::from("h3"));
+/// let square_3 = get_square_at_rhs(square_2);
+/// assert_eq!(square_3.get(), String::from("a3"));
+/// ```
+pub fn get_square_at_rhs(square: Square) -> crate::square::Square {
+    crate::square::Square::new(
+        &crate::square::create_coordinat_from_indices(
+            &crate::file_index::FileIndex::new((crate::square::get_nth_file(&square).get() + 1) % 8),
+            crate::square::get_nth_rank(&square) as u8
+        )
+    )
+}
+
+/// Get the square below a square on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_square_below;
+/// 
+/// let square_1 = Square::new("f2");
+/// let square_2 = get_square_below(square_1);
+/// assert_eq!(square_2.get(), String::from("f1"));
+/// let square_3 = get_square_below(square_2);
+/// assert_eq!(square_3.get(), String::from("f8"));
+/// ```
+pub fn get_square_below(square: Square) -> crate::square::Square {
+    crate::square::Square::new(
+        &crate::square::create_coordinat_from_indices(
+            &crate::square::get_nth_file(&square),
+            ((crate::square::get_nth_rank(&square) + 7) % 8) as u8
+        )
+    )
+}
+
+
 
 
 #[cfg(test)]
@@ -282,6 +390,30 @@ mod tests {
         assert_eq!(square_2.get(), String::from("d8"));
         let square_3 = get_square_above(square_2);
         assert_eq!(square_3.get(), String::from("d1"));
+    }
+    #[test]
+    fn test_get_square_at_lhs() {
+        let square_1 = Square::new("b7");
+        let square_2 = get_square_at_lhs(square_1);
+        assert_eq!(square_2.get(), String::from("a7"));
+        let square_3 = get_square_at_lhs(square_2);
+        assert_eq!(square_3.get(), String::from("h7"));
+    }
+    #[test]
+    fn test_get_square_at_rhs() {
+        let square_1 = Square::new("g3");
+        let square_2 = get_square_at_rhs(square_1);
+        assert_eq!(square_2.get(), String::from("h3"));
+        let square_3 = get_square_at_rhs(square_2);
+        assert_eq!(square_3.get(), String::from("a3"));
+    }
+    #[test]
+    fn test_get_square_below() {
+        let square_1 = Square::new("f2");
+        let square_2 = get_square_below(square_1);
+        assert_eq!(square_2.get(), String::from("f1"));
+        let square_3 = get_square_below(square_2);
+        assert_eq!(square_3.get(), String::from("f8"));
     }
     
 }
