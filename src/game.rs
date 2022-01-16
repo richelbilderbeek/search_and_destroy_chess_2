@@ -87,9 +87,17 @@ pub fn get_from(game: &crate::game::Game) -> Option<crate::square::Square> {
     game.get_selector().get_from()
 }
 
-pub fn get_possible_target_squares(game: &Game, from: crate::square::Square) -> Vec<crate::square::Square> {
-    let vec = Vec::new();
-    vec
+/// Get the target squares for the piece at the square
+pub fn get_target_squares(game: &Game, square: crate::square::Square) -> Vec<crate::square::Square> {
+    // Basic movements that are possible on a board
+    let squares = crate::board::get_target_squares(&game.get_board(), square);
+
+    // En passant
+
+    // Castling, dependent on fog of war
+
+    // Move into chess, dependent on fog of war
+    squares
 }
 
 pub fn move_cursor(game: &crate::game::Game, direction: crate::direction::Direction) {
@@ -128,9 +136,9 @@ mod tests {
         assert_eq!(game.get_selector().get_from().unwrap(), square);
     }
     #[test]
-    fn test_get_possible_target_squares() {
+    fn test_get_target_squares() {
         let game = Game::new();
-        let squares = get_possible_target_squares(&game, crate::square::Square::new("a1"));
+        let squares = get_target_squares(&game, crate::square::Square::new("a1"));
         assert_eq!(squares.len(), 0);
     }
 }

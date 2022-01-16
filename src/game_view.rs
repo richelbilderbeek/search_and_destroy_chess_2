@@ -94,7 +94,7 @@ impl GameView {
         let from_option = crate::game::get_from(&self.game);
         if from_option == None  { return; }
         let from = from_option.unwrap();
-        let squares = crate::game::get_possible_target_squares(&self.game, from);
+        let squares = crate::game::get_target_squares(&self.game, from);
         for square in squares {
             let file_index = crate::square::get_nth_file(&square);
             let rank_index = crate::square::get_nth_rank(&square);

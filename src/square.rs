@@ -232,6 +232,36 @@ pub fn get_square_above(square: Square) -> crate::square::Square {
     )
 }
 
+/// Get the square diagonally above-and-left a square on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_square_above_left;
+/// 
+/// let square_1 = Square::new("d7");
+/// let square_2 = get_square_above_left(square_1);
+/// assert_eq!(square_2.get(), String::from("c8"));
+/// let square_3 = get_square_above_left(square_2);
+/// assert_eq!(square_3.get(), String::from("b1"));
+/// ```
+pub fn get_square_above_left(square: Square) -> crate::square::Square {
+    get_square_at_lhs(get_square_above(square))
+}
+
+/// Get the square diagonally above-and-right a square on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_square_above_right;
+/// 
+/// let square_1 = Square::new("d7");
+/// let square_2 = get_square_above_right(square_1);
+/// assert_eq!(square_2.get(), String::from("e8"));
+/// let square_3 = get_square_above_right(square_2);
+/// assert_eq!(square_3.get(), String::from("f1"));
+/// ```
+pub fn get_square_above_right(square: Square) -> crate::square::Square {
+    get_square_at_rhs(get_square_above(square))
+}
+
 /// Get the square at a relative direction
 /// ```
 /// use search_and_destroy_chess_2::direction::Direction;
@@ -313,8 +343,35 @@ pub fn get_square_below(square: Square) -> crate::square::Square {
     )
 }
 
+/// Get the square diagonally below-and-left a square on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_square_below_left;
+/// 
+/// let square_1 = Square::new("d2");
+/// let square_2 = get_square_below_left(square_1);
+/// assert_eq!(square_2.get(), String::from("c1"));
+/// let square_3 = get_square_below_left(square_2);
+/// assert_eq!(square_3.get(), String::from("b8"));
+/// ```
+pub fn get_square_below_left(square: Square) -> crate::square::Square {
+    get_square_at_lhs(get_square_below(square))
+}
 
-
+/// Get the square diagonally below-and-right a square on a chessboard
+/// ```
+/// use search_and_destroy_chess_2::square::Square;
+/// use search_and_destroy_chess_2::square::get_square_below_right;
+/// 
+/// let square_1 = Square::new("e2");
+/// let square_2 = get_square_below_right(square_1);
+/// assert_eq!(square_2.get(), String::from("f1"));
+/// let square_3 = get_square_below_right(square_2);
+/// assert_eq!(square_3.get(), String::from("g8"));
+/// ```
+pub fn get_square_below_right(square: Square) -> crate::square::Square {
+    get_square_at_rhs(get_square_below(square))
+}
 
 #[cfg(test)]
 mod tests {

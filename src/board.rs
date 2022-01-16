@@ -86,6 +86,10 @@ pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
   invisible_squares
 }
 
+pub fn get_piece_at_square(board: &Board, square: &crate::square::Square)  -> Option<crate::piece::Piece> {
+    board.get_piece_from_indices(&crate::square::get_nth_file(square), crate::square::get_nth_rank(square))
+}
+
 /// Get the color of a square
 /// 
 /// ```
@@ -129,6 +133,172 @@ pub fn get_square_color_from_indices(file_index: &crate::file_index::FileIndex, 
     }
 }
 
+/// Get the squares when going bottom-left, excluding the target square
+pub fn get_squares_going_bottom_left(square: &crate::square::Square) -> Vec<crate::square::Square> {
+    let mut squares = Vec::new();
+    /*
+    let mut there = square.clone();
+    if get_nth_file(&there).get() == 0 { return squares; }
+    if get_nth_rank(&there) == 7 { return squares; }
+    loop {
+          there = crate::square::get_square_above_left(there);
+          squares.push(there);
+          if get_nth_file(&there).get() == 0 { return squares; }
+          if get_nth_rank(&there) == 7 { return squares; }
+    }
+    */
+    squares
+}
+
+/// Get the squares when going bottom-right, excluding the target square
+pub fn get_squares_going_bottom_right(square: &crate::square::Square) -> Vec<crate::square::Square> {
+    let mut squares = Vec::new();
+    /*
+    let mut there = square.clone();
+    if get_nth_file(&there).get() == 0 { return squares; }
+    if get_nth_rank(&there) == 7 { return squares; }
+    loop {
+          there = crate::square::get_square_above_left(there);
+          squares.push(there);
+          if get_nth_file(&there).get() == 0 { return squares; }
+          if get_nth_rank(&there) == 7 { return squares; }
+    }
+    */
+    squares
+}
+
+/// Get the squares when going top-left, excluding the target square
+/// ```
+/// using search_and_destroy_chess::board::get_squares_going_top_left;
+/// using search_and_destroy_chess::square::Square;
+/// 
+/// // From the top-left square, one cannot go towards the top-left
+/// let squares = get_squares_going_top_left(Square::new("a8"));
+/// assert_eq!(squares.len(), 0)
+/// 
+/// // From a top square, one cannot go towards the top-left
+/// let squares = get_squares_going_top_left(Square::new("d8"));
+/// assert_eq!(squares.len(), 0)
+/// 
+/// // From a left square, one cannot go towards the top-left
+/// let squares = get_squares_going_top_left(Square::new("a4"));
+/// assert_eq!(squares.len(), 0)
+/// 
+/// // b7 -> a8
+/// let squares = get_squares_going_top_left(Square::new("b7"));
+/// assert_eq!(squares.len(), 1)
+/// 
+/// // c5 -> b6 -> a7
+/// let squares = get_squares_going_top_left(Square::new("c5"));
+/// assert_eq!(squares.len(), 2)
+/// 
+/// // d3 -> c4 -> b5 -> a4
+/// let squares = get_squares_going_top_left(Square::new("d3"));
+/// assert_eq!(squares.len(), 4)
+/// 
+/// // h1 -> g2 -> f3 -> e4 -> d5 -> c6 -> b7 -> a8
+/// let squares = get_squares_going_top_left(Square::new("h1"));
+/// assert_eq!(squares.len(), 8)
+/// ```
+pub fn get_squares_going_top_left(square: &crate::square::Square) -> Vec<crate::square::Square> {
+  let mut there = square.clone();
+  let mut squares = Vec::new();
+  if get_nth_file(&there).get() == 0 { return squares; }
+  if get_nth_rank(&there) == 7 { return squares; }
+  loop {
+        there = crate::square::get_square_above_left(there);
+        squares.push(there);
+        if get_nth_file(&there).get() == 0 { return squares; }
+        if get_nth_rank(&there) == 7 { return squares; }
+    }
+}
+
+/// Get the squares when going top-right, excluding the target square
+pub fn get_squares_going_top_right(square: &crate::square::Square) -> Vec<crate::square::Square> {
+    let mut squares = Vec::new();
+    /*
+    let mut there = square.clone();
+    if get_nth_file(&there).get() == 0 { return squares; }
+    if get_nth_rank(&there) == 7 { return squares; }
+    loop {
+          there = crate::square::get_square_above_left(there);
+          squares.push(there);
+          if get_nth_file(&there).get() == 0 { return squares; }
+          if get_nth_rank(&there) == 7 { return squares; }
+    }
+    */
+    squares
+}
+  
+
+/// Get the target squares for the piece at the square, using only the knowledge of the current board,
+/// i.e. this excludes en passent (requires knowledge of the previous move) and castling (requires
+/// knowledge of the king and rook's past movements)
+/// 
+/// Assumes there is a piece at the square
+pub fn get_target_squares(board: &Board, square: crate::square::Square) -> Vec<crate::square::Square> {
+
+    let piece_option = get_piece_at_square(&board, &square);
+    if piece_option == None { panic!("There must be a piece at the square") }
+    let piece = piece_option.unwrap();
+
+    // Basic movements that are possible on a board
+    let squares = match piece.get_type() {
+        crate::piece_type::PieceType::Bishop => get_target_squares_for_bishop(&board, square),
+        crate::piece_type::PieceType::King => get_target_squares_for_king(&board, &square),
+        crate::piece_type::PieceType::Knight => get_target_squares_for_knight(&board, &square),
+        crate::piece_type::PieceType::Pawn => get_target_squares_for_pawn(&board, &square),
+        crate::piece_type::PieceType::Queen => get_target_squares_for_queen(&board, &square),
+        crate::piece_type::PieceType::Rook => get_target_squares_for_rook(&board, &square),
+    };
+
+    squares
+}
+
+/// Get the target squares for the piece at the square, using only the knowledge of the current board,
+/// i.e. this excludes en passent (requires knowledge of the previous move) and castling (requires
+/// knowledge of the king and rook's past movements)
+/// 
+/// Assumes there is a piece at the square
+pub fn get_target_squares_for_bishop(board: &Board, square: crate::square::Square) -> Vec<crate::square::Square> {
+
+    let piece_option = get_piece_at_square(&board, &square);
+    assert_ne!(piece_option, None);
+    let piece = piece_option.unwrap();
+    assert_eq!(piece.get_type(), crate::piece_type::PieceType::Bishop);
+    let color = piece.get_color();
+    let mut squares = Vec::new();
+    let mut squares_top_left = get_squares_going_top_left(&square);
+    let mut squares_top_right = get_squares_going_top_right(&square);
+    let mut squares_bottom_left = get_squares_going_bottom_left(&square);
+    let mut squares_bottom_right = get_squares_going_bottom_right(&square);
+    squares.append(&mut squares_top_left);
+    squares.append(&mut squares_top_right);
+    squares.append(&mut squares_bottom_left);
+    squares.append(&mut squares_bottom_right);
+    squares
+}
+
+pub fn get_target_squares_for_king(board: &Board, square: crate::square::Square) -> Vec<crate::square::Square> {
+    Vec::new()
+}
+
+pub fn get_target_squares_for_knight(board: &Board, square: crate::square::Square) -> Vec<crate::square::Square> {
+    Vec::new()
+}
+
+pub fn get_target_squares_for_pawn(board: &Board, square: crate::square::Square) -> Vec<crate::square::Square> {
+    Vec::new()
+}
+
+pub fn get_target_squares_for_queen(board: &Board, square: crate::square::Square) -> Vec<crate::square::Square> {
+    Vec::new()
+}
+
+pub fn get_target_squares_for_rook(board: &Board, square: crate::square::Square) -> Vec<crate::square::Square> {
+    Vec::new()
+}
+                                        
 /// Detect if a square on the board contains a pawn
 /// 
 /// ```
