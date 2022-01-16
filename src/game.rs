@@ -65,7 +65,9 @@ pub fn can_select(game: &crate::game::Game) -> bool {
 /// It is is irrelevant if another piece is selected: that other piece gets deselected
 pub fn do_select(game: &crate::game::Game) {
     assert!(can_select(&game));
-    game.get_selector().set_from(Some(game.get_selector().get_cursor()))
+    let mut selector = game.get_selector();
+    let from = Some(selector.get_cursor());
+    selector.set_from(from)
 }
 
 pub fn get_invisible_squares(game: &crate::game::Game, color: crate::color::Color) -> Vec<crate::square::Square> {
@@ -84,6 +86,11 @@ pub fn move_cursor(game: &crate::game::Game, direction: crate::direction::Direct
     game.get_selector().move_cursor(direction);
 }
 
+pub fn set_cursor(game: &mut crate::game::Game, square: &crate::square::Square) {
+    crate::selector::set_cursor(&mut game.get_selector(), square);
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -100,5 +107,14 @@ mod tests {
         move_cursor(&game, crate::direction::Direction::Up);
         let cursor_after = game.get_selector().get_cursor();
         assert_ne!(cursor_before, cursor_after);
+    }
+    #[test]
+    fn test_set_cursor() {
+        let mut game = Game::new();
+        let square = crate::square::Square::new("d2");
+        set_cursor(&mut game, &square);
+        assert_eq!(game.get_selector().get_from(), None);
+        do_select(&mut game);
+        assert_eq!(game.get_selector().get_from().unwrap(), square);
     }
 }

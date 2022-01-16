@@ -123,6 +123,10 @@ impl Selector {
     pub fn set_to(&mut self, to: Option<crate::square::Square>) { self.to = to }
 }
 
+pub fn set_cursor(selector: &mut crate::selector::Selector, square: &crate::square::Square) {
+    selector.set_cursor(square.clone());
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -171,5 +175,15 @@ mod tests {
         selector.move_cursor(crate::direction::Direction::Up);
         let after = selector.get_cursor();
         assert_ne!(before, after);
+    }
+    #[test]
+    fn test_set_cursor() {
+        let mut selector = Selector::new();
+        let random_square = crate::square::get_random_square();
+        set_cursor(&mut selector, &random_square);
+        assert_eq!(selector.get_cursor(), random_square);
+        let random_square = crate::square::get_random_square();
+        set_cursor(&mut selector, &random_square);
+        assert_eq!(selector.get_cursor(), random_square);
     }
 }
