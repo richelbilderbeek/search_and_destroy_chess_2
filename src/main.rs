@@ -24,7 +24,7 @@ fn main() {
     } else {
         use crate::game_view::GameView;
         let game_width = 800;
-        let game_height = 600;
+        let game_height = 800;
         let mut game_view = GameView::new(game_width, game_height);
         game_view.run()
     }

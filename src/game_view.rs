@@ -90,26 +90,37 @@ impl GameView {
     }
     /// Draw the selector: cursor, selected 'from' square, selected 'to' square
     fn draw_selector(&self) {
-        self.draw_square(Some(self.game.get_selector().get_cursor()));
-        self.draw_square(self.game.get_selector().get_from());
-        self.draw_square(self.game.get_selector().get_to());
+        self.draw_square(Some(self.game.get_selector().get_cursor()), sfml::graphics::Color::RED);
+        self.draw_square(self.game.get_selector().get_from(), sfml::graphics::Color::BLUE);
     }
     /// Draw the selector: cursor, selected 'from' square, selected 'to' square
-    fn draw_square(&self, square_option: Option<crate::square::Square>) {
+    fn draw_square(&self, square_option: Option<crate::square::Square>, color: sfml::graphics::Color) {
         if let Some(square) = square_option {
             let file_index = crate::square::get_nth_file(&square);
             let rank_index = crate::square::get_nth_rank(&square);
+            let delta = match color {
+                sfml::graphics::Color::RED => 0_f32,
+                _ => -8_f32,
+            };
             let x = file_index.get() as f32 * get_square_width(&self) as f32;
             // files go up, 'file_index + 1' as tiles are draw from top
             let y = self.game_height as f32 - ((rank_index + 1) as f32 * get_square_height(&self) as f32);
             let mut rectangle = sfml::graphics::RectangleShape::new();
             use sfml::graphics::Shape;
-            rectangle.set_fill_color(sfml::graphics::Color::rgba(128 as u8, 128 as u8, 128 as u8, 128 as u8));
+            rectangle.set_fill_color(sfml::graphics::Color::rgba(
+                sfml::graphics::Color::red(&color),
+                sfml::graphics::Color::green(&color),
+                sfml::graphics::Color::blue(&color),
+                64 as u8)
+            );
             rectangle.set_origin(sfml::system::Vector2f::new(0 as f32, 0 as f32));
-            rectangle.set_outline_thickness(1.);
-            rectangle.set_outline_color(sfml::graphics::Color::BLACK);
-            rectangle.set_size(sfml::system::Vector2f::new(get_square_width(&self) as f32, get_square_height(&self) as f32));
-            rectangle.set_position(sfml::system::Vector2f::new(x, y));
+            rectangle.set_outline_thickness(5.0);
+            rectangle.set_outline_color(color);
+            rectangle.set_size(
+                sfml::system::Vector2f::new(get_square_width(&self) as f32 + delta, 
+                get_square_height(&self) as f32 + delta)
+            );
+            rectangle.set_position(sfml::system::Vector2f::new(x - (delta / 2.0), y - (delta / 2.0)));
             self.window.borrow_mut().draw(&rectangle);
         }
     }
