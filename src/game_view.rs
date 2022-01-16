@@ -46,6 +46,7 @@ impl GameView {
         self.draw_square_coordinats();
         self.draw_pieces();
         self.draw_fog_of_war();
+        self.draw_possible_target_squares();
         self.draw_selector();
 
         // Display things on screen
@@ -88,16 +89,38 @@ impl GameView {
             }
         }
     }
+    /// Draw the possible target square, if a 'from' piece is selected
+    fn draw_possible_target_squares(&self) {
+        let from_option = crate::game::get_from(&self.game);
+        if from_option == None  { return; }
+        let from = from_option.unwrap();
+        let squares = crate::game::get_possible_target_squares(&self.game, from);
+        for square in squares {
+            let file_index = crate::square::get_nth_file(&square);
+            let rank_index = crate::square::get_nth_rank(&square);
+            let x = file_index.get() as f32 * get_square_width(&self) as f32;
+            // files go up, 'file_index + 1' as tiles are draw from top
+            let y = self.game_height as f32 - ((rank_index + 1) as f32 * get_square_height(&self) as f32);
+            let mut sprite = sfml::graphics::Sprite::with_texture(&self.assets.get_question_mark());
+            sprite.set_position(sfml::system::Vector2f::new(x, y));
+            sprite.set_scale(sfml::system::Vector2f::new(get_scale_x(self), get_scale_y(self)));
+            self.window.borrow_mut().draw(&sprite);
+        }
+
+    }
     /// Draw the selector: cursor, selected 'from' square, selected 'to' square
     fn draw_selector(&self) {
         self.draw_square(Some(self.game.get_selector().get_cursor()), sfml::graphics::Color::RED);
         self.draw_square(self.game.get_selector().get_from(), sfml::graphics::Color::BLUE);
     }
     /// Draw the selector: cursor, selected 'from' square, selected 'to' square
+    /// A red color is used for the cursor
+    /// A blue color is used for the selected square
     fn draw_square(&self, square_option: Option<crate::square::Square>, color: sfml::graphics::Color) {
         if let Some(square) = square_option {
             let file_index = crate::square::get_nth_file(&square);
             let rank_index = crate::square::get_nth_rank(&square);
+            // The 'from' square is smaller than the cursor
             let delta = match color {
                 sfml::graphics::Color::RED => 0_f32,
                 _ => -8_f32,

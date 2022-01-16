@@ -82,6 +82,16 @@ pub fn get_piece_at_square(game: &crate::game::Game, square: &crate::square::Squ
     get_piece_from_indices(&game, &crate::square::get_nth_file(square), crate::square::get_nth_rank(square))
 }
 
+/// Get the square that holds a selected piece, or a None of no piece is selected
+pub fn get_from(game: &crate::game::Game) -> Option<crate::square::Square> {
+    game.get_selector().get_from()
+}
+
+pub fn get_possible_target_squares(game: &Game, from: crate::square::Square) -> Vec<crate::square::Square> {
+    let vec = Vec::new();
+    vec
+}
+
 pub fn move_cursor(game: &crate::game::Game, direction: crate::direction::Direction) {
     game.get_selector().move_cursor(direction);
 }
@@ -116,5 +126,11 @@ mod tests {
         assert_eq!(game.get_selector().get_from(), None);
         do_select(&mut game);
         assert_eq!(game.get_selector().get_from().unwrap(), square);
+    }
+    #[test]
+    fn test_get_possible_target_squares() {
+        let game = Game::new();
+        let squares = get_possible_target_squares(&game, crate::square::Square::new("a1"));
+        assert_eq!(squares.len(), 0);
     }
 }
