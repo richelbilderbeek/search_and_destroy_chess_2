@@ -202,9 +202,9 @@ impl GameView {
                         code: sfml::window::Key::ESCAPE, ..
                     } => return,
                     sfml::window::Event::KeyReleased { code: sfml::window::Key::SPACE, .. } => {
-                        
                         ball_sound.play();
-                    }
+                        crate::game::do_select(&self.game);
+                    },
                     sfml::window::Event::KeyPressed { code: sfml::window::Key::UP, .. } => {
                         crate::game::move_cursor(&self.game, crate::direction::Direction::Up);
                     },
