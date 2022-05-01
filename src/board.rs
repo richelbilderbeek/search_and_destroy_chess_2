@@ -86,6 +86,13 @@ pub fn get_invisible_squares(board: &Board, color: Color) -> Vec<Square> {
   invisible_squares
 }
 
+pub fn get_piece_at_square(board: &Board, square: &Square) -> Option<crate::piece::Piece> {
+  let file_index = get_nth_file(square);
+  let rank_index = get_nth_rank(square);
+  board.get_piece_from_indices(&file_index, rank_index)
+}
+
+
 /// Get the color of a square
 /// 
 /// ```
@@ -182,5 +189,10 @@ mod tests {
         assert_eq!(board.get_piece_from_indices(&FileIndex::new(0), 0).unwrap().get_type(), PieceType::Rook);
         assert_eq!(board.get_piece_from_indices(&FileIndex::new(1), 1).unwrap().get_color(), Color::White);
         assert_eq!(board.get_piece_from_indices(&FileIndex::new(1), 1).unwrap().get_type(), PieceType::Pawn);
+    }
+    #[test]
+    fn get_piece_at_empty_square() {
+        let board = Board::new();
+        assert_eq!(get_piece_at_square(&board, &crate::square::Square::new("e4")), None);
     }
 }

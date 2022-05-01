@@ -202,6 +202,7 @@ impl GameView {
                         code: sfml::window::Key::ESCAPE, ..
                     } => return,
                     sfml::window::Event::KeyReleased { code: sfml::window::Key::SPACE, .. } => {
+                        
                         ball_sound.play();
                     }
                     sfml::window::Event::KeyPressed { code: sfml::window::Key::UP, .. } => {
