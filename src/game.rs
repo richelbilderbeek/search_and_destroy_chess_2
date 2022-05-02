@@ -93,6 +93,7 @@ pub fn do_select(game: &crate::game::Game) {
     }
     let piece: Option<crate::piece::Piece> = get_piece_at_cursor(&game);
     if let None = piece {
+        game.set_from(None);
         return()
     }
     game.get_selector().set_from(cursor_square);
@@ -137,7 +138,7 @@ mod tests {
         assert_eq!(get_cursor_square(&game).unwrap(), crate::square::Square::new("e2"));
     }
     #[test]
-    fn select_nothing() {
+    fn select_nothing_at_e4() {
         let game = Game::new();
         set_cursor_at(&game, crate::square::Square::new("e4"));
         assert_eq!(get_cursor_square(&game).unwrap(), crate::square::Square::new("e4"));
@@ -149,7 +150,7 @@ mod tests {
         assert_eq!(get_cursor_to(&game), None);
     }
     #[test]
-    fn select_piece_at_e4() {
+    fn select_from_piece_at_e2() {
         let game = Game::new();
         set_cursor_at(&game, crate::square::Square::new("e2"));
         assert_eq!(get_cursor_square(&game).unwrap(), crate::square::Square::new("e2"));
@@ -158,6 +159,17 @@ mod tests {
         do_select(&game);
         assert_eq!(get_cursor_square(&game).unwrap(), crate::square::Square::new("e2"));
         assert_eq!(get_cursor_from(&game).unwrap(), crate::square::Square::new("e2"));
+        assert_eq!(get_cursor_to(&game), None);
+    }
+    #[test]
+    fn select_from_piece_then_select_nothing() {
+        let game = Game::new();
+        set_cursor_at(&game, crate::square::Square::new("e2"));
+        do_select(&game);
+        set_cursor_at(&game, crate::square::Square::new("e4"));
+        do_select(&game);
+        assert_eq!(get_cursor_square(&game).unwrap(), crate::square::Square::new("e4"));
+        assert_eq!(get_cursor_from(&game), None);
         assert_eq!(get_cursor_to(&game), None);
     }
 }
